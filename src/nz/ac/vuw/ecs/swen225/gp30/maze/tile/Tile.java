@@ -4,7 +4,7 @@ import nz.ac.vuw.ecs.swen225.gp30.maze.Chap;
 
 public abstract class Tile {
     private final int x, y;
-    private Chap chap = null;
+    protected Chap chap = null;
 
     public Tile(int x, int y) {
         this.x = x;
