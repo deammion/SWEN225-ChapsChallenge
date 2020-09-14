@@ -3,5 +3,5 @@
 | maze        | Oscar Camplin      | campliosca         |
 | application | Jake Hobbs         | hobbsjake          |
 | recnplay    | Damien Tamasese    | tamasedami         |
-| render      | Pranav Gohil       |                    |
+| render      | Pranav Gohil       | gohilpran          |
 | persistence |                    |                    |
