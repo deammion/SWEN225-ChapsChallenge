@@ -1,10 +1,12 @@
 package nz.ac.vuw.ecs.swen225.gp30.maze;
 
+import static com.google.common.base.Preconditions.checkArgument;
+
 public class Game {
     private enum GameState {
         RUNNING,
-        PAUSED,
-        INFO
+        INFO,
+        PAUSED
     }
 
     GameState state;
@@ -15,15 +17,26 @@ public class Game {
         loadLevel();
     }
 
+    public void run() {
+        // checkArgument(level != null);
+        if(state == GameState.PAUSED) { return; }
+
+
+    }
+
     public void move() { }
 
-    public void resumeGame() { }
+    public void resumeGame() {
+        state = GameState.RUNNING;
+    }
 
-    public void pauseGame() { }
+    public void pauseGame() {
+        state = GameState.PAUSED;
+    }
 
     public void saveGame() { }
 
-    public void exitGame() { }
+    public void exitGame() {  }
 
     public Chap getChap() {
         return null;
