@@ -8,9 +8,6 @@ public class Game {
     }
 
     GameState state;
-
-
-    private boolean gamePaused;
     // Level level
 
     public Game() { }
