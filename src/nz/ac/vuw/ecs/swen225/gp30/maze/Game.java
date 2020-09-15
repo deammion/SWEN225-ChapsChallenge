@@ -8,9 +8,12 @@ public class Game {
     }
 
     GameState state;
+    Chap chap;
     // Level level
 
-    public Game() { }
+    public Game() {
+        loadLevel();
+    }
 
     public void move() { }
 
@@ -22,7 +25,14 @@ public class Game {
 
     public void exitGame() { }
 
+    public Chap getChap() {
+        return null;
+    }
+
     public GameState getGameState() {
         return state;
+    }
+
+    private void loadLevel() {
     }
 }
