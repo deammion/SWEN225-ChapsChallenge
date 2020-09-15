@@ -52,25 +52,25 @@ public class Controls {
         if ((e.getModifiers() & ActionEvent.CTRL_MASK) == ActionEvent.CTRL_MASK) {
             System.out.println("CTRL KEY PRESSED");
 
-            switch(e.getActionCommand()){
-                //Menu Keys
-                case 88:
-                    //CTRL-X - exit the game, current game state will be lost, next time game is started will resume from the last unfinished level.
-                    break;
-                case 83:
-                    //CTRL-S - exit the game, saves the game state, game will resume next time the application is started
-                    break;
-                case 82:
-                    //CTRL-R - resume a saved game.
-                    break;
-                case 80:
-                    //CTRL-P - start a new game at the last unfinished level.
-                    break;
-                case 49:
-                    //CTRL-1 - start a new game at level one.
-                    break;
-
-            }
+//            switch(e.getActionCommand()){
+//                //Menu Keys
+//                case 88:
+//                    //CTRL-X - exit the game, current game state will be lost, next time game is started will resume from the last unfinished level.
+//                    break;
+//                case 83:
+//                    //CTRL-S - exit the game, saves the game state, game will resume next time the application is started
+//                    break;
+//                case 82:
+//                    //CTRL-R - resume a saved game.
+//                    break;
+//                case 80:
+//                    //CTRL-P - start a new game at the last unfinished level.
+//                    break;
+//                case 49:
+//                    //CTRL-1 - start a new game at level one.
+//                    break;
+//
+//            }
 
 
         }
