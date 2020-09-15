@@ -11,6 +11,8 @@ public abstract class Tile {
         this.y = y;
     }
 
+    public abstract boolean canMoveTo();
+
     public abstract boolean addChap(Chap chapToAdd);
 
     public abstract boolean removeChap();
