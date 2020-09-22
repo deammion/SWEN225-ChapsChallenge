@@ -3,7 +3,6 @@ package nz.ac.vuw.ecs.swen225.gp30.application;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
 
 public class GUI extends JFrame implements ActionListener {
 
@@ -28,6 +27,30 @@ public class GUI extends JFrame implements ActionListener {
 
         //The main GUI frame.
         GUIFrame = new JFrame("Chip's Challenge: " + GameLevel);
+
+        createMenu();
+
+        //Configuring and Building the frame.
+        GUIFrame.add(menuBar);
+        GUIFrame.setJMenuBar(menuBar);
+        GUIFrame.setSize(800,500);
+        GUIFrame.setLayout(null);
+        GUIFrame.setVisible(true);
+
+        //Key listener set up.
+        setFocusable(true);
+        GUIFrame.addKeyListener(new Controls());
+
+        GUIFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+    }
+
+
+    /**
+     * Method to create the Menu for the GUI, has all the submenu items
+     * implemented too.
+     */
+    public void createMenu(){
 
         //MenuBar.
         menuBar = new JMenuBar();
@@ -67,18 +90,14 @@ public class GUI extends JFrame implements ActionListener {
         //Add Menu Components.
         menuBar.add(game); menuBar.add(options); menuBar.add(level); menuBar.add(help);
 
-        //Configuring and Building the frame.
-        GUIFrame.add(menuBar);
-        GUIFrame.setJMenuBar(menuBar);
-        GUIFrame.setSize(800,500);
-        GUIFrame.setLayout(null);
-        GUIFrame.setVisible(true);
-
-        GUIFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
     }
 
-
+    /**
+     * The user of the game clicks on a menu item, this will invoke a method
+     * which will Pause, Resume etc.
+     *
+     * @param actionEvent - event happening.
+     */
     @Override
     public void actionPerformed(ActionEvent actionEvent) {
         switch(actionEvent.getActionCommand()){
