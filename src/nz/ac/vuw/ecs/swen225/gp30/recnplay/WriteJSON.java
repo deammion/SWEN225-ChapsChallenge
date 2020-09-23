@@ -1,5 +1,9 @@
 package nz.ac.vuw.ecs.swen225.gp30.recnplay;
 
+import com.google.common.base.Preconditions;
+
+import javax.json.JsonArray;
+import javax.json.JsonObject;
 import java.util.Deque;
 import java.util.Queue;
 import java.util.Map;
@@ -7,8 +11,9 @@ import java.util.Map;
 public class WriteJSON {
 
     public void WriteJSON(Deque replayActions, Queue performedActions){ //will return a JSON
-        JSONObject recRplJSON = new JSONObject();
+        JsonObject recRplJSON = new JsonObject();
         int iterations = 1; //used to compress JSON file, by combining repeated moves
+
 
         recRplJSON.put("performedActions",-1);
         While(!performedActions.isEmpty()) {
