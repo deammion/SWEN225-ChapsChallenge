@@ -1,22 +1,14 @@
 package nz.ac.vuw.ecs.swen225.gp30.application;
 
-import java.awt.event.ActionEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-
-/**
- * test driven design - tdd.
- */
 
 public class Controls extends KeyAdapter {
 
     /**
-     * Method for if the player presses a key that has been assigned a
-     * purpose in the game. Example: UP/DOWN/LEFT/RIGHT (arrow keys) will
-     * move the player about the board.
-     *
-     * If the control key is being pressed down then the menu shortcuts will
-     * be implemented, will implement other team members methods to load etc.
+     * Method for is a player presses a key that has a function
+     * in the game. If a player is pressing control is listened
+     * for to get the correct key press expected.
      *
      * @param e - the key the player has pressed.
      */
@@ -78,29 +70,6 @@ public class Controls extends KeyAdapter {
                     //CTRL-1 - start a new game at level one.
                     break;
             }
-
         }
-
-    }
-
-    /**
-     * If the control key is being pressed down. Need to figure out how to get the
-     * control key and the value associated with it for the key bind.
-     *
-     * @param e - the Action Event.
-     */
-    public void actionPerformed(ActionEvent e) {
-
-        //If the control key is being pressed.
-        if ((e.getModifiers() & ActionEvent.CTRL_MASK) == ActionEvent.CTRL_MASK) {
-            System.out.println("CTRL KEY PRESSED");
-
-            //isControl
-
-
-
-
-        }
-
     }
 }
