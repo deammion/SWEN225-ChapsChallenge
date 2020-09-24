@@ -1,35 +1,48 @@
 
 package nz.ac.vuw.ecs.swen225.gp30.recnplay;
 
-import java.util.ArrayDeque;
-import java.util.Deque;
-import java.util.Queue;
+import java.util.*;
 
 public class Record {
 
-    public Deque<> replayActions = new ArrayDeque();
-    public Queue<> performedActions = new ArrayDeque();
+    private ArrayList<String> playerActions;
+    private ArrayList<String> playerActionsReplay;
+
+    public void recordGameState(String action) {
+        playerActions = new ArrayList<>();
+        playerActionsReplay = new ArrayList<>();
+        recordActions(action);
+    }
 
 
-
-    public void recordActions(Action a){ //will return an action not void
+    public void recordActions(String a){ //will return an action not void
         addToPerformedActions(a);
         addToReplayActions(a);
     }
 
-    public void addToReplayActions(Action a){
-        new Action revAct = reverseAction(a);
-        replayActions.add(revAct);
+    public void addToReplayActions(String a){
+        String revAct = reverseAction(a);
+        playerActionsReplay.add(revAct);
     }
 
-    public void addToPerformedActions(Action a){
-        performedActions.add(a);
+    public void addToPerformedActions(String a){
+        playerActions.add(a);
     }
 
-    public Action reverseAction(Action a) {
-        switch (Action){
-            case :
-                return ;
+    public static String reverseAction(String a) {
+        String revAct = a;
+        switch (revAct){
+            case "w":
+                revAct = "s";
+            case "a":
+                revAct = "d";
+            case "s":
+                revAct = "w";
+            case "d":
+                revAct = "a";
+            default:
+                break;
         }
+        return revAct;
     }
 }

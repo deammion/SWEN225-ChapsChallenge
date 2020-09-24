@@ -1,28 +1,38 @@
 
 package nz.ac.vuw.ecs.swen225.gp30.recnplay;
 
+import javax.swing.*;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Deque;
 import java.util.Queue;
 
-public class Replay {
+public class Replay extends JFrame {
 
-    private Deque<> replayReplayActions = new ArrayDeque();
-    private List<> replayPerformedActions = new ArrayList();
-    int stepBack = 0;
+    private Boolean autoPlaying = false;
+    private JPanel panel;
+    private Timer timer;
+    private int index = 0;
 
-    public Action stepBack(){
-        stepBack++;
-        return replayReplayActions.pop();
-    }
-
-    public Action stepForward(){
-        return replayPerformedActions.get(replayPerformedActions.size()-stepBack);
-    }
-
-    public Action autoPlay(int speed){
+    public ReplayGUI(String maze, ArrayList<String> gameStates) {
 
     }
 
+    public String getNextGameState(ArrayList<String> gameStates) {
+        String nextState = gameStates.get(index+1);
+        if(nextState == null){
+            return null;
+        } else {
+            return nextState;
+        }
+    }
+
+    public String getPreviousGameState(ArrayList<String> gameStates) {
+        String prevState = gameStates.get(index-1);
+        if(prevState == null) {
+            return null;
+        } else {
+            return prevState;
+        }
+    }
 }
