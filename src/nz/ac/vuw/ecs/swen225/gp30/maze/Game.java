@@ -32,16 +32,24 @@ public class Game {
         return null;
     }
 
-    public void moveChap(Move move) {
+    public boolean moveChap(Move move) {
         int oldX = gameChap.getX();
         int oldY = gameChap.getY();
         Tile oldTile = gameMaze.getTileAt(oldX, oldY);
         Tile newTile = getNewTile(move, oldX, oldY);
 
-        if(newTile.canMoveTo()) {
+        if(!newTile.canMoveTo(gameChap)) { return false; }
+        else {
             oldTile.removeChap();
             setChapOnMaze(newTile.getX(), newTile.getY());
         }
+        return true;
+    }
+
+    public void setChapOnMaze(int x, int y) {
+        Preconditions.checkArgument(gameChap != null, "chap cannot be null");
+        Tile tile = gameMaze.getTileAt(x, y);
+        tile.addChap(gameChap);
     }
 
     public void resumeGame() {
@@ -58,12 +66,6 @@ public class Game {
 
     public void setChap(Chap chap) {
         gameChap = chap;
-    }
-
-    public void setChapOnMaze(int x, int y) {
-        Preconditions.checkArgument(gameChap != null, "chap cannot be null");
-        Tile tile = gameMaze.getTileAt(x, y);
-        tile.addChap(gameChap);
     }
 
     public Chap getChap() {
