@@ -10,23 +10,28 @@ public class WallTile extends Tile {
     }
 
     @Override
-    public boolean canMoveTo() {
+    public boolean canMoveTo(Chap chap) {
         return false;
     }
 
     @Override
-    public boolean addChap(Chap chapToAdd) {
-        checkArgument(chapToAdd != null, "chap cannot be null");
+    public boolean addChap(Chap chap) {
+        checkArgument(chap != null, "chap cannot be null");
         throw new RuntimeException("solid tile");
     }
 
     @Override
-    public boolean removeChap() {
+    public void removeChap() {
         throw new RuntimeException("solid tile");
     }
 
     @Override
     public boolean hasChap() {
         return false;
+    }
+
+    @Override
+    public char getChar() {
+        return '#';
     }
 }
