@@ -2,6 +2,8 @@ package nz.ac.vuw.ecs.swen225.gp30.maze;
 import static com.google.common.base.Preconditions.checkArgument;
 import nz.ac.vuw.ecs.swen225.gp30.maze.tile.Tile;
 
+import java.util.Arrays;
+
 public class Maze {
     private Tile[][] grid;
 
@@ -22,4 +24,18 @@ public class Maze {
         return grid[x][y];
     }
 
+    @Override
+    public String toString() {
+        StringBuilder gridString = new StringBuilder();
+        for(int x=0; x<grid.length; x++) {
+            for(int y=0; y<grid[0].length; y++) {
+                if(x == 0) { gridString.append("|"); }
+                Tile t = getTileAt(x, y);
+                gridString.append(t.getChar());
+                gridString.append("|");
+            }
+        }
+
+        return gridString.toString();
+    }
 }
