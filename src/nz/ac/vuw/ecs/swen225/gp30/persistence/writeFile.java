@@ -1,0 +1,6 @@
+
+//test
+
+public class writeFile {
+
+}
