@@ -16,7 +16,10 @@ public class TreasureTile extends Tile {
 
     @Override
     public boolean addChap(Chap chap) {
-        if(!collected) { chap.collectChip(); }
+        if(!collected) {
+            chap.collectChip();
+            collected = true;
+        }
         chap.setAt(getX(), getY());
         this.chap = chap;
         return false;

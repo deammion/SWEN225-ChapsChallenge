@@ -20,6 +20,8 @@ public class ExitLockTile extends Tile {
     public boolean addChap(Chap chap) {
         if(!canMoveTo(chap)) { throw new RuntimeException("not enough chips"); }
         unlocked = true;
+        chap.setAt(getX(), getY());
+        this.chap = chap;
         return true;
     }
 
@@ -30,7 +32,7 @@ public class ExitLockTile extends Tile {
 
     @Override
     public boolean hasChap() {
-        return false;
+        return chap != null;
     }
 
     @Override
