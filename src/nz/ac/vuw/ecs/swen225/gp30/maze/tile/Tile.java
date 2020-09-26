@@ -11,11 +11,15 @@ public abstract class Tile {
         this.y = y;
     }
 
-    public abstract boolean addChap(Chap chapToAdd);
+    public abstract boolean canMoveTo(Chap chap);
 
-    public abstract boolean removeChap();
+    public abstract boolean addChap(Chap chap);
+
+    public abstract void removeChap();
 
     public abstract boolean hasChap();
+
+    public abstract char getChar();
 
     public int getX() {
         return x;
