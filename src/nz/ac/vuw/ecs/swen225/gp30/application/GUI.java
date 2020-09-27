@@ -1,20 +1,27 @@
 package nz.ac.vuw.ecs.swen225.gp30.application;
 
+import nz.ac.vuw.ecs.swen225.gp30.maze.Game;
+
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class GUI extends JFrame implements ActionListener {
+public class GUI extends JFrame implements ActionListener, Runnable {
 
     //Current level Chip is on.
     public int GameLevel = 1;
 
     //JComponents.
     JFrame GUIFrame;
+    JPanel gamePanel, infoPanel, containerPanel;
 
     //JMenu Components.
     JMenuBar menuBar;
     JMenu game, options, level, help;
+
+    //Text Components.
+    JLabel levelText, timeText, chipsText;
 
     //Game Menu Items.
     JMenuItem pause, resume, exit;
@@ -25,26 +32,53 @@ public class GUI extends JFrame implements ActionListener {
 
     GUI(){
 
+        //Game panel component of the GUI, will hold the board to be rendered.
+        gamePanel = new JPanel();
+        gamePanel.setBorder(BorderFactory.createTitledBorder("Game"));
+        gamePanel.setPreferredSize(new Dimension(468, 468));
+
+        //Information panel component of the GUI
+        infoPanel = new JPanel();
+        infoPanel.setBorder(BorderFactory.createTitledBorder("Info"));
+        infoPanel.setPreferredSize(new Dimension(200, 468));
+        infoPanel.setLayout(new BoxLayout(infoPanel, BoxLayout.Y_AXIS));
+
+        levelText = new JLabel("Level: ");
+        timeText = new JLabel("Time: ");
+        chipsText = new JLabel("Chips Left: ");
+
+        infoPanel.add(levelText);
+        infoPanel.add(timeText);
+        infoPanel.add(chipsText);
+
+        //Container panel which is the Master container.
+        containerPanel = new JPanel();
+        containerPanel.add(gamePanel);
+        containerPanel.add(Box.createRigidArea(new Dimension(10, 0)));
+        containerPanel.add(infoPanel);
+        containerPanel.setBorder(BorderFactory.createEmptyBorder(25, 50,50, 50));
+        containerPanel.setLayout(new FlowLayout());
+
+        this.setContentPane(containerPanel);
+        this.setResizable(false);
+        this.setLayout(new FlowLayout());
+        this.pack();
+        this.setVisible(true);
+
         //The main GUI frame.
-        GUIFrame = new JFrame("Chip's Challenge: " + GameLevel);
+        this.setTitle("Chip's Challenge: " + GameLevel);
 
+        //Menu setup.
         createMenu();
-
-        //Configuring and Building the frame.
-        GUIFrame.add(menuBar);
-        GUIFrame.setJMenuBar(menuBar);
-        GUIFrame.setSize(800,500);
-        GUIFrame.setLayout(null);
-        GUIFrame.setVisible(true);
+        this.add(menuBar);
+        this.setJMenuBar(menuBar);
 
         //Key listener set up.
         setFocusable(true);
-        GUIFrame.addKeyListener(new Controls());
-
-        GUIFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.addKeyListener(new Controls());
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
     }
-
 
     /**
      * Method to create the Menu for the GUI, has all the submenu items
@@ -142,5 +176,10 @@ public class GUI extends JFrame implements ActionListener {
                 System.out.println("You are in the Help");
 
         }
+    }
+
+    @Override
+    public void run() {
+
     }
 }
