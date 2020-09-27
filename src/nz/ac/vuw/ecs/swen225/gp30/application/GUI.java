@@ -217,7 +217,7 @@ public class GUI extends JFrame implements ActionListener, Runnable {
     }
 
     /**
-     *
+     * Threaded piece. 
      */
     @Override
     public void run() {
