@@ -18,7 +18,7 @@ public class GUI extends JFrame implements ActionListener, Runnable {
 
     //JMenu Components.
     JMenuBar menuBar;
-    JMenu game, options, level, help;
+    JMenu game, options, level, replay, help;
 
     //Text Components.
     JLabel levelText, timeText, chipsText;
@@ -29,6 +29,11 @@ public class GUI extends JFrame implements ActionListener, Runnable {
     JMenuItem save, load;
     //Level Menu Items.
     JMenuItem one, two, three;
+    //Replay Menu Items.
+    JRadioButtonMenuItem speedSet0, speedSet1, speedSet2, speedSet3;
+    ButtonGroup speedButtonGroup;
+    JMenuItem step, auto;
+    JMenu speed;
 
     GUI(){
 
@@ -91,13 +96,13 @@ public class GUI extends JFrame implements ActionListener, Runnable {
 
         //Game Menu.
         game = new JMenu("Game");
-        pause = new JMenuItem("Pause");
-        pause.addActionListener(this);
         resume = new JMenuItem("Resume");
         resume.addActionListener(this);
+        pause = new JMenuItem("Pause");
+        pause.addActionListener(this);
         exit = new JMenuItem("Exit");
         exit.addActionListener(this);
-        game.add(pause); game.add(resume); game.add(exit);
+        game.add(resume); game.add(pause); game.add(exit);
 
         //Option Menu.
         options = new JMenu("Options");
@@ -117,12 +122,34 @@ public class GUI extends JFrame implements ActionListener, Runnable {
         three.addActionListener(this);
         level.add(one); level.add(two); level.add(three);
 
+        //Record n Replay Menu.
+        replay = new JMenu("Replay");
+        step = new JMenuItem("Step-by-Step");
+        step.addActionListener(this);
+        auto = new JMenuItem("Auto-Replay");
+        auto.addActionListener(this);
+
+        //The replay speed setting submenu setup.
+        speed = new JMenu("Replay Speed");
+        speedButtonGroup = new ButtonGroup();
+        speedSet0 = new JRadioButtonMenuItem("0.5x speed");
+        speedSet1 = new JRadioButtonMenuItem("1.0x speed", true);
+        speedSet2 = new JRadioButtonMenuItem("1.5x speed");
+        speedSet3 = new JRadioButtonMenuItem("2.0x speed");
+        speed.add(speedSet0); speed.add(speedSet1); speed.add(speedSet2); speed.add(speedSet3);
+        speedButtonGroup.add(speedSet0); speedButtonGroup.add(speedSet1);
+        speedButtonGroup.add(speedSet2); speedButtonGroup.add(speedSet3);
+
+
+        //Add all the sun items to the menu.
+        replay.add(step); replay.add(auto); replay.add(speed);
+
         //Help Menu.
         help = new JMenu("Help");
         help.addMenuListener(new HelpMenuListener());
 
         //Add Menu Components.
-        menuBar.add(game); menuBar.add(options); menuBar.add(level); menuBar.add(help);
+        menuBar.add(game); menuBar.add(options); menuBar.add(level); menuBar.add(replay); menuBar.add(help);
 
     }
 
@@ -170,6 +197,17 @@ public class GUI extends JFrame implements ActionListener, Runnable {
                 //Invoke three method.
                 break;
 
+
+            //Replay Menu Items.
+            case "Step-by-Step":
+                //Invoke step-by-step method.
+                System.out.println("You are in step-by-step\n");
+                break;
+            case "Auto-Replay":
+                //Invoke auto-replay method.
+                System.out.println("You are in auto-replay\n");
+                break;
+
             //Help Menu Items.
             case "Help":
                 //Invoke help method (dialog box).
@@ -178,6 +216,9 @@ public class GUI extends JFrame implements ActionListener, Runnable {
         }
     }
 
+    /**
+     *
+     */
     @Override
     public void run() {
 
