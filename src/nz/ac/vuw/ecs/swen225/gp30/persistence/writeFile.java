@@ -3,7 +3,13 @@ package nz.ac.vuw.ecs.swen225.gp30.persistence;
 
 public class writeFile {
 	
-	public static void saveGame(ChapsChallenge game, String name) {
+	public static void main(String[] args) 
+	   { 
+		writeFile wf = new writeFile();
+	    wf.readFile(); 
+	   } 
+	
+	/**public static void saveGame(ChapsChallenge game, String name) {
 		
 		//String game = getState(game);
 		try {
@@ -14,7 +20,7 @@ public class writeFile {
 		      System.out.println("Error saving game: " + e);
 		    }
 		
-	}
+	}**/
 	
 	//Found online
 	public void readFile() {
@@ -23,13 +29,13 @@ public class writeFile {
 		    Gson gson = new Gson();
 
 		    // create a reader
-		    Reader reader = Files.newBufferedReader(Paths.get("user.json"));
+		    Reader reader = Files.newBufferedReader(Paths.get("src/nz/ac/vuw/ecs/swen225/gp20/persistence/levels/level1.json"));
 
 		    // convert JSON file to map
-		    Map<?, ?> map = gson.fromJson(reader, Map.class);
+		    Map<String, String> map = gson.fromJson(reader, Map.class);
 
 		    // print map entries
-		    for (Map.Entry<?, ?> entry : map.entrySet()) {
+		    for (Map.Entry<String, String> entry : map.entrySet()) {
 		        System.out.println(entry.getKey() + "=" + entry.getValue());
 		    }
 
