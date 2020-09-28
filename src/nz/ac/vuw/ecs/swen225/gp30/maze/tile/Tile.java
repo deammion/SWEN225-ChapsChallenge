@@ -1,8 +1,9 @@
 package nz.ac.vuw.ecs.swen225.gp30.maze.tile;
 
 import nz.ac.vuw.ecs.swen225.gp30.maze.Chap;
+import nz.ac.vuw.ecs.swen225.gp30.maze.GameObject;
 
-public abstract class Tile {
+public abstract class Tile extends GameObject {
     private final int x, y;
     protected Chap chap = null;
 
@@ -29,4 +30,5 @@ public abstract class Tile {
         return y;
     }
 
+    public abstract String getImageString();
 }
