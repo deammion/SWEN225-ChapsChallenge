@@ -1,5 +1,9 @@
-package nz.ac.vuw.ecs.swen225.gp30.maze;
+package test.nz.ac.vuw.ecs.swen225.gp30.maze;
 
+import nz.ac.vuw.ecs.swen225.gp30.maze.Chap;
+import nz.ac.vuw.ecs.swen225.gp30.maze.Game;
+import nz.ac.vuw.ecs.swen225.gp30.maze.Maze;
+import nz.ac.vuw.ecs.swen225.gp30.maze.Move;
 import nz.ac.vuw.ecs.swen225.gp30.maze.item.Item;
 import nz.ac.vuw.ecs.swen225.gp30.maze.tile.*;
 import org.junit.jupiter.api.Test;
