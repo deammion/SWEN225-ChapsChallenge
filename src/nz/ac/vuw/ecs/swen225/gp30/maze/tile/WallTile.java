@@ -34,9 +34,4 @@ public class WallTile extends Tile {
     public char getChar() {
         return '#';
     }
-
-    @Override
-    public String getImageString() {
-        return "tile_wall.png";
-    }
 }

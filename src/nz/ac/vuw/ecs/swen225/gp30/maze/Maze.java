@@ -35,6 +35,7 @@ public class Maze {
                 gridString.append("|");
             }
         }
+
         return gridString.toString();
     }
 }

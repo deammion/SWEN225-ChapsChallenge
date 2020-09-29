@@ -9,7 +9,6 @@ public class KeyTile extends Tile {
     Item key;
     boolean collected = false;
 
-
     public KeyTile(int x, int y, Item key) {
         super(x, y);
         this.key = key;
@@ -45,10 +44,5 @@ public class KeyTile extends Tile {
     @Override
     public char getChar() {
         return hasChap()? 'c' : collected? '_' : '%';
-    }
-
-    @Override
-    public String getImageString() {
-        return "tile_ " + key.toString().toLowerCase() + ".png";
     }
 }

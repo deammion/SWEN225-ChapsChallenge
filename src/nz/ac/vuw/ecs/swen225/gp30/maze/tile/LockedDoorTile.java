@@ -45,10 +45,4 @@ public class LockedDoorTile extends Tile {
     public char getChar() {
         return hasChap() ? 'c' : unlocked? '_' : 'D';
     }
-
-    @Override
-    public String getImageString() {
-        return unlocked? "tile_free.png" :
-        "tile_locked_door_" + keyToUnlock.toString().toLowerCase() + ".png";
-    }
 }

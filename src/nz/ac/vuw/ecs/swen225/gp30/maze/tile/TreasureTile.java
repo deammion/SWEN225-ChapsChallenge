@@ -39,9 +39,4 @@ public class TreasureTile extends Tile {
     public char getChar() {
         return hasChap() ? 'c' : collected? '_' : '*';
     }
-
-    @Override
-    public String getImageString() {
-        return "tile_treasure.png";
-    }
 }
