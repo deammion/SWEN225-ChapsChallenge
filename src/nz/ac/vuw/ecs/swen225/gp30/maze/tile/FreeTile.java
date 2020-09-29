@@ -37,4 +37,9 @@ public class FreeTile extends Tile {
     public char getChar() {
         return hasChap() ? 'c' : '_';
     }
+
+    @Override
+    public String getImageString() {
+        return "tile_free.png";
+    }
 }
