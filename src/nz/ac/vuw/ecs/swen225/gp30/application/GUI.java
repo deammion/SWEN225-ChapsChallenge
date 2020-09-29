@@ -157,7 +157,7 @@ public class GUI extends JFrame implements ActionListener {
 
         //Help Menu.
         help = new JMenu("Help");
-        help.addMenuListener(new HelpMenuListener());
+        //help.addMenuListener(new HelpMenuListener());
 
         //Add Menu Components.
         menuBar.add(game); menuBar.add(options); menuBar.add(level); menuBar.add(replay); menuBar.add(help);
