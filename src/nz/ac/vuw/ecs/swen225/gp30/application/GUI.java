@@ -10,7 +10,15 @@ import java.awt.event.ActionListener;
 public class GUI extends JFrame implements ActionListener, Runnable {
 
     //Current level Chip is on.
-    public int GameLevel = 1;
+    public int gameLevel = 1;
+
+    //Boolean for game states.
+    boolean recordAndReplayRunning = false;
+    boolean gamePaused = false;
+
+    //Timing Component for the Game.
+    long totalTime = 100;
+    long timeLeft = totalTime;
 
     //JComponents.
     JFrame GUIFrame;
@@ -71,7 +79,7 @@ public class GUI extends JFrame implements ActionListener, Runnable {
         this.setVisible(true);
 
         //The main GUI frame.
-        this.setTitle("Chip's Challenge: " + GameLevel);
+        this.setTitle("Chip's Challenge: " + gameLevel);
 
         //Menu setup.
         createMenu();
@@ -217,10 +225,87 @@ public class GUI extends JFrame implements ActionListener, Runnable {
     }
 
     /**
-     *
+     * Allows the game to run smoothly, takes care of the rendering updates and internal components. The
+     * time count down
      */
+
     @Override
     public void run() {
 
+        //Game loop details:
+        //Implement the run method of the thread
+        //Create an infinite while loop
+        //Use a boolean variable running to control the loop.
+
+        while(true) {
+
+            if(!isGamePaused() && !isRecordAndReplayRunning()){
+
+                if(timeLeft > 0){
+
+                    //update the board
+
+                }
+
+            }
+
+        }
+
+        }
+
+    //Helper Methods all implemented below. The get/set/is methods:
+
+        // get the time left.
+        // get the player inventory.
+        // get the player treasure count.
+        // get the number of treasures in a level.
+
+
+
+    /**
+     * Is the game is Record and Repay mode.
+     *
+      * @return - if the game is in record or replay mode.
+     */
+    private boolean isRecordAndReplayRunning() {
+        return recordAndReplayRunning;
     }
+
+    /**
+     * Is the game paused.
+     *
+     * @return - if the game is paused or not.
+     */
+    private boolean isGamePaused() {
+        return gamePaused;
+    }
+
+    /**
+     * The amount of time left in a level to be set, complimentary
+     * for the pause option.
+     *
+     * @param timeLeft - time left to complete a level
+     */
+    public void setTimeLeft(Long timeLeft){
+        this.timeLeft = timeLeft;
+    }
+
+    /**
+     * How much time is left to complete the current level.
+     *
+     * @return - time left to complete the level.
+     */
+    public long getTimeLeft() {
+        return timeLeft;
+    }
+
+    /**
+     * The level of the game the player is on.
+     *
+     * @return - the level number.
+     */
+    public int getGameLevel(){
+        return gameLevel;
+    }
+
 }
