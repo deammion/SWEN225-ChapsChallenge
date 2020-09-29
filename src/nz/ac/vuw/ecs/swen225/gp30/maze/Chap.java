@@ -9,8 +9,11 @@ public class Chap {
     private int x, y;
     private final Set<Item> inventory;
     private int chipsCollected;
+    private boolean active;
 
-    public Chap() {
+    public Chap(int x, int y) {
+        this.x = x;
+        this.y = y;
         inventory = new HashSet<>();
         chipsCollected = 0;
     }
@@ -50,5 +53,13 @@ public class Chap {
 
     public boolean consumeItem(Item item) {
         return inventory.remove(item);
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+
+    public boolean isActive() {
+        return active;
     }
 }
