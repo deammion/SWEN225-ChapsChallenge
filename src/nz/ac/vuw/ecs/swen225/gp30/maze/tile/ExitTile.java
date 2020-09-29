@@ -37,4 +37,9 @@ public class ExitTile extends Tile {
     public char getChar() {
         return hasChap() ? 'c' : 'O';
     }
+
+    @Override
+    public String getImageString() {
+        return "tile_exit.png";
+    }
 }

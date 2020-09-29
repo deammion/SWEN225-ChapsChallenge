@@ -39,4 +39,9 @@ public class ExitLockTile extends Tile {
     public char getChar() {
         return hasChap() ? 'c' : unlocked? '_' : 'X';
     }
+
+    @Override
+    public String getImageString() {
+        return "tile_exit_lock.png";
+    }
 }
