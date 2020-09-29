@@ -37,9 +37,4 @@ public class InfoTile extends Tile {
     public char getChar() {
         return hasChap()? 'c' : 'i';
     }
-
-    @Override
-    public String getImageString() {
-        return "tile_info.png";
-    }
 }

@@ -1,9 +1,5 @@
-package test.nz.ac.vuw.ecs.swen225.gp30.maze;
+package nz.ac.vuw.ecs.swen225.gp30.maze;
 
-import nz.ac.vuw.ecs.swen225.gp30.maze.Chap;
-import nz.ac.vuw.ecs.swen225.gp30.maze.Game;
-import nz.ac.vuw.ecs.swen225.gp30.maze.Move;
-import nz.ac.vuw.ecs.swen225.gp30.maze.Maze;
 import nz.ac.vuw.ecs.swen225.gp30.maze.item.Item;
 import nz.ac.vuw.ecs.swen225.gp30.maze.tile.*;
 import org.junit.jupiter.api.Test;
@@ -59,9 +55,9 @@ public class ChapTest {
     public void validMoveTest_04() { // move chap onto locked door tile
         Game game = new Game();
         Chap chap = new Chap();
-        Maze maze = makeTestMaze(new LockedDoorTile(1, 0, Item.KEY_BLUE));
+        Maze maze = makeTestMaze(new LockedDoorTile(1, 0, Item.BLUE_KEY));
         setupGame(game, maze, chap);
-        chap.addItemToInventory(Item.KEY_BLUE);
+        chap.addItemToInventory(Item.BLUE_KEY);
 
         String[] expected = { "|c|D|", "|_|c|", "|c|_|" };
         assertEquals(expected[0], maze.toString());
@@ -77,7 +73,7 @@ public class ChapTest {
     public void validMoveTest_05() { // move chap to key tile and collect key
         Game game = new Game();
         Chap chap = new Chap();
-        Maze maze = makeTestMaze(new KeyTile(1, 0, Item.KEY_BLUE));
+        Maze maze = makeTestMaze(new KeyTile(1, 0, Item.BLUE_KEY));
         setupGame(game, maze, chap);
 
         String[] expected = { "|c|%|", "|_|c|", "|c|_|" };
@@ -144,7 +140,7 @@ public class ChapTest {
     @Test void invalidMoveTest_02() { // try move chap to locked door tile without key
         Game game = new Game();
         Chap chap = new Chap();
-        Maze maze = makeTestMaze(new LockedDoorTile(1, 0, Item.KEY_BLUE));
+        Maze maze = makeTestMaze(new LockedDoorTile(1, 0, Item.BLUE_KEY));
         setupGame(game, maze, chap);
 
         String expected = "|c|D|";
