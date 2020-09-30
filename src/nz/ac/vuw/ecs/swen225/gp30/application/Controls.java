@@ -3,6 +3,13 @@ package nz.ac.vuw.ecs.swen225.gp30.application;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
+    GUI game;
+    boolean recordMode = false;
+
+    public Controls(GUI game){
+        this.game = game;
+        }
+
 public class Controls extends KeyAdapter {
 
     boolean recordMode = false;
@@ -25,29 +32,35 @@ public class Controls extends KeyAdapter {
                     case 37:
                     case 65:   //LEFT, 'A' & 'Arrow left'
                         System.out.println("You have pressed: A");
+                        game.move(Move.LEFT);
                         //Move LEFT
                         break;
                     case 39:
                     case 68:   //RIGHT, 'D' & 'Arrow right'
                         System.out.println("You have pressed: D");
+                        game.move(Move.RIGHT);
                         //Move RIGHT
                         break;
                     case 38:
                     case 87:   //UP, 'W' & 'Arrow up'
                         System.out.println("You have pressed: W");
+                        game.move(Move.UP);
                         //Move UP
                         break;
                     case 40:
                     case 83:   //DOWN, 'S' & 'Arrow down'
                         System.out.println("You have pressed: S");
+                        game.move(Move.DOWN);
                         //Move DOWN
                         break;
                     case 32:
                         System.out.println("You have pressed: SPACE BAR");
+                        game.Pause();
                         //Space - pause the game and display a "game is paused" dialog.
                         break;
                     case 27:
                         System.out.println("You have pressed: ESCAPE");
+                        game.Resume();
                         //Escape - close the "game is paused" dialog and resume the game.
                         break;
 
