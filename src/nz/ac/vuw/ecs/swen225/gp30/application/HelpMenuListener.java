@@ -1,6 +1,7 @@
 package nz.ac.vuw.ecs.swen225.gp30.application;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 import javax.swing.event.MenuEvent;
 import javax.swing.event.MenuListener;
 import java.awt.*;
@@ -8,7 +9,7 @@ import java.awt.*;
 public class HelpMenuListener extends JFrame implements MenuListener {
 
     JPanel helpMenu;
-    JComponent panel1, panel2, panel3;
+    JPanel gamePanel, controlPanel, miscPanel;
     JTabbedPane tabbedPane;
 
     /**
@@ -21,18 +22,34 @@ public class HelpMenuListener extends JFrame implements MenuListener {
     public void menuSelected(MenuEvent menuEvent) {
         System.out.println("You are in the Help Menu - selected\n");
 
+        //Tab components.
+        tabbedPane = new JTabbedPane();
+
+        //Game Panel Customization.
+        gamePanel = new JPanel();
+        gamePanel.setBorder(BorderFactory.createEmptyBorder(20,20,20,20));
+        gamePanel.setBorder(BorderFactory.createRaisedBevelBorder());
+        gamePanel.setPreferredSize(new Dimension(468,468));
+
+        //Control Panel Customization.
+        controlPanel = new JPanel();
+        controlPanel.setBorder(BorderFactory.createRaisedBevelBorder());
+        controlPanel.setPreferredSize(new Dimension(468,468));
+
+        //Misc Panel Customization.
+        miscPanel = new JPanel();
+        miscPanel.setBorder(BorderFactory.createRaisedBevelBorder());
+        miscPanel.setPreferredSize(new Dimension(468,468));
+
+        tabbedPane.add("Game", gamePanel);
+        tabbedPane.add("Controls", controlPanel);
+        tabbedPane.add("Extra", miscPanel);
 
 
-        //helpMenu = new JPanel();
-        //helpMenu.setBorder(BorderFactory.createRaisedBevelBorder());
-        //helpMenu.setPreferredSize(new Dimension(500,500));
-        //helpMenu.setLayout(new FlowLayout());
-
-        //this.add(helpMenu);
 
         //Master Frame, holds all menu components.
         this.setTitle("Instructions Menu: Chaps Challenge.");
-        this.setLayout(new FlowLayout());
+        this.add(tabbedPane);
         this.setVisible(true);
         this.pack();
         this.setFocusable(true);

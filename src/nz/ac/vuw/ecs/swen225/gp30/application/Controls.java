@@ -1,18 +1,20 @@
 package nz.ac.vuw.ecs.swen225.gp30.application;
 
+import nz.ac.vuw.ecs.swen225.gp30.maze.Move;
+
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
-    GUI game;
-    boolean recordMode = false;
 
-    public Controls(GUI game){
-        this.game = game;
-        }
 
 public class Controls extends KeyAdapter {
 
     boolean recordMode = false;
+    GUI game;
+
+    public Controls(GUI game){
+        this.game = game;
+    }
 
     /**
      * Method for is a player presses a key that has a function
@@ -55,12 +57,12 @@ public class Controls extends KeyAdapter {
                         break;
                     case 32:
                         System.out.println("You have pressed: SPACE BAR");
-                        game.Pause();
+                        game.pause();
                         //Space - pause the game and display a "game is paused" dialog.
                         break;
                     case 27:
                         System.out.println("You have pressed: ESCAPE");
-                        game.Resume();
+                        game.resume();
                         //Escape - close the "game is paused" dialog and resume the game.
                         break;
 
