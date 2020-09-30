@@ -62,6 +62,7 @@ public abstract class GUI extends JFrame implements ActionListener {
         timeText = new JLabel("Time: " + timeLeft + " seconds");
         chipsText = new JLabel("Chips Left: " + chipsLeft);
 
+
         infoPanel.add(levelText);
         infoPanel.add(timeText);
         infoPanel.add(chipsText);
@@ -284,3 +285,4 @@ public abstract class GUI extends JFrame implements ActionListener {
     }
 
 }
+

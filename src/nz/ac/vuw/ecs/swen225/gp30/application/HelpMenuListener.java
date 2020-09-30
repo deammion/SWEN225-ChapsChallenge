@@ -8,8 +8,8 @@ import java.awt.*;
 
 public class HelpMenuListener extends JFrame implements MenuListener {
 
-    JPanel helpMenu;
     JPanel gamePanel, controlPanel, miscPanel;
+    JLabel gameInfo, controlInfo, miscInfo;
     JTabbedPane tabbedPane;
 
     /**
@@ -27,28 +27,34 @@ public class HelpMenuListener extends JFrame implements MenuListener {
 
         //Game Panel Customization.
         gamePanel = new JPanel();
-        gamePanel.setBorder(BorderFactory.createEmptyBorder(20,20,20,20));
-        gamePanel.setBorder(BorderFactory.createRaisedBevelBorder());
+        gamePanel.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLoweredBevelBorder(), BorderFactory.createRaisedBevelBorder()));
+        gameInfo = new JLabel("CHAPS CHALLENGE");
+        gameInfo.setHorizontalAlignment(SwingConstants.CENTER);
+        gamePanel.add(gameInfo);
         gamePanel.setPreferredSize(new Dimension(468,468));
 
         //Control Panel Customization.
         controlPanel = new JPanel();
-        controlPanel.setBorder(BorderFactory.createRaisedBevelBorder());
+        controlPanel.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLoweredBevelBorder(), BorderFactory.createRaisedBevelBorder()));
+        controlInfo = new JLabel("GAME CONTROLS");
+        controlInfo.setHorizontalAlignment(SwingConstants.CENTER);
+        controlPanel.add(controlInfo);
         controlPanel.setPreferredSize(new Dimension(468,468));
 
         //Misc Panel Customization.
         miscPanel = new JPanel();
-        miscPanel.setBorder(BorderFactory.createRaisedBevelBorder());
+        miscPanel.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLoweredBevelBorder(), BorderFactory.createRaisedBevelBorder()));
+        miscInfo = new JLabel("EXTRA INFORMATION");
+        miscInfo.setHorizontalAlignment(SwingConstants.CENTER);
+        miscPanel.add(miscInfo);
         miscPanel.setPreferredSize(new Dimension(468,468));
 
         tabbedPane.add("Game", gamePanel);
         tabbedPane.add("Controls", controlPanel);
         tabbedPane.add("Extra", miscPanel);
 
-
-
         //Master Frame, holds all menu components.
-        this.setTitle("Instructions Menu: Chaps Challenge.");
+        this.setTitle("Chaps Challenge: Instructions");
         this.add(tabbedPane);
         this.setVisible(true);
         this.pack();

@@ -1,11 +1,7 @@
 package nz.ac.vuw.ecs.swen225.gp30.application;
 
-import nz.ac.vuw.ecs.swen225.gp30.application.GUI;
 import nz.ac.vuw.ecs.swen225.gp30.maze.GameWorld;
 import nz.ac.vuw.ecs.swen225.gp30.maze.Move;
-import nz.ac.vuw.ecs.swen225.gp30.maze.tile.FreeTile;
-import nz.ac.vuw.ecs.swen225.gp30.maze.tile.InfoTile;
-import nz.ac.vuw.ecs.swen225.gp30.persistence.writeFile;
 import nz.ac.vuw.ecs.swen225.gp30.render.GameVisuals;
 
 import javax.swing.*;
@@ -30,6 +26,10 @@ public class ChapsChallenge extends GUI {
         startGame();
     }
 
+    /**
+     * Method to move Chap about the maze.
+     * @param move - direction.
+     */
     public void move(Move move) {
         System.out.println(move.toString());
         if(game.moveChap(move)) {
@@ -37,13 +37,22 @@ public class ChapsChallenge extends GUI {
         };
     }
 
+    /**
+     * Method which will pause the game.
+     */
     public void pause() {
         prevState = state;
         state = GameState.PAUSED;
     }
 
+    /**
+     * Method which will resume the game.
+     */
     public void resume() { state = prevState; }
 
+    /**
+     * Method will load a level for the game.
+     */
     public void loadLevel() {
         //game = writeFile.readLevel();
 //        Maze m = new Maze(2, 1);
@@ -53,6 +62,10 @@ public class ChapsChallenge extends GUI {
         //renderer = new GameVisuals(game);
     }
 
+    /**
+     * Method is responsible for the starting of the game, keeps the game
+     * in states to keep it running.
+     */
     public void startGame() {
         Runnable runnableGame = new Runnable() {
             @Override
@@ -86,6 +99,10 @@ public class ChapsChallenge extends GUI {
         new Thread(runnableGame).start();
     }
 
+    /**
+     * Check which state the game is currently in. This can either
+     * be INFO, WON or DEAD.
+     */
     public void checkGameState() {
         if (game.isChapOnInfo()) {
             state = GameState.INFO;
@@ -98,10 +115,17 @@ public class ChapsChallenge extends GUI {
         }
     }
 
+    /**
+     * Method displays the information related to the game level.
+     */
     public void displayInfo() {
         JOptionPane.showMessageDialog(this, game.getLevelInfo());
     }
 
+    /**
+     * Main method, begins the game.
+     * @param args - arguments parsed.
+     */
     public static void main(String[] args) {
         SwingUtilities.invokeLater(
                 new Runnable() {

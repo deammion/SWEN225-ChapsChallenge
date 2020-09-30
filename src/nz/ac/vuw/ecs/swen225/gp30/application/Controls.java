@@ -5,8 +5,6 @@ import nz.ac.vuw.ecs.swen225.gp30.maze.Move;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
-
-
 public class Controls extends KeyAdapter {
 
     boolean recordMode = false;
