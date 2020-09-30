@@ -45,13 +45,7 @@ public abstract class GUI extends JFrame implements ActionListener {
     JMenuItem step, auto;
     JMenu speed;
 
-    public GUI(){
-
-        //Game panel component of the GUI, will hold the board to be rendered.
-        gamePanel = new JPanel();
-        gamePanel.setBorder(BorderFactory.createRaisedBevelBorder());
-        gamePanel.setPreferredSize(new Dimension(468, 468));
-
+    public void init() {
         //Information panel component of the GUI
         infoPanel = new JPanel();
         infoPanel.setBorder(BorderFactory.createRaisedBevelBorder());
@@ -61,6 +55,7 @@ public abstract class GUI extends JFrame implements ActionListener {
         levelText = new JLabel("Level: " + gameLevel);
         timeText = new JLabel("Time: " + timeLeft + " seconds");
         chipsText = new JLabel("Chips Left: " + chipsLeft);
+
 
         infoPanel.add(levelText);
         infoPanel.add(timeText);
@@ -92,7 +87,6 @@ public abstract class GUI extends JFrame implements ActionListener {
         setFocusable(true);
         this.addKeyListener(new Controls(this));
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
     }
 
     /**
@@ -284,3 +278,4 @@ public abstract class GUI extends JFrame implements ActionListener {
     }
 
 }
+
