@@ -1,12 +1,12 @@
 package nz.ac.vuw.ecs.swen225.gp30.maze.tile;
 
-import static com.google.common.base.Preconditions.checkArgument;
 import nz.ac.vuw.ecs.swen225.gp30.maze.Chap;
-import nz.ac.vuw.ecs.swen225.gp30.maze.item.Item;
 
-public class FreeTile extends Tile {
+import static com.google.common.base.Preconditions.checkArgument;
 
-    public FreeTile(int x, int y) {
+public class ExitTile extends Tile {
+
+    public ExitTile(int x, int y) {
         super(x, y);
     }
 
@@ -35,11 +35,11 @@ public class FreeTile extends Tile {
 
     @Override
     public char getChar() {
-        return hasChap() ? 'c' : '_';
+        return hasChap() ? 'c' : 'O';
     }
 
     @Override
     public String getImageString() {
-        return "tile_free.png";
+        return "tile_exit.png";
     }
 }

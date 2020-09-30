@@ -1,23 +1,25 @@
 package nz.ac.vuw.ecs.swen225.gp30.maze.tile;
 
-import static com.google.common.base.Preconditions.checkArgument;
 import nz.ac.vuw.ecs.swen225.gp30.maze.Chap;
-import nz.ac.vuw.ecs.swen225.gp30.maze.item.Item;
 
-public class FreeTile extends Tile {
+public class ExitLockTile extends Tile {
+    int chipsRequired;
+    boolean unlocked = false;
 
-    public FreeTile(int x, int y) {
+    public ExitLockTile(int x, int y, int chipsRequired) {
         super(x, y);
+        this.chipsRequired = chipsRequired;
     }
 
     @Override
     public boolean canMoveTo(Chap chap) {
-        return true;
+        return unlocked || chap.getChipsCollected() == chipsRequired;
     }
 
     @Override
     public boolean addChap(Chap chap) {
-        checkArgument(chap != null, "Chap cannot be null");
+        if(!canMoveTo(chap)) { throw new RuntimeException("not enough chips"); }
+        else { unlocked = true; }
         chap.setAt(getX(), getY());
         this.chap = chap;
         return true;
@@ -35,11 +37,11 @@ public class FreeTile extends Tile {
 
     @Override
     public char getChar() {
-        return hasChap() ? 'c' : '_';
+        return hasChap() ? 'c' : unlocked? '_' : 'X';
     }
 
     @Override
     public String getImageString() {
-        return "tile_free.png";
+        return unlocked? "free_tile.png" : "tile_exit_lock.png";
     }
 }

@@ -1,12 +1,11 @@
 package nz.ac.vuw.ecs.swen225.gp30.maze.tile;
 
-import static com.google.common.base.Preconditions.checkArgument;
 import nz.ac.vuw.ecs.swen225.gp30.maze.Chap;
-import nz.ac.vuw.ecs.swen225.gp30.maze.item.Item;
 
-public class FreeTile extends Tile {
+public class TreasureTile extends Tile {
+    Boolean collected = false;
 
-    public FreeTile(int x, int y) {
+    public TreasureTile(int x, int y) {
         super(x, y);
     }
 
@@ -17,10 +16,13 @@ public class FreeTile extends Tile {
 
     @Override
     public boolean addChap(Chap chap) {
-        checkArgument(chap != null, "Chap cannot be null");
+        if(!collected) {
+            chap.collectChip();
+            collected = true;
+        }
         chap.setAt(getX(), getY());
         this.chap = chap;
-        return true;
+        return false;
     }
 
     @Override
@@ -35,11 +37,11 @@ public class FreeTile extends Tile {
 
     @Override
     public char getChar() {
-        return hasChap() ? 'c' : '_';
+        return hasChap() ? 'c' : collected? '_' : '*';
     }
 
     @Override
     public String getImageString() {
-        return "tile_free.png";
+        return collected? "tile_free.png" : "tile_treasure.png";
     }
 }

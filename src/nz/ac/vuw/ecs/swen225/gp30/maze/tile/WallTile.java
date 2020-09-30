@@ -2,44 +2,41 @@ package nz.ac.vuw.ecs.swen225.gp30.maze.tile;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import nz.ac.vuw.ecs.swen225.gp30.maze.Chap;
-import nz.ac.vuw.ecs.swen225.gp30.maze.item.Item;
 
-public class FreeTile extends Tile {
+public class WallTile extends Tile {
 
-    public FreeTile(int x, int y) {
+    public WallTile(int x, int y) {
         super(x, y);
     }
 
     @Override
     public boolean canMoveTo(Chap chap) {
-        return true;
+        return false;
     }
 
     @Override
     public boolean addChap(Chap chap) {
-        checkArgument(chap != null, "Chap cannot be null");
-        chap.setAt(getX(), getY());
-        this.chap = chap;
-        return true;
+        checkArgument(chap != null, "chap cannot be null");
+        throw new RuntimeException("solid tile");
     }
 
     @Override
     public void removeChap() {
-        chap = null;
+        throw new RuntimeException("solid tile");
     }
 
     @Override
     public boolean hasChap() {
-        return chap != null;
+        return false;
     }
 
     @Override
     public char getChar() {
-        return hasChap() ? 'c' : '_';
+        return '#';
     }
 
     @Override
     public String getImageString() {
-        return "tile_free.png";
+        return "tile_wall.png";
     }
 }
