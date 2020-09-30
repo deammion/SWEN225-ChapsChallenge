@@ -23,8 +23,8 @@ public class GameWorld {
 
     public Tile getNewTile(Move move, int oldX, int oldY) {
         switch(move) {
-            case UP: return maze.getTileAt(oldX, oldY+1);
-            case DOWN: return maze.getTileAt(oldX, oldY-1);
+            case UP: return maze.getTileAt(oldX, oldY-1);
+            case DOWN: return maze.getTileAt(oldX, oldY+1);
             case LEFT: return maze.getTileAt(oldX-1, oldY);
             case RIGHT: return maze.getTileAt(oldX+1, oldY);
         }
