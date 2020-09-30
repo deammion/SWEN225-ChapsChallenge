@@ -49,7 +49,7 @@ public abstract class GUI extends JFrame implements ActionListener {
         //Information panel component of the GUI
         infoPanel = new JPanel();
         infoPanel.setBorder(BorderFactory.createRaisedBevelBorder());
-        infoPanel.setPreferredSize(new Dimension(200, 468));
+        infoPanel.setPreferredSize(new Dimension(200, 378));
         infoPanel.setLayout(new BoxLayout(infoPanel, BoxLayout.Y_AXIS));
 
         levelText = new JLabel("Level: " + gameLevel);
