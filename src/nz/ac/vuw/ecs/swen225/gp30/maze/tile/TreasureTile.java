@@ -42,6 +42,6 @@ public class TreasureTile extends Tile {
 
     @Override
     public String getImageString() {
-        return "tile_treasure.png";
+        return collected? "tile_free.png" : "tile_treasure.png";
     }
 }
