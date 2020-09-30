@@ -54,8 +54,7 @@ public abstract class GUI extends JFrame implements ActionListener {
 
         levelText = new JLabel("Level: " + gameLevel);
         timeText = new JLabel("Time: " + timeLeft + " seconds");
-        chipsText = new JLabel("Chips Left: " + chipsLeft);
-
+        chipsText = new JLabel("Chips Left: " + chipsLeft + " ");
 
         infoPanel.add(levelText);
         infoPanel.add(timeText);
