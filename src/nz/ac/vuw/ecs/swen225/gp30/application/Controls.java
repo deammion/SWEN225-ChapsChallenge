@@ -7,7 +7,6 @@ public class Controls extends KeyAdapter {
 
     boolean recordMode = false;
 
-
     /**
      * Method for is a player presses a key that has a function
      * in the game. If a player is pressing control is listened

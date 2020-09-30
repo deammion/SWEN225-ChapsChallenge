@@ -47,12 +47,12 @@ public class GUI extends JFrame implements ActionListener {
     GUI(){
         //Game panel component of the GUI, will hold the board to be rendered.
         gamePanel = new JPanel();
-        gamePanel.setBorder(BorderFactory.createTitledBorder("Game"));
+        gamePanel.setBorder(BorderFactory.createRaisedBevelBorder());
         gamePanel.setPreferredSize(new Dimension(468, 468));
 
         //Information panel component of the GUI
         infoPanel = new JPanel();
-        infoPanel.setBorder(BorderFactory.createTitledBorder("Info"));
+        infoPanel.setBorder(BorderFactory.createRaisedBevelBorder());
         infoPanel.setPreferredSize(new Dimension(200, 468));
         infoPanel.setLayout(new BoxLayout(infoPanel, BoxLayout.Y_AXIS));
 
@@ -66,16 +66,11 @@ public class GUI extends JFrame implements ActionListener {
 
         //Container panel which is the Master container.
         containerPanel = new JPanel();
-        containerPanel.setBackground(new Color(0,102,0));
-        //containerPanel.add(background = new JLabel(new ImageIcon("assets/circuit_board_background.png")));
         containerPanel.add(gamePanel);
         containerPanel.add(Box.createRigidArea(new Dimension(10, 0)));
         containerPanel.add(infoPanel);
         containerPanel.setBorder(BorderFactory.createEmptyBorder(25, 50,50, 50));
         containerPanel.setLayout(new FlowLayout());
-
-        //background = new JLabel( new ImageIcon("/assets/circuit_board_background.png"));
-        //containerPanel.add(background);
 
         this.setContentPane(containerPanel);
         this.setResizable(false);
@@ -145,9 +140,13 @@ public class GUI extends JFrame implements ActionListener {
         speed = new JMenu("Replay Speed");
         speedButtonGroup = new ButtonGroup();
         speedSet0 = new JRadioButtonMenuItem("0.5x speed");
+        speedSet0.addActionListener(this);
         speedSet1 = new JRadioButtonMenuItem("1.0x speed", true);
+        speedSet1.addActionListener(this);
         speedSet2 = new JRadioButtonMenuItem("1.5x speed");
+        speedSet2.addActionListener(this);
         speedSet3 = new JRadioButtonMenuItem("2.0x speed");
+        speedSet3.addActionListener(this);
         speed.add(speedSet0); speed.add(speedSet1); speed.add(speedSet2); speed.add(speedSet3);
         speedButtonGroup.add(speedSet0); speedButtonGroup.add(speedSet1);
         speedButtonGroup.add(speedSet2); speedButtonGroup.add(speedSet3);
@@ -157,7 +156,7 @@ public class GUI extends JFrame implements ActionListener {
 
         //Help Menu.
         help = new JMenu("Help");
-        //help.addMenuListener(new HelpMenuListener());
+        help.addMenuListener(new HelpMenuListener());
 
         //Add Menu Components.
         menuBar.add(game); menuBar.add(options); menuBar.add(level); menuBar.add(replay); menuBar.add(help);
@@ -211,7 +210,18 @@ public class GUI extends JFrame implements ActionListener {
                 //Invoke auto-replay method.
                 System.out.println("You are in auto-replay\n");
                 break;
-
+            case "0.5x speed":
+                //Set speed to 0.5.
+                System.out.println("You are in 0.5x speed");
+            case "1.0x speed":
+                //Set speed to 1.0.
+                System.out.println("You are in 1.0x speed");
+            case "1.5x speed":
+                //Set speed to 1.5.
+                System.out.println("You are in 1.5x speed");
+            case "2.0x speed":
+                //Set speed to 2.0.
+                System.out.println("You are in 2.0x speed");
             //Help Menu Items.
             case "Help":
                 //Invoke help method (dialog box).
