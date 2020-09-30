@@ -19,10 +19,7 @@ import java.util.Scanner;
 public class writeFile {
 
     public static void main(String args[]){
-
         GameWorld g = readLevel();
-
-
     }
 
     /**public static void saveGame(ChapsChallenge game, String name) {
@@ -50,11 +47,11 @@ public class writeFile {
             // convert JSON file to map
             Map<?, ?> map = gson.fromJson(reader, Map.class);
 
-            int width = Integer.parseInt(map.get("boardWidth").toString());
-            int height = Integer.parseInt(map.get("boardHeight").toString());
-            int chipsRequired = Integer.parseInt(map.get("chipsRequired").toString());
-            int chapX = Integer.parseInt(map.get("chap.x").toString());
-            int chapY = Integer.parseInt(map.get("chap.y").toString());
+            int width = (int) Double.parseDouble(map.get("boardWidth").toString());
+            int height = (int) Double.parseDouble(map.get("boardHeight").toString());
+            int chipsRequired = (int) Double.parseDouble(map.get("chipsRequired").toString());
+            int chapX = (int) Double.parseDouble(((Map)map.get("chap")).get("x").toString());
+            int chapY = (int) Double.parseDouble(((Map)map.get("chap")).get("y").toString());
 
             String levelInfo = map.get("levelInfo").toString();
             String boardString = map.get("board").toString();
