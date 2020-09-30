@@ -12,6 +12,8 @@ import static com.google.common.base.Preconditions.checkArgument;
 public class GameWorld {
     private Maze maze;
     private Chap chap;
+    private String levelInfo;
+    private int chipsRequired;
 
     public GameWorld(Maze maze, Chap chap) {
         this.maze = maze;
@@ -61,7 +63,7 @@ public class GameWorld {
     }
 
     public boolean isChapActive() {
-        return false;
+        return chap.isActive();
     }
 
     public void setChap(Chap chap) {
@@ -78,5 +80,21 @@ public class GameWorld {
 
     public Maze getMaze() {
         return maze;
+    }
+
+    public void setChipsRequired(int chipsRequired) {
+        this.chipsRequired = chipsRequired;
+    }
+
+    public int getChipsRequired() {
+        return chipsRequired;
+    }
+
+    public void setLevelInfo(String info) {
+        this.levelInfo = info;
+    }
+
+    public String getLevelInfo() {
+        return levelInfo;
     }
 }

@@ -3,6 +3,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 import nz.ac.vuw.ecs.swen225.gp30.maze.tile.Tile;
 
 import java.util.Arrays;
+import java.util.stream.Stream;
 
 public class Maze {
     private Tile[][] grid;
@@ -22,6 +23,10 @@ public class Maze {
         checkArgument(x >= 0 && x < grid.length, "x (" + x + ") must be within bounds: 0 - " + (grid.length-1));
         checkArgument(y >= 0 && y < grid[0].length, "y (" + y + ") must be within bounds: 0 - " + (grid[0].length-1));
         return grid[x][y];
+    }
+
+    public Stream<Tile> getTiles() {
+        return Arrays.stream(grid).flatMap(Stream::of);
     }
 
     @Override

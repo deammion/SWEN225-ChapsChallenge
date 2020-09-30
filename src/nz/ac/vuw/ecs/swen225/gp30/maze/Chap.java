@@ -16,6 +16,7 @@ public class Chap {
         this.y = y;
         inventory = new HashSet<>();
         chipsCollected = 0;
+        active = true;
     }
 
     public void setAt(int x, int y) {
