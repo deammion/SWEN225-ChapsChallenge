@@ -16,14 +16,14 @@ public class LockedDoorTile extends Tile {
 
     @Override
     public boolean canMoveTo(Chap chap) {
-        return chap.hasItem(keyToUnlock);
+        return unlocked || chap.hasItem(keyToUnlock);
     }
 
     @Override
     public boolean addChap(Chap chap) {
         checkArgument(chap != null, "Chap cannot be null");
-        if(chap.consumeItem(keyToUnlock)) {
-            unlocked = true;
+        if(chap.consumeItem(keyToUnlock)) { unlocked = true; }
+        if(unlocked) {
             chap.setAt(getX(), getY());
             this.chap = chap;
             return true;

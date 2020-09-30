@@ -13,13 +13,13 @@ public class ExitLockTile extends Tile {
 
     @Override
     public boolean canMoveTo(Chap chap) {
-        return chap.getChipsCollected() == chipsRequired;
+        return unlocked || chap.getChipsCollected() == chipsRequired;
     }
 
     @Override
     public boolean addChap(Chap chap) {
         if(!canMoveTo(chap)) { throw new RuntimeException("not enough chips"); }
-        unlocked = true;
+        else { unlocked = true; }
         chap.setAt(getX(), getY());
         this.chap = chap;
         return true;
