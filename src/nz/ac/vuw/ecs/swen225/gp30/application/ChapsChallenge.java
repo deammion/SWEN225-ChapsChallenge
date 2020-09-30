@@ -1,11 +1,7 @@
 package nz.ac.vuw.ecs.swen225.gp30.application;
-<<<<<<< HEAD
 import nz.ac.vuw.ecs.swen225.gp30.maze.GameWorld;
 import nz.ac.vuw.ecs.swen225.gp30.maze.Move;
 import nz.ac.vuw.ecs.swen225.gp30.persistence.writeFile;
-=======
-
->>>>>>> 84fd204695846348da6555df5420fc7bab015165
 import nz.ac.vuw.ecs.swen225.gp30.render.GameVisuals;
 
 import javax.swing.*;
