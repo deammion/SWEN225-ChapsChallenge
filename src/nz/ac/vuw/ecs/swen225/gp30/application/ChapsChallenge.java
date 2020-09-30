@@ -1,6 +1,7 @@
 package nz.ac.vuw.ecs.swen225.gp30.application;
 
 import nz.ac.vuw.ecs.swen225.gp30.application.GUI;
+import nz.ac.vuw.ecs.swen225.gp30.maze.GameWorld;
 import nz.ac.vuw.ecs.swen225.gp30.maze.Move;
 import nz.ac.vuw.ecs.swen225.gp30.maze.tile.FreeTile;
 import nz.ac.vuw.ecs.swen225.gp30.maze.tile.InfoTile;
@@ -44,12 +45,12 @@ public class ChapsChallenge extends GUI {
     public void resume() { state = prevState; }
 
     public void loadLevel() {
-        game = writeFile.readLevel();
+        //game = writeFile.readLevel();
 //        Maze m = new Maze(2, 1);
 //        m.setTileAt(0,0, new FreeTile(0,0));
 //        m.setTileAt(1,0, new InfoTile(1,0));
 //        game = new GameWorld(m, new Chap(0,0));
-        renderer = new GameVisuals(game);
+        //renderer = new GameVisuals(game);
     }
 
     public void startGame() {

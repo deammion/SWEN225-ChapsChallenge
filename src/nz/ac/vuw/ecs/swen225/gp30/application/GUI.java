@@ -1,13 +1,14 @@
 package nz.ac.vuw.ecs.swen225.gp30.application;
 
-import nz.ac.vuw.ecs.swen225.gp30.maze.Game;
+import nz.ac.vuw.ecs.swen225.gp30.maze.GameWorld;
+import nz.ac.vuw.ecs.swen225.gp30.maze.Move;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class GUI extends JFrame implements ActionListener {
+public abstract class GUI extends JFrame implements ActionListener {
 
     //Current level Chip is on.
     int gameLevel = 1;
@@ -44,7 +45,8 @@ public class GUI extends JFrame implements ActionListener {
     JMenuItem step, auto;
     JMenu speed;
 
-    GUI(){
+    public GUI(){
+
         //Game panel component of the GUI, will hold the board to be rendered.
         gamePanel = new JPanel();
         gamePanel.setBorder(BorderFactory.createRaisedBevelBorder());
@@ -88,7 +90,7 @@ public class GUI extends JFrame implements ActionListener {
 
         //Key listener set up.
         setFocusable(true);
-        this.addKeyListener(new Controls());
+        this.addKeyListener(new Controls(this));
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
     }
@@ -161,6 +163,16 @@ public class GUI extends JFrame implements ActionListener {
         //Add Menu Components.
         menuBar.add(game); menuBar.add(options); menuBar.add(level); menuBar.add(replay); menuBar.add(help);
     }
+
+    public void setGamePanel(JPanel gamePanel) {
+        this.gamePanel = gamePanel;
+    }
+
+    abstract void move(Move move);
+
+    abstract void pause();
+
+    abstract void resume();
 
     /**
      * The user of the game clicks on a menu item, this will invoke a method
