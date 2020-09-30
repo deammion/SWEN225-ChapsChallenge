@@ -3,18 +3,43 @@ package nz.ac.vuw.ecs.swen225.gp30.application;
 import javax.swing.*;
 import javax.swing.event.MenuEvent;
 import javax.swing.event.MenuListener;
+import java.awt.*;
 
-public class HelpMenuListener implements MenuListener {
+public class HelpMenuListener extends JFrame implements MenuListener {
 
-    JFrame helpMenu;
+    JPanel helpMenu;
+    JComponent panel1, panel2, panel3;
+    JTabbedPane tabbedPane;
 
+    /**
+     * If the help menu gets selected then open the instruction sheet which contains
+     * all the game information needed for the player to get a better understanding of
+     * the game.
+     * @param menuEvent - if the menu is selected, deselected or cancelled.
+     */
     @Override
     public void menuSelected(MenuEvent menuEvent) {
         System.out.println("You are in the Help Menu - selected\n");
 
-        helpMenu = new JFrame();
-        JOptionPane.showMessageDialog(helpMenu,"Welcome to the instructions: \n\n" +
-                "Chips Challenge is a game where you (Chip) navigates around a maze collecting \n" +
+
+
+        //helpMenu = new JPanel();
+        //helpMenu.setBorder(BorderFactory.createRaisedBevelBorder());
+        //helpMenu.setPreferredSize(new Dimension(500,500));
+        //helpMenu.setLayout(new FlowLayout());
+
+        //this.add(helpMenu);
+
+        //Master Frame, holds all menu components.
+        this.setTitle("Instructions Menu: Chaps Challenge.");
+        this.setLayout(new FlowLayout());
+        this.setVisible(true);
+        this.pack();
+        this.setFocusable(true);
+
+        //helpMenu = new JFrame();
+        //JOptionPane.showMessageDialog(helpMenu,"Welcome to the instructions: \n\n" +
+/*                "Chips Challenge is a game where you (Chip) navigates around a maze collecting \n" +
                 "items off the floor into your inventory. The keyboard controls for the game are \n" +
                 "listed below to familiarise yourself with the game: \n\n" +
                 "" +
@@ -35,7 +60,7 @@ public class HelpMenuListener implements MenuListener {
                 "-> 'ESCAPE': \"Close the game is paused\" dialog and resume the game.\n" +
                 "\n\n" +
                 "Thanks for reading the instructions, have fun playing Chips Challenge!\n\n\n" +
-                "");
+                "");*/
 
     }
 

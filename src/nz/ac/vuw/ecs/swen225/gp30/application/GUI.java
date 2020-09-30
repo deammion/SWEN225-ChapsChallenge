@@ -7,10 +7,11 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class GUI extends JFrame implements ActionListener, Runnable {
+public class GUI extends JFrame implements ActionListener {
 
     //Current level Chip is on.
-    public int gameLevel = 1;
+    int gameLevel = 1;
+    int chipsLeft = 5;
 
     //Boolean for game states.
     boolean recordAndReplayRunning = false;
@@ -21,8 +22,8 @@ public class GUI extends JFrame implements ActionListener, Runnable {
     long timeLeft = totalTime;
 
     //JComponents.
-    JFrame GUIFrame;
     JPanel gamePanel, infoPanel, containerPanel;
+    JLabel background;
 
     //JMenu Components.
     JMenuBar menuBar;
@@ -44,21 +45,20 @@ public class GUI extends JFrame implements ActionListener, Runnable {
     JMenu speed;
 
     GUI(){
-
         //Game panel component of the GUI, will hold the board to be rendered.
         gamePanel = new JPanel();
-        gamePanel.setBorder(BorderFactory.createTitledBorder("Game"));
+        gamePanel.setBorder(BorderFactory.createRaisedBevelBorder());
         gamePanel.setPreferredSize(new Dimension(468, 468));
 
         //Information panel component of the GUI
         infoPanel = new JPanel();
-        infoPanel.setBorder(BorderFactory.createTitledBorder("Info"));
+        infoPanel.setBorder(BorderFactory.createRaisedBevelBorder());
         infoPanel.setPreferredSize(new Dimension(200, 468));
         infoPanel.setLayout(new BoxLayout(infoPanel, BoxLayout.Y_AXIS));
 
-        levelText = new JLabel("Level: ");
-        timeText = new JLabel("Time: ");
-        chipsText = new JLabel("Chips Left: ");
+        levelText = new JLabel("Level: " + gameLevel);
+        timeText = new JLabel("Time: " + timeLeft + " seconds");
+        chipsText = new JLabel("Chips Left: " + chipsLeft);
 
         infoPanel.add(levelText);
         infoPanel.add(timeText);
@@ -98,7 +98,6 @@ public class GUI extends JFrame implements ActionListener, Runnable {
      * implemented too.
      */
     public void createMenu(){
-
         //MenuBar.
         menuBar = new JMenuBar();
 
@@ -141,13 +140,16 @@ public class GUI extends JFrame implements ActionListener, Runnable {
         speed = new JMenu("Replay Speed");
         speedButtonGroup = new ButtonGroup();
         speedSet0 = new JRadioButtonMenuItem("0.5x speed");
+        speedSet0.addActionListener(this);
         speedSet1 = new JRadioButtonMenuItem("1.0x speed", true);
+        speedSet1.addActionListener(this);
         speedSet2 = new JRadioButtonMenuItem("1.5x speed");
+        speedSet2.addActionListener(this);
         speedSet3 = new JRadioButtonMenuItem("2.0x speed");
+        speedSet3.addActionListener(this);
         speed.add(speedSet0); speed.add(speedSet1); speed.add(speedSet2); speed.add(speedSet3);
         speedButtonGroup.add(speedSet0); speedButtonGroup.add(speedSet1);
         speedButtonGroup.add(speedSet2); speedButtonGroup.add(speedSet3);
-
 
         //Add all the sun items to the menu.
         replay.add(step); replay.add(auto); replay.add(speed);
@@ -158,19 +160,16 @@ public class GUI extends JFrame implements ActionListener, Runnable {
 
         //Add Menu Components.
         menuBar.add(game); menuBar.add(options); menuBar.add(level); menuBar.add(replay); menuBar.add(help);
-
     }
 
     /**
      * The user of the game clicks on a menu item, this will invoke a method
      * which will Pause, Resume etc.
-     *
      * @param actionEvent - event happening.
      */
     @Override
     public void actionPerformed(ActionEvent actionEvent) {
         switch(actionEvent.getActionCommand()){
-
             //Game Menu Items.
             case "Pause":
                 //Invoke pause method.
@@ -183,7 +182,6 @@ public class GUI extends JFrame implements ActionListener, Runnable {
             case "Exit":
                 //Invoke exit method.
                 break;
-
             //Options Menu Items.
             case "Save":
                 //Invoke save method.
@@ -192,7 +190,6 @@ public class GUI extends JFrame implements ActionListener, Runnable {
             case "Load":
                 //Invoke load method.
                 break;
-
             //Level Menu Items.
             case "One":
                 //Invoke one method.
@@ -204,8 +201,6 @@ public class GUI extends JFrame implements ActionListener, Runnable {
             case "Three":
                 //Invoke three method.
                 break;
-
-
             //Replay Menu Items.
             case "Step-by-Step":
                 //Invoke step-by-step method.
@@ -215,7 +210,18 @@ public class GUI extends JFrame implements ActionListener, Runnable {
                 //Invoke auto-replay method.
                 System.out.println("You are in auto-replay\n");
                 break;
-
+            case "0.5x speed":
+                //Set speed to 0.5.
+                System.out.println("You are in 0.5x speed");
+            case "1.0x speed":
+                //Set speed to 1.0.
+                System.out.println("You are in 1.0x speed");
+            case "1.5x speed":
+                //Set speed to 1.5.
+                System.out.println("You are in 1.5x speed");
+            case "2.0x speed":
+                //Set speed to 2.0.
+                System.out.println("You are in 2.0x speed");
             //Help Menu Items.
             case "Help":
                 //Invoke help method (dialog box).
@@ -225,47 +231,8 @@ public class GUI extends JFrame implements ActionListener, Runnable {
     }
 
     /**
-     * Allows the game to run smoothly, takes care of the rendering updates and internal components. The
-     * time count down
-     */
-
-    @Override
-    public void run() {
-
-        //Game loop details:
-        //Implement the run method of the thread
-        //Create an infinite while loop
-        //Use a boolean variable running to control the loop.
-
-        while(true) {
-
-            if(!isGamePaused() && !isRecordAndReplayRunning()){
-
-                if(timeLeft > 0){
-
-                    //update the board
-
-                }
-
-            }
-
-        }
-
-        }
-
-    //Helper Methods all implemented below. The get/set/is methods:
-
-        // get the time left.
-        // get the player inventory.
-        // get the player treasure count.
-        // get the number of treasures in a level.
-
-
-
-    /**
      * Is the game is Record and Repay mode.
-     *
-      * @return - if the game is in record or replay mode.
+     * @return - if the game is in record or replay mode.
      */
     private boolean isRecordAndReplayRunning() {
         return recordAndReplayRunning;
@@ -273,7 +240,6 @@ public class GUI extends JFrame implements ActionListener, Runnable {
 
     /**
      * Is the game paused.
-     *
      * @return - if the game is paused or not.
      */
     private boolean isGamePaused() {
@@ -283,7 +249,6 @@ public class GUI extends JFrame implements ActionListener, Runnable {
     /**
      * The amount of time left in a level to be set, complimentary
      * for the pause option.
-     *
      * @param timeLeft - time left to complete a level
      */
     public void setTimeLeft(Long timeLeft){
@@ -292,7 +257,6 @@ public class GUI extends JFrame implements ActionListener, Runnable {
 
     /**
      * How much time is left to complete the current level.
-     *
      * @return - time left to complete the level.
      */
     public long getTimeLeft() {
@@ -301,7 +265,6 @@ public class GUI extends JFrame implements ActionListener, Runnable {
 
     /**
      * The level of the game the player is on.
-     *
      * @return - the level number.
      */
     public int getGameLevel(){
