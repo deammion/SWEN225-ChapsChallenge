@@ -21,7 +21,13 @@ public class HelpMenuListener extends JFrame implements MenuListener {
     public void menuSelected(MenuEvent menuEvent) {
         System.out.println("You are in the Help Menu - selected\n");
 
+        panel1 = new JPanel();
+        panel2 = new JPanel();
+        panel3 = new JPanel();
 
+        tabbedPane.add("Tab 1", panel1);
+        tabbedPane.add("Tab 2", panel2);
+        tabbedPane.add("Tab 3", panel3);
 
         //helpMenu = new JPanel();
         //helpMenu.setBorder(BorderFactory.createRaisedBevelBorder());
@@ -29,6 +35,7 @@ public class HelpMenuListener extends JFrame implements MenuListener {
         //helpMenu.setLayout(new FlowLayout());
 
         //this.add(helpMenu);
+        this.add(tabbedPane);
 
         //Master Frame, holds all menu components.
         this.setTitle("Instructions Menu: Chaps Challenge.");
