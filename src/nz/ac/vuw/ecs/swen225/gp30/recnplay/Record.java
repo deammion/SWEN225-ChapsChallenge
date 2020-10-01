@@ -1,19 +1,27 @@
 
 package nz.ac.vuw.ecs.swen225.gp30.recnplay;
 
+import nz.ac.vuw.ecs.swen225.gp30.maze.Move;
+
 import java.util.*;
 //FIXME whole class might not be needed if saving only game states, can refactor to split writeJSON class
 public class Record {
 
-    private ArrayList<String> playerActions;
-    private ArrayList<String> playerActionsReplay;
+    private ArrayList<String> playerActions = new ArrayList<>();
+    private ArrayList<String> playerActionsReplay = new ArrayList<>();
 
-    public void recordGameState(String action) {
-        playerActions = new ArrayList<>();
-        playerActionsReplay = new ArrayList<>();
-        recordActions(action);
+    private ArrayList<String> actorActions = new ArrayList<>();
+    private ArrayList<String> actorActionsReplay = new ArrayList<>();
+
+    public void recordPlayerAction(Move action) {
+        String s = convertMoveToString(action);
+        recordActions(s);
     }
 
+    public void recordActorActions(Move action) {
+        String s = convertMoveToString(action);
+        recordActorActions(s);
+    }
 
     public void recordActions(String a){ //will return an action not void
         addToPerformedActions(a);
@@ -29,20 +37,43 @@ public class Record {
         playerActions.add(a);
     }
 
+    public void recordActorActions(String s){
+        addToActorActions(s);
+        addToActorReplay(s);
+    }
+
+    public void addToActorActions(String a) { actorActions.add(a); }
+
+    public void addToActorReplay(String a) {
+        String revAct = reverseAction(a);
+        actorActionsReplay.add(revAct);
+    }
+
     public static String reverseAction(String a) {
-        String revAct = a;
-        switch (revAct){
+        switch (a){
             case "w":
-                revAct = "s";
+                return "s";
             case "a":
-                revAct = "d";
+                return "d";
             case "s":
-                revAct = "w";
+                return "w";
             case "d":
-                revAct = "a";
-            default:
-                break;
+                return "a";
         }
-        return revAct;
+        return null;
+    }
+
+    public static String convertMoveToString(Move a) {
+        switch (a){
+            case DOWN:
+                return "s";
+            case RIGHT:
+                return "d";
+            case UP:
+                return "w";
+            case LEFT:
+                return "a";
+        }
+        return null; // throw error
     }
 }

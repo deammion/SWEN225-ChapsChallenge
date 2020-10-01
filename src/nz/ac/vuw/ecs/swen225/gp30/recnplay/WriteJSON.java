@@ -1,9 +1,12 @@
 package nz.ac.vuw.ecs.swen225.gp30.recnplay;
 
+import nz.ac.vuw.ecs.swen225.gp30.maze.tile.Tile;
+
 import javax.json.*;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class WriteJSON {
 
@@ -31,32 +34,37 @@ public class WriteJSON {
         file = new File(dir + fileName);
     }
 
-    /**
-     * takes a gameState, iterators through it, saves each "tile" as a string.
-     * adds string to a string builder, then creates a Json object using that string.
-     * this json object is then added to the Json array builder
-     *
-     * @param gameState - 2d array representing the "Maze"/game state
-     */
-    public void storeGameState (Grid[][] gameState) { //FIXME get correct name of gameState object
-        StringBuilder s = new StringBuilder();
-
-        for(int rows = 0; rows < gameState.length; rows++) { //iterate thru gameState Array
-            for(int cols = 0; cols < gameState[rows].length; cols++) {
-                if(gameState[rows][cols] != null) {
-                    s.append(gameState[rows][cols].toString());//FIXME get write method to get tile description
-                    //FIXME might also need to add "|" depending on how level is read in
-                }
-            }
-            s.append("\n");
-        }
-
-        JsonObjectBuilder gameStateObj = Json.createObjectBuilder().add("gameState " + gameStateIndex++, s.toString()); //converts s to a JsonObject
-        arrayBuilder.add(gameStateObj); //adds JsonObject to JsonArray
-    }
+//    /**
+//     * takes a gameState, iterators through it, saves each "tile" as a string.
+//     * adds string to a string builder, then creates a Json object using that string.
+//     * this json object is then added to the Json array builder
+//     *
+//     * @param gameState - 2d array representing the "Maze"/game state
+//     */
+//    public void storeGameState (Tile[][] gameState) { //FIXME get correct name of gameState object
+//        StringBuilder s = new StringBuilder();
+//
+//        for(int rows = 0; rows < gameState.length; rows++) { //iterate thru gameState Array
+//            for(int cols = 0; cols < gameState[rows].length; cols++) {
+//                if(gameState[rows][cols] != null) {
+//                    s.append(gameState[rows][cols].toString());//FIXME get write method to get tile description
+//
+//                }
+//            }
+//            s.append("\n");
+//        }
+//
+//        JsonObjectBuilder gameStateObj = Json.createObjectBuilder().add("gameState " + gameStateIndex++, s.toString()); //converts s to a JsonObject
+//        arrayBuilder.add(gameStateObj); //adds JsonObject to JsonArray
+//    }
 
     public void storePlayerAction (String playerAction) { //FIXME not sure if needed
-        JsonObjectBuilder action = Json.createObjectBuilder().add("action " + moveIndex++,playerAction);
+        JsonObjectBuilder action = Json.createObjectBuilder().add("Player " + moveIndex++, playerAction);
+        arrayBuilder.add(action);
+    }
+
+    public void StoreActorAction (String actorAction) {
+        JsonObjectBuilder action = Json.createObjectBuilder().add("Actor " + moveIndex++,actorAction);
         arrayBuilder.add(action);
     }
 

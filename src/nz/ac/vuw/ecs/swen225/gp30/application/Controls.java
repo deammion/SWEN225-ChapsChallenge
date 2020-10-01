@@ -1,6 +1,7 @@
 package nz.ac.vuw.ecs.swen225.gp30.application;
 
 import nz.ac.vuw.ecs.swen225.gp30.maze.Move;
+import nz.ac.vuw.ecs.swen225.gp30.recnplay.*; //Added by Damien Tamasese
 
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -94,15 +95,19 @@ public class Controls extends KeyAdapter {
         else{
             switch(e.getKeyCode()) {
                 case 37: //LEFT, '<-' slow the game down.
+
                     System.out.println("You are in record mode, step back.");
                     break;
                 case 39: //RIGHT, '->' speed the game up.
+
                     System.out.println("You are in record mode, step forward.");
                     break;
                 case 38: //Up arrow, increase the speed.
+                    //Replay.increaseDelay(); //Added by Damien Tamasese
                     System.out.println("You are in record mode, speed up.");
                     break;
                 case 40: //Down arrow, decrease the speed.
+                    //Replay.decreaseDelay(); //Added by Damien Tamasese
                     System.out.println("You are in record mode, slow down.");
                     break;
             }

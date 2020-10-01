@@ -17,7 +17,8 @@ public class LoadJSON {
      * @return gameState - ArrayList consisting of Strings that can be read into a display
      */
     public static ArrayList<String> loadGameStates(String fileName){
-        ArrayList<String> gameStates = new ArrayList<>();
+        ArrayList<String> playerMoves = new ArrayList<>();
+        ArrayList<String> actorMoves = new ArrayList<>();
         try {
             String dir = "src/nz/ac/vuw/ecs/swen225/gp30/recnplay/";
             FileReader fr = new FileReader(new File(dir + fileName));
@@ -27,9 +28,12 @@ public class LoadJSON {
 
             for(int i =0; i < jsonArray.size(); i++) { //iterate through Json array
                 JsonObject jsonObj = jsonArray.get(i).asJsonObject(); //convert to Json object
-                JsonString jsonString = (JsonString) jsonObj.getValue("/gameState " + i); //convert gameState Json Object to string
-                String gameState = jsonString.getString();
-                gameStates.add(gameState);
+                JsonString jsonStringPlayer = (JsonString) jsonObj.getValue("/Player " + i); //convert gameState Json Object to string
+                JsonString jsonStringActor = (JsonString) jsonObj.getValue("/Actor " + i);
+                String playerAction = jsonStringPlayer.getString();
+                String actorAction = jsonStringActor.getString();
+                playerMoves.add(playerAction);
+                actorMoves.add(actorAction);
             }
 
             jsonParser.close();
@@ -38,6 +42,6 @@ public class LoadJSON {
             e.printStackTrace();
             return null;
         }
-        return gameStates; // return Arraylist of gameState Strings
+        return playerMoves; // return Arraylist of player moves as strings
     }
 }

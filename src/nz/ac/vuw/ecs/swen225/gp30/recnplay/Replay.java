@@ -8,7 +8,7 @@ public class Replay {
 
     private Boolean autoPlaying = false;
     private int index = 0;
-    private int delay = 5000;
+    private static int delay = 5000;
 
     public ArrayList<String> gameStates = new ArrayList<>();
 
@@ -80,22 +80,24 @@ public class Replay {
     /**
      * called by application, increases the time between steps on autoplay function
      */
-    public void increaseDelay(){
-        if(delay < 10000) {
+    public static void increaseDelay(){
+        if(delay < 5000) {
             delay += 1000;
         } else {
-            delay = 10000;
+            delay = 5000;
         }
     }
 
     /**
      * called by Application, decreases the time between steps on autoplay function
      */
-    public void decreaseDelay() {
+    public static void decreaseDelay() {
         if (delay > 1000) {
             delay -= 1000;
+        } else if (delay >= 1000){
+            delay = 500;
         } else {
-            delay = 1000;
+            delay = 250;
         }
     }
 }
