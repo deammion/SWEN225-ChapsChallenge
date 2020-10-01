@@ -8,9 +8,13 @@ import java.awt.*;
 
 public class HelpMenuListener extends JFrame implements MenuListener {
 
+    //Help Menu Components.
     JPanel gamePanel, controlPanel, miscPanel;
     JLabel gameInfo, controlInfo, miscInfo;
     JTabbedPane tabbedPane;
+
+    //Text Components.
+    JTextField gameInfoText, controlInfoText, miscInfoText;
 
     /**
      * If the help menu gets selected then open the instruction sheet which contains
@@ -31,7 +35,7 @@ public class HelpMenuListener extends JFrame implements MenuListener {
         gameInfo = new JLabel("CHAPS CHALLENGE");
         gameInfo.setHorizontalAlignment(SwingConstants.CENTER);
         gamePanel.add(gameInfo);
-        gamePanel.setPreferredSize(new Dimension(468,468));
+        gamePanel.setPreferredSize(new Dimension(468,438));
 
         //Control Panel Customization.
         controlPanel = new JPanel();
@@ -39,7 +43,7 @@ public class HelpMenuListener extends JFrame implements MenuListener {
         controlInfo = new JLabel("GAME CONTROLS");
         controlInfo.setHorizontalAlignment(SwingConstants.CENTER);
         controlPanel.add(controlInfo);
-        controlPanel.setPreferredSize(new Dimension(468,468));
+        controlPanel.setPreferredSize(new Dimension(468,438));
 
         //Misc Panel Customization.
         miscPanel = new JPanel();
@@ -47,7 +51,7 @@ public class HelpMenuListener extends JFrame implements MenuListener {
         miscInfo = new JLabel("EXTRA INFORMATION");
         miscInfo.setHorizontalAlignment(SwingConstants.CENTER);
         miscPanel.add(miscInfo);
-        miscPanel.setPreferredSize(new Dimension(468,468));
+        miscPanel.setPreferredSize(new Dimension(468,438));
 
         tabbedPane.add("Game", gamePanel);
         tabbedPane.add("Controls", controlPanel);
@@ -96,4 +100,7 @@ public class HelpMenuListener extends JFrame implements MenuListener {
     public void menuCanceled(MenuEvent menuEvent) {
         System.out.println("You are in the Help Menu - cancelled\n");
     }
+
+
+
 }

@@ -3,9 +3,7 @@ package nz.ac.vuw.ecs.swen225.gp30.maze;
 import nz.ac.vuw.ecs.swen225.gp30.maze.item.Item;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 public class Chap extends GameObject {
     private int x, y;
@@ -36,7 +34,7 @@ public class Chap extends GameObject {
 
     @Override
     public String getImageString() {
-        return "";
+        return "actor_chap.png";
     }
 
     public int getChipsCollected() {
