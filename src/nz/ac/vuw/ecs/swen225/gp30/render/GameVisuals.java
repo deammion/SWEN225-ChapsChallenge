@@ -90,10 +90,9 @@ public class GameVisuals extends JPanel{
 	
 	public void renderChap(Graphics g) {
 		GameObject chap = game.getChap();
-		int x = getScreenX(chap.getX());
-		int y = getScreenY(chap.getY());
-		g.setColor(Color.BLACK);
-		g.fillRect(x, y, 10, 10);
+		int screenX = getScreenX(chap.getX());
+		int screenY = getScreenY(chap.getY());
+		g.drawImage(getImageFromObject(chap), screenX, screenY, null);
 	}
 	
 	@Override
