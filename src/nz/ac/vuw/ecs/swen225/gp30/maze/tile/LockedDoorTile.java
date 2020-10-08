@@ -22,13 +22,14 @@ public class LockedDoorTile extends Tile {
     @Override
     public boolean addChap(Chap chap) {
         checkArgument(chap != null, "Chap cannot be null");
-        if(chap.consumeItem(keyToUnlock)) { unlocked = true; }
-        if(unlocked) {
-            chap.setAt(getX(), getY());
-            this.chap = chap;
-            return true;
+        if(!unlocked) {
+            if(chap.useItem(keyToUnlock)) { unlocked = true; }
+            else { return false; }
         }
-        return false;
+
+        chap.setAt(getX(), getY());
+        this.chap = chap;
+        return true;
     }
 
     @Override
