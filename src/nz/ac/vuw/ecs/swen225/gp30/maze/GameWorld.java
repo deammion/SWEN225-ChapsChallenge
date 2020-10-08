@@ -1,11 +1,10 @@
 package nz.ac.vuw.ecs.swen225.gp30.maze;
 
 import com.google.common.base.Preconditions;
+import nz.ac.vuw.ecs.swen225.gp30.Move;
 import nz.ac.vuw.ecs.swen225.gp30.maze.tile.ExitTile;
 import nz.ac.vuw.ecs.swen225.gp30.maze.tile.InfoTile;
 import nz.ac.vuw.ecs.swen225.gp30.maze.tile.Tile;
-
-import java.util.stream.Stream;
 
 import static com.google.common.base.Preconditions.checkArgument;
 
