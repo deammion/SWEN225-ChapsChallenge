@@ -42,6 +42,6 @@ public class ExitLockTile extends Tile {
 
     @Override
     public String getImageString() {
-        return unlocked? "free_tile.png" : "tile_exit_lock.png";
+        return unlocked? "tile_free.png" : "tile_exit_lock.png";
     }
 }
