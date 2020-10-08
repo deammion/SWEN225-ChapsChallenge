@@ -6,8 +6,8 @@ import nz.ac.vuw.ecs.swen225.gp30.maze.item.Item;
 import static com.google.common.base.Preconditions.checkArgument;
 
 public class LockedDoorTile extends Tile {
-    private Item keyToUnlock;
-    boolean unlocked = false;
+    private final Item keyToUnlock;
+    private boolean unlocked = false;
 
     public LockedDoorTile(int x, int y, Item keyToUnlock) {
         super(x, y);

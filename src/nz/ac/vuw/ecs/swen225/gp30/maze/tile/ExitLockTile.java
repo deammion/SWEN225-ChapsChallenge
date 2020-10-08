@@ -3,8 +3,8 @@ package nz.ac.vuw.ecs.swen225.gp30.maze.tile;
 import nz.ac.vuw.ecs.swen225.gp30.maze.Chap;
 
 public class ExitLockTile extends Tile {
-    int chipsRequired;
-    boolean unlocked = false;
+    private int chipsRequired;
+    private boolean unlocked = false;
 
     public ExitLockTile(int x, int y, int chipsRequired) {
         super(x, y);

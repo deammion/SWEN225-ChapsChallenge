@@ -3,7 +3,7 @@ package nz.ac.vuw.ecs.swen225.gp30.maze.tile;
 import nz.ac.vuw.ecs.swen225.gp30.maze.Chap;
 
 public class TreasureTile extends Tile {
-    Boolean collected = false;
+    private boolean collected = false;
 
     public TreasureTile(int x, int y) {
         super(x, y);

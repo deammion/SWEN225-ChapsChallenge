@@ -6,8 +6,8 @@ import nz.ac.vuw.ecs.swen225.gp30.maze.item.Item;
 import static com.google.common.base.Preconditions.checkArgument;
 
 public class KeyTile extends Tile {
-    Item key;
-    boolean collected = false;
+    private final Item key;
+    private boolean collected = false;
 
     public KeyTile(int x, int y, Item key) {
         super(x, y);
