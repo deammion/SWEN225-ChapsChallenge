@@ -57,8 +57,8 @@ public class Chap extends GameObject {
         return inventory.contains(item);
     }
 
-    public boolean consumeItem(Item item) {
-        return inventory.remove(item);
+    public boolean useItem(Item item) {
+        return item.isConsumable()? inventory.remove(item) : hasItem(item);
     }
 
     public void setActive(boolean active) {
@@ -67,5 +67,21 @@ public class Chap extends GameObject {
 
     public boolean isActive() {
         return active;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder invString = new StringBuilder();
+        invString.append("{");
+        for(Item i : inventory) { invString.append(i.toString()); invString.append(","); }
+        invString.append("}");
+
+        String info = "Chap: {"
+            + "\n\tx: " + x
+            + "\n\ty: " + y
+            + "\n\tchips_collected: " + chipsCollected
+            + "\n\tinventory: " + inventory.toString()
+            + "\n}";
+        return info;
     }
 }
