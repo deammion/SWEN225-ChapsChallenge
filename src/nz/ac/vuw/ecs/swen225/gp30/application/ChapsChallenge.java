@@ -1,10 +1,8 @@
 package nz.ac.vuw.ecs.swen225.gp30.application;
 import nz.ac.vuw.ecs.swen225.gp30.maze.GameWorld;
-import nz.ac.vuw.ecs.swen225.gp30.maze.Move;
+import nz.ac.vuw.ecs.swen225.gp30.Move;
 import nz.ac.vuw.ecs.swen225.gp30.persistence.writeFile;
 import nz.ac.vuw.ecs.swen225.gp30.render.GameVisuals;
-import nz.ac.vuw.ecs.swen225.gp30.recnplay.WriteJSON;
-import nz.ac.vuw.ecs.swen225.gp30.recnplay.Record;
 
 import javax.swing.*;
 
@@ -34,11 +32,9 @@ public class ChapsChallenge extends GUI {
      * @param move - direction.
      */
     public void move(Move move) {
-        System.out.println(move.toString());
         if(game.moveChap(move)) {
             //Record.recordPlayerAction(); //FIXME
         };
-        System.out.println("x: " + game.getChap().getX() + " y: " + game.getChap().getY());
     }
 
     /**

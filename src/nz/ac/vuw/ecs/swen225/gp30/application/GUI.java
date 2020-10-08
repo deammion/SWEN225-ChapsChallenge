@@ -1,7 +1,6 @@
 package nz.ac.vuw.ecs.swen225.gp30.application;
 
-import nz.ac.vuw.ecs.swen225.gp30.maze.GameWorld;
-import nz.ac.vuw.ecs.swen225.gp30.maze.Move;
+import nz.ac.vuw.ecs.swen225.gp30.Move;
 
 import javax.swing.*;
 import java.awt.*;

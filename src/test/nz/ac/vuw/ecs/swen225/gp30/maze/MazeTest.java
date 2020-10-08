@@ -2,7 +2,7 @@ package test.nz.ac.vuw.ecs.swen225.gp30.maze;
 
 import nz.ac.vuw.ecs.swen225.gp30.maze.Chap;
 import nz.ac.vuw.ecs.swen225.gp30.maze.GameWorld;
-import nz.ac.vuw.ecs.swen225.gp30.maze.Move;
+import nz.ac.vuw.ecs.swen225.gp30.Move;
 import nz.ac.vuw.ecs.swen225.gp30.maze.Maze;
 import nz.ac.vuw.ecs.swen225.gp30.maze.item.Item;
 import nz.ac.vuw.ecs.swen225.gp30.maze.tile.*;
@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class ChapTest {
+public class MazeTest {
 
     @Test
     public void validMoveTest_01() { // move chap onto free tile

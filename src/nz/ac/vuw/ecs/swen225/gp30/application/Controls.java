@@ -1,7 +1,6 @@
 package nz.ac.vuw.ecs.swen225.gp30.application;
 
-import nz.ac.vuw.ecs.swen225.gp30.maze.Move;
-import nz.ac.vuw.ecs.swen225.gp30.recnplay.*; //Added by Damien Tamasese
+import nz.ac.vuw.ecs.swen225.gp30.Move;
 
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
