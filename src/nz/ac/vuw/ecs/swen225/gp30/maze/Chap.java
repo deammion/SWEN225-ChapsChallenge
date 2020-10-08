@@ -71,17 +71,11 @@ public class Chap extends GameObject {
 
     @Override
     public String toString() {
-        StringBuilder invString = new StringBuilder();
-        invString.append("{");
-        for(Item i : inventory) { invString.append(i.toString()); invString.append(","); }
-        invString.append("}");
-
-        String info = "Chap: {"
+        return "Chap: {"
             + "\n\tx: " + x
             + "\n\ty: " + y
             + "\n\tchips_collected: " + chipsCollected
             + "\n\tinventory: " + inventory.toString()
             + "\n}";
-        return info;
     }
 }
