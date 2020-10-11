@@ -6,10 +6,22 @@ import nz.ac.vuw.ecs.swen225.gp30.maze.item.Item;
 
 import static com.google.common.base.Preconditions.checkArgument;
 
+/**
+ * The KeyTile class represents a tile that holds a key item that can be picked up.
+ *
+ * @author campliosca
+ */
 public class KeyTile extends Tile {
     private final Item key;
     private boolean collected = false;
 
+    /**
+     * Constructs a KeyTile with x and y position and the key item it contains
+     *
+     * @param x - the x position of the tile
+     * @param y - the y position of the tile
+     * @param key - the key the tile contains
+     */
     public KeyTile(int x, int y, Item key) {
         super(x, y);
         this.key = key;

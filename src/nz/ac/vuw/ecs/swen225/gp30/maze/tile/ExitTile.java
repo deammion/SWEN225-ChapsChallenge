@@ -5,8 +5,16 @@ import nz.ac.vuw.ecs.swen225.gp30.maze.IllegalMoveException;
 
 import static com.google.common.base.Preconditions.checkArgument;
 
+/**
+ * The ExitTile class represents the tile that will complete the level when moved to.
+ */
 public class ExitTile extends Tile {
 
+    /**
+     * Constructs an ExitTile with x and y position.
+     * @param x - the x position of the tile
+     * @param y - the y position of the tile
+     */
     public ExitTile(int x, int y) {
         super(x, y);
     }

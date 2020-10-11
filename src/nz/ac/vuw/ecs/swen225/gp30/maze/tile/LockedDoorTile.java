@@ -6,10 +6,21 @@ import nz.ac.vuw.ecs.swen225.gp30.maze.item.Item;
 
 import static com.google.common.base.Preconditions.checkArgument;
 
+/**
+ * The LockedDoorTile class represents a tile that can be unlocked and moved to if the chap has the required key.
+ *
+ * @author campliosca
+ */
 public class LockedDoorTile extends Tile {
     private final Item keyToUnlock;
     private boolean unlocked = false;
 
+    /**
+     * Constructs a LockedDoorTile with x and y position and key required to unlock.
+     * @param x - the x position of the tile
+     * @param y -the y position of the tile
+     * @param keyToUnlock - the key required to unlock the door
+     */
     public LockedDoorTile(int x, int y, Item keyToUnlock) {
         super(x, y);
         this.keyToUnlock = keyToUnlock;
@@ -27,7 +38,6 @@ public class LockedDoorTile extends Tile {
             if(chap.useItem(keyToUnlock)) { unlocked = true; }
             else { throw new IllegalMoveException("door is locked: " + keyToUnlock.toString() + " required to add chap"); }
         }
-
         chap.setAt(getX(), getY());
         this.chap = chap;
     }

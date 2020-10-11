@@ -3,9 +3,19 @@ package nz.ac.vuw.ecs.swen225.gp30.maze.tile;
 import nz.ac.vuw.ecs.swen225.gp30.maze.Chap;
 import nz.ac.vuw.ecs.swen225.gp30.maze.IllegalMoveException;
 
+/**
+ * The TreasureTile class represents a tile that contains a treasure which can be collected if chap moves onto the tile.
+ *
+ * @author campliosca
+ */
 public class TreasureTile extends Tile {
     private boolean collected = false;
 
+    /**
+     * Constructs a TreasureTile with x and y position.
+     * @param x - the x position of the tile
+     * @param y - the y position of the tile
+     */
     public TreasureTile(int x, int y) {
         super(x, y);
     }

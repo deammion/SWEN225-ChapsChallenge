@@ -5,8 +5,19 @@ import nz.ac.vuw.ecs.swen225.gp30.maze.IllegalMoveException;
 
 import static com.google.common.base.Preconditions.checkArgument;
 
+/**
+ * The InfoTile class represents a tile that if moved to will display level information.
+ *
+ * @author campliosca
+ */
 public class InfoTile extends Tile {
 
+    /**
+     * Constructs an InfoTile with x and y position.
+     *
+     * @param x - the x position of the tile
+     * @param y - the y position of the tile
+     */
     public InfoTile(int x, int y) {
         super(x, y);
     }
