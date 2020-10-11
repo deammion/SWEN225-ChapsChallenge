@@ -1,6 +1,7 @@
 package nz.ac.vuw.ecs.swen225.gp30.maze.tile;
 
 import nz.ac.vuw.ecs.swen225.gp30.maze.Chap;
+import nz.ac.vuw.ecs.swen225.gp30.maze.IllegalMoveException;
 
 public class ExitLockTile extends Tile {
     private int chipsRequired;
@@ -17,12 +18,11 @@ public class ExitLockTile extends Tile {
     }
 
     @Override
-    public boolean addChap(Chap chap) {
-        if(!canMoveTo(chap)) { throw new RuntimeException("not enough chips"); }
+    public void addChap(Chap chap) throws IllegalMoveException {
+        if(!canMoveTo(chap)) { throw new IllegalMoveException("required chips does not match chips collected"); }
         else { unlocked = true; }
         chap.setAt(getX(), getY());
         this.chap = chap;
-        return true;
     }
 
     @Override

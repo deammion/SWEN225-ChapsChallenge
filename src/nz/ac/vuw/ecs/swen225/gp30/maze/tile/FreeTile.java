@@ -2,7 +2,7 @@ package nz.ac.vuw.ecs.swen225.gp30.maze.tile;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import nz.ac.vuw.ecs.swen225.gp30.maze.Chap;
-import nz.ac.vuw.ecs.swen225.gp30.maze.item.Item;
+import nz.ac.vuw.ecs.swen225.gp30.maze.IllegalMoveException;
 
 public class FreeTile extends Tile {
 
@@ -16,11 +16,10 @@ public class FreeTile extends Tile {
     }
 
     @Override
-    public boolean addChap(Chap chap) {
+    public void addChap(Chap chap) throws IllegalMoveException {
         checkArgument(chap != null, "Chap cannot be null");
         chap.setAt(getX(), getY());
         this.chap = chap;
-        return true;
     }
 
     @Override

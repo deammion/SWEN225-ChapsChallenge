@@ -2,6 +2,7 @@ package nz.ac.vuw.ecs.swen225.gp30.maze.tile;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import nz.ac.vuw.ecs.swen225.gp30.maze.Chap;
+import nz.ac.vuw.ecs.swen225.gp30.maze.IllegalMoveException;
 
 public class WallTile extends Tile {
 
@@ -15,9 +16,9 @@ public class WallTile extends Tile {
     }
 
     @Override
-    public boolean addChap(Chap chap) {
+    public void addChap(Chap chap) throws IllegalMoveException {
         checkArgument(chap != null, "chap cannot be null");
-        throw new RuntimeException("solid tile");
+        throw new IllegalMoveException("cannot move onto a wall tile");
     }
 
     @Override

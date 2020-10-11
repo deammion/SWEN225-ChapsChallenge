@@ -1,6 +1,7 @@
 package nz.ac.vuw.ecs.swen225.gp30.maze.tile;
 
 import nz.ac.vuw.ecs.swen225.gp30.maze.Chap;
+import nz.ac.vuw.ecs.swen225.gp30.maze.IllegalMoveException;
 
 public class TreasureTile extends Tile {
     private boolean collected = false;
@@ -15,14 +16,13 @@ public class TreasureTile extends Tile {
     }
 
     @Override
-    public boolean addChap(Chap chap) {
+    public void addChap(Chap chap) throws IllegalMoveException {
         if(!collected) {
             chap.collectChip();
             collected = true;
         }
         chap.setAt(getX(), getY());
         this.chap = chap;
-        return false;
     }
 
     @Override
