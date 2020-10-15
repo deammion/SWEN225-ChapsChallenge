@@ -1,6 +1,7 @@
 package nz.ac.vuw.ecs.swen225.gp30.application;
 
 import nz.ac.vuw.ecs.swen225.gp30.Move;
+import nz.ac.vuw.ecs.swen225.gp30.recnplay.Replay;
 
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -9,6 +10,7 @@ public class Controls extends KeyAdapter {
 
     boolean recordMode = false;
     GUI game;
+    Replay rep;
 
     public Controls(GUI game){
         this.game = game;
@@ -94,19 +96,19 @@ public class Controls extends KeyAdapter {
         else{
             switch(e.getKeyCode()) {
                 case 37: //LEFT, '<-' slow the game down.
-
+                    rep.setAutoPlaying();
                     System.out.println("You are in record mode, step back.");
                     break;
                 case 39: //RIGHT, '->' speed the game up.
-
+                    rep.playNextMove();
                     System.out.println("You are in record mode, step forward.");
                     break;
                 case 38: //Up arrow, increase the speed.
-                    //Replay.increaseDelay(); //Added by Damien Tamasese
+                    rep.decreaseDelay();
                     System.out.println("You are in record mode, speed up.");
                     break;
                 case 40: //Down arrow, decrease the speed.
-                    //Replay.decreaseDelay(); //Added by Damien Tamasese
+                    rep.decreaseDelay();
                     System.out.println("You are in record mode, slow down.");
                     break;
             }

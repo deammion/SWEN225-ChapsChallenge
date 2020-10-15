@@ -2,6 +2,7 @@ package nz.ac.vuw.ecs.swen225.gp30.application;
 import nz.ac.vuw.ecs.swen225.gp30.maze.GameWorld;
 import nz.ac.vuw.ecs.swen225.gp30.Move;
 import nz.ac.vuw.ecs.swen225.gp30.persistence.writeFile;
+import nz.ac.vuw.ecs.swen225.gp30.recnplay.*;
 import nz.ac.vuw.ecs.swen225.gp30.render.GameVisuals;
 
 import javax.swing.*;
@@ -19,11 +20,14 @@ public class ChapsChallenge extends GUI {
     private GameState prevState = GameState.RUNNING;
     private GameWorld game;
     private GameVisuals renderer;
+    private WriteJSON wj;
 
     public ChapsChallenge() {
         loadLevel();
         setGamePanel(renderer);
         init();
+        wj = new WriteJSON();
+        wj.newSave();
         startGame();
     }
 
@@ -34,6 +38,7 @@ public class ChapsChallenge extends GUI {
     public void move(Move move) {
         if(game.moveChap(move)) {
             //Record.recordPlayerAction(); //FIXME
+            wj.storePlayerMove(move, 0); //FIXME need to have the time variable from game loop.
         };
     }
 
