@@ -36,51 +36,66 @@ public class Replay {
     }
 
     /**
-     * calls the getNextGameState method after a delay whilst auto play function/boolean is true
+     * gets the time from the next move in the playerMoves arraylist
+     * checks that against the game time, if the move time is less then the game timer
+     * the move is passed to application.
+     *
+     * @Param time - game timer
+     * @return Move - to be passed to application
      */
-    public void autoPlay(int time) {
-        while(autoPlaying) {
+    public Move autoPlay(int time) {
+        while (autoPlaying) {
             int playerMoveTime = convertStringToInt(playerMoves.get(playerIndex));
-                if(playerMoveTime < time){
-                    char move = playerMoves.get(playerIndex).charAt(0);
-                    convertStringTOMove(move);
-                    //send to application to move chap and actor
-                    playerIndex++;
-                    }
-                
-            if(!actorMoves.isEmpty()) {
-                int actorMoveTime = convertStringToInt(actorMoves.get(actorIndex));
-                if(actorMoveTime < time){
-                    char actorMove = actorMoves.get(actorIndex).charAt(0);
-                    convertStringTOMove(actorMove);
-                    //send to application to move chap and actor
-                    actorIndex++;
-                }
+            if (playerMoveTime < time) {
+                char stringMove = playerMoves.get(playerIndex).charAt(0);
+                Move move = convertStringTOMove(stringMove);
+                playerIndex++;
+                return move;
             }
         }
+        return null;
     }
 
     /**
-     * gets the next game state in the gameStates arraylist
-     * so it can be passed to the maze via levels to render
-     * can be called by application during step by step play back
-     * or by autoplay function
+     * gets the time from the next move in the actorMoves arraylist
+     * checks that against the game time, if the move time is less then the game timer
+     * the move is passed to application.
      *
-     * @return String - String that can be read into a gameState
+     * @Param time - game timer
+     * @return Move - to be passed to application
      */
-    public void playNextMove() {
-        if(playerIndex + 1 <= playerMoves.size() && !autoPlaying) {
-            playerIndex++;
-            Move playerMove = convertStringTOMove(playerMoves.get(playerIndex).charAt(0));
-            int playerTime = convertStringToInt(playerMoves.get(playerIndex));
-            int actorTime = convertStringToInt(actorMoves.get(actorIndex));
-            if (actorTime < playerTime) {
-                //pass actormove to app
+    public Move autoPlayActor(int time) {
+        if(!actorMoves.isEmpty()) {
+            int actorMoveTime = convertStringToInt(actorMoves.get(actorIndex));
+            if(actorMoveTime < time){
+                char stringMove = actorMoves.get(actorIndex).charAt(0);
+                Move actorMove = convertStringTOMove(stringMove);
                 actorIndex++;
+                return actorMove;
             }
-            //pass player move to app
-
         }
+        return  null;
+    }
+
+    /**
+     * gets the time from the actor arraylist and player arraylist
+     * compares these two ints, and returns the move with the lowest time.
+     * needs to be seperate from the auto play function to account for timer
+     *
+     * @return Move - to be passed to application
+     */
+    public Move playNextMove() {
+        if(playerIndex + 1 <= playerMoves.size() && !autoPlaying) {
+            int playerTime = convertStringToInt(playerMoves.get(playerIndex + 1));
+            int actorTime = convertStringToInt(actorMoves.get(actorIndex + 1));
+            if (actorTime < playerTime) {
+                actorIndex++;
+                return convertStringTOMove(playerMoves.get(actorIndex).charAt(0));
+            }
+            playerIndex++;
+            return convertStringTOMove(playerMoves.get(playerIndex).charAt(0));
+        }
+        return null;
     }
 
     /**
@@ -159,4 +174,5 @@ public class Replay {
     public int convertStringToInt(String s){
         return Integer.parseInt(s,1,s.length(),10);
     }
+
 }

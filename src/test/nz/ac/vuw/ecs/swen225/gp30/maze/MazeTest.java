@@ -7,7 +7,6 @@ import nz.ac.vuw.ecs.swen225.gp30.maze.Maze;
 import nz.ac.vuw.ecs.swen225.gp30.maze.item.Item;
 import nz.ac.vuw.ecs.swen225.gp30.maze.tile.*;
 import org.junit.jupiter.api.Test;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class MazeTest {
