@@ -22,8 +22,8 @@ public abstract class Tile extends GameObject {
 
     /**
      * Constructs a new Tile that stores the x and y position.
-     * @param x - the x position of the tile
-     * @param y - the y position of the tile
+     * @param x the x position of the tile
+     * @param y the y position of the tile
      */
     public Tile(int x, int y) {
         this.x = x;
@@ -32,7 +32,7 @@ public abstract class Tile extends GameObject {
 
     /**
      * Returns true if the chap is able to move to the tile.
-     * @param chap - chap being moved
+     * @param chap chap being moved
      * @return true only if the chap is allowed to move to the tile
      */
     public abstract boolean canMoveTo(Chap chap);
@@ -40,8 +40,8 @@ public abstract class Tile extends GameObject {
     /**
      * Tries to adds the chap to the tile if allowed and executes relevant game logic.
      * Throws IllegalMoveException if move is not possible.
-     * @param chap - chap being moved
-     * @throws IllegalMoveException - if the move is not possible
+     * @param chap chap being moved
+     * @throws IllegalMoveException if the move is not possible
      */
     public abstract void addChap(Chap chap) throws IllegalMoveException;
 

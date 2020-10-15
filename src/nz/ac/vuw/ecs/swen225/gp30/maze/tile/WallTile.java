@@ -1,6 +1,6 @@
 package nz.ac.vuw.ecs.swen225.gp30.maze.tile;
 
-import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
 import nz.ac.vuw.ecs.swen225.gp30.maze.Chap;
 import nz.ac.vuw.ecs.swen225.gp30.maze.IllegalMoveException;
 
@@ -13,8 +13,8 @@ public class WallTile extends Tile {
 
     /**
      * Constructs a WallTile with x and y position.
-     * @param x - the x position of the tile
-     * @param y - the y position of the tile
+     * @param x the x position of the tile
+     * @param y the y position of the tile
      */
     public WallTile(int x, int y) {
         super(x, y);
@@ -27,7 +27,7 @@ public class WallTile extends Tile {
 
     @Override
     public void addChap(Chap chap) throws IllegalMoveException {
-        checkArgument(chap != null, "chap cannot be null");
+        checkNotNull(chap);
         throw new IllegalMoveException("cannot move onto a wall tile");
     }
 
