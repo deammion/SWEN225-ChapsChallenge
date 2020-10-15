@@ -1,7 +1,8 @@
 
 package nz.ac.vuw.ecs.swen225.gp30.recnplay;
 
-import nz.ac.vuw.ecs.swen225.gp30.maze.Move;
+import nz.ac.vuw.ecs.swen225.gp30.Move;
+
 
 import java.util.ArrayList;
 
