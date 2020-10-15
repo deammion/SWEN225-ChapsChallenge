@@ -4,7 +4,7 @@ package nz.ac.vuw.ecs.swen225.gp30.recnplay;
 import nz.ac.vuw.ecs.swen225.gp30.Move;
 
 import java.util.*;
-//FIXME whole class might not be needed if saving only game states, can refactor to split writeJSON class
+
 public class Record {
 
     private ArrayList<String> playerActions = new ArrayList<>();
