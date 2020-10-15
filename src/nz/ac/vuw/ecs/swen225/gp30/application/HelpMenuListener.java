@@ -14,7 +14,7 @@ public class HelpMenuListener extends JFrame implements MenuListener {
     JTabbedPane tabbedPane;
 
     //Text Components.
-    JTextField gameInfoText, controlInfoText, miscInfoText;
+    JLabel gameInfoText, controlInfoText, miscInfoText;
 
     /**
      * If the help menu gets selected then open the instruction sheet which contains
@@ -34,7 +34,10 @@ public class HelpMenuListener extends JFrame implements MenuListener {
         gamePanel.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLoweredBevelBorder(), BorderFactory.createRaisedBevelBorder()));
         gameInfo = new JLabel("CHAPS CHALLENGE");
         gameInfo.setHorizontalAlignment(SwingConstants.CENTER);
+        gameInfoText = new JLabel(gameInfoTextText);
+        gameInfoText.setHorizontalAlignment(SwingConstants.CENTER);
         gamePanel.add(gameInfo);
+        gamePanel.add(gameInfoText);
         gamePanel.setPreferredSize(new Dimension(468,438));
 
         //Control Panel Customization.
@@ -64,31 +67,6 @@ public class HelpMenuListener extends JFrame implements MenuListener {
         this.pack();
         this.setFocusable(true);
 
-        //helpMenu = new JFrame();
-        //JOptionPane.showMessageDialog(helpMenu,"Welcome to the instructions: \n\n" +
-/*                "Chips Challenge is a game where you (Chip) navigates around a maze collecting \n" +
-                "items off the floor into your inventory. The keyboard controls for the game are \n" +
-                "listed below to familiarise yourself with the game: \n\n" +
-                "" +
-                "-> 'A' & Left Arrow: Move Left.\n" +
-                "-> 'W' & Upwards Arrow: Move Upwards.\n" +
-                "-> 'S' & Downwards Arrow: Move Down.\n" +
-                "-> 'D' & Right Arrow : Move Right.\n" +
-                "\n" +
-                "The game also has menu items that can be accessed using shortcut keys, the keys \n" +
-                "will allow you to manipulate the game state as described below: \n\n" +
-                "" +
-                "-> 'Ctrl-X': Exit the game, current state will be lost. Game resumes from level beginning.\n" +
-                "-> 'Ctrl-S': Exit the game, current state will be saved. Game resumes from saved position.\n" +
-                "-> 'Ctrl-R': Resume a saved game.\n" +
-                "-> 'Ctrl-P': Start a new game at the last unfinished level.\n" +
-                "-> 'Ctrl-1': Start a new game at level 1.\n" +
-                "-> 'SPACE' : Pause the game, will display a game paused dialog.\n" +
-                "-> 'ESCAPE': \"Close the game is paused\" dialog and resume the game.\n" +
-                "\n\n" +
-                "Thanks for reading the instructions, have fun playing Chips Challenge!\n\n\n" +
-                "");*/
-
     }
 
     @Override
@@ -101,6 +79,12 @@ public class HelpMenuListener extends JFrame implements MenuListener {
         System.out.println("You are in the Help Menu - cancelled\n");
     }
 
-
+    String gameInfoTextText =
+            "Before Chip can join the Bit Busters computer club and hang out with the girl of his dreams, \n" +
+                    " Melinda the Mental Marvel, he must solve all 144 challenging puzzles.\n" +
+            "\n" +
+            "Your bird's-eye view can help Chip rush through the puzzles and mazes before he's deleted by monsters, traps and the passage of time. Show Chip how to use blocks of soil to overcome water traps and cherry bombs, find keys, and pick up the computer chips which Chip needs to solve some puzzles.\n" +
+            "\n" +
+            "Can you help Chip win the cold heart of his one true love and become an official Bit Buster? If you can't, no one can!";
 
 }

@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 public class Replay {
 
-    private Boolean autoPlaying = false;
+    public Boolean autoPlaying = false;
     private int playerIndex = 0;
     private int actorIndex = 0;
     private double delay = 1;

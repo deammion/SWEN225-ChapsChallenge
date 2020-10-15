@@ -208,10 +208,12 @@ public abstract class GUI extends JFrame implements ActionListener {
             //Replay Menu Items.
             case "Step-by-Step":
                 //Invoke step-by-step method.
+
                 System.out.println("You are in step-by-step\n");
                 break;
             case "Auto-Replay":
                 //Invoke auto-replay method.
+
                 System.out.println("You are in auto-replay\n");
                 break;
             case "0.5x speed":
