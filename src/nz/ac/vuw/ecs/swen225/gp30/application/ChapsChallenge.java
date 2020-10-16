@@ -27,7 +27,7 @@ public class ChapsChallenge extends GUI {
         loadLevel();
         setGamePanel(renderer);
         init();
-        WriteJSON wj = new WriteJSON();
+        wj = new WriteJSON();
         startGame();
 
     }
@@ -92,11 +92,15 @@ public class ChapsChallenge extends GUI {
                             // game.loadLevel(xx)
                             // winning logic
                             // next level
+                            System.out.println("Game: WON");
+                            wj.writeJsonToFile();
                             break;
                         case DEAD:
                             // show dead prompt?
                             // restart level
                             //game.loadLevel()
+                            System.out.println("Game: DEAD");
+                            wj.writeJsonToFile();
                             break;
                     }
                     checkGameState();
