@@ -134,7 +134,7 @@ public class HelpMenuListener extends JFrame implements MenuListener {
                             + "Games TM! \n\n"
                             + "Enjoy playing our Game! \n";
 
-    String controlInfoTextText = "The key shortcuts to help you play the game are categorized below: \n\n"
+    String controlInfoTextText = "The keyboard shortcuts to help you play the game are categorized below: \n\n"
                             + "Standard Controls: \n"
                             + "W & 'Upwards Arrow Key' - Move Up.\n"
                             + "A & 'Left Arrow Key' - Move Left.\n"
@@ -150,20 +150,20 @@ public class HelpMenuListener extends JFrame implements MenuListener {
                             + "Record and Replay Controls:\n"
                             + "'Up Arrow Key' - Increase Replay Speed\n"
                             + "'Down Arrow Key' - Decrease Replay Speed\n"
-                            + "'Left Arrow Key' -  \n"
-                            + "'Right Arrow Key' - \n";
-
+                            + "'Left Arrow Key' - Step backwards\n"
+                            + "'Right Arrow Key' - Step forwards\n"
+                            + "Space Bar - Pause/Resume\n";
 
     String miscInfoTextText = "This version of Chips Challenge has been created as a SWEN225 Group\n"
                             + "Project to bring together and showcase the techniques we have used\n"
                             + "over the course of the trimester in a small game.\n\n"
-                            + "This implementation of the game has been created by: \n\n"
+                            + "This implementation of the game has been created by: \n\n\n"
                             + "Damien Tamasese - Record and Replay Package\n"
                             + "Joshua Cook-Harding - Persistence Package\n"
                             + "Jake Hobbs - Application Package\n"
                             + "Pranav Gohil - Renderer Package\n"
                             + "Oscar Camplin - Maze Package\n\n"
-                            + "We hope you enjoy the game!\n\n\n\n\n\n\n\n"
+                            + "We hope you enjoy the game!\n\n\n\n\n\n\n"
                             + "Created September - October 2020\n\n";
 
 

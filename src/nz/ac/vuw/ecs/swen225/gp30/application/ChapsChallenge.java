@@ -80,6 +80,7 @@ public class ChapsChallenge extends GUI {
                 while(true) {
                     switch(state) {
                         case PAUSED:
+                            //Create a JOptionPane. Stop time countdown.
                             break;
                         case INFO:
                             displayInfo();
