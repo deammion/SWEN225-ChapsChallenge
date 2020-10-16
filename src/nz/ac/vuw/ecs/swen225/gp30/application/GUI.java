@@ -1,6 +1,7 @@
 package nz.ac.vuw.ecs.swen225.gp30.application;
 
 import nz.ac.vuw.ecs.swen225.gp30.Move;
+import nz.ac.vuw.ecs.swen225.gp30.recnplay.WriteJSON;
 
 import javax.swing.*;
 import java.awt.*;
@@ -184,6 +185,8 @@ public abstract class GUI extends JFrame implements ActionListener {
                 System.out.println("You are in the Resume\n");
                 break;
             case "Exit":
+
+
                 //Invoke exit method.
                 break;
             //Options Menu Items.

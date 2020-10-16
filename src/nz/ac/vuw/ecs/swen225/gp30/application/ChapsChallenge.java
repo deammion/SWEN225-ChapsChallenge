@@ -20,15 +20,16 @@ public class ChapsChallenge extends GUI {
     private GameState prevState = GameState.RUNNING;
     private GameWorld game;
     private GameVisuals renderer;
-    private WriteJSON wj;
+    WriteJSON wj;
 
     public ChapsChallenge() {
+
         loadLevel();
         setGamePanel(renderer);
         init();
-        wj = new WriteJSON();
-        wj.newSave();
+        WriteJSON wj = new WriteJSON();
         startGame();
+
     }
 
     /**
@@ -42,6 +43,11 @@ public class ChapsChallenge extends GUI {
         };
     }
 
+    //Call when exiting the game.
+
+    public void saveReplay() {
+        wj.writeJsonToFile();
+    }
     /**
      * Method which will pause the game.
      */
@@ -137,4 +143,5 @@ public class ChapsChallenge extends GUI {
                 }
         );
     }
+
 }

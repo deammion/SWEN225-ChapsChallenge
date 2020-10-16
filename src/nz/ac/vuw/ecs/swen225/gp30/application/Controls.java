@@ -108,7 +108,7 @@ public class Controls extends KeyAdapter {
                     System.out.println("You are in record mode, speed up.");
                     break;
                 case 40: //Down arrow, decrease the speed.
-                    rep.decreaseDelay();
+                    rep.increaseDelay();
                     System.out.println("You are in record mode, slow down.");
                     break;
             }
