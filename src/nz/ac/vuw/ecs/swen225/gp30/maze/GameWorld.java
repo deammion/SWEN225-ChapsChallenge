@@ -40,6 +40,7 @@ public class GameWorld {
         else {
             oldTile.removeChap();
             setChapOnMaze(newTile.getX(), newTile.getY());
+            chap.setDirection(move);
         }
         return true;
     }
