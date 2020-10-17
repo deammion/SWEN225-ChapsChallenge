@@ -32,7 +32,7 @@ public class GameVisuals extends JPanel{
 	public GameVisuals(GameWorld game) {
 		this.game = game;
 		this.setPreferredSize((new Dimension(TILE_SIZE*CAMERA_VIEW, TILE_SIZE*CAMERA_VIEW)));
-		this.setBorder(BorderFactory.createRaisedBevelBorder());
+		this.setBorder(BorderFactory.createLineBorder(Color.BLACK, 3));
 	}
 
 	public void setInfoText(String text) {

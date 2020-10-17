@@ -1,8 +1,11 @@
 package nz.ac.vuw.ecs.swen225.gp30.application;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.IOException;
 
 public class GUI extends JFrame {
 
@@ -44,13 +47,16 @@ public class GUI extends JFrame {
 
         //Information panel component of the GUI
         dashPanel = new JPanel();
-        dashPanel.setBorder(BorderFactory.createRaisedBevelBorder());
+        dashPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         dashPanel.setPreferredSize(new Dimension(200, 378));
         dashPanel.setLayout(new BoxLayout(dashPanel, BoxLayout.Y_AXIS));
         //Information Panel text Components.
         levelText = new JLabel("Level: " + gameLevel + " ");
+        levelText.setBorder(BorderFactory.createEmptyBorder(10,30,10,10));
         timeText = new JLabel();
+        timeText.setBorder(BorderFactory.createEmptyBorder(10,27,10,10));
         chipsText = new JLabel("Chips Left: " + chipsLeft + " ");
+        chipsText.setBorder(BorderFactory.createEmptyBorder(10,14,10,10));
         // container for text
         infoPanel = new JPanel();
         infoPanel.setLayout(new BoxLayout(infoPanel, BoxLayout.Y_AXIS));
@@ -63,11 +69,22 @@ public class GUI extends JFrame {
 
         //Add text components to the info panel.
         dashPanel.add(infoPanel);
-        dashPanel.add(Box.createRigidArea(new Dimension(0, 100)));
+        dashPanel.add(Box.createRigidArea(new Dimension(60, 100)));
+        dashPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 3));
         dashPanel.add(invPanel);
 
         //Container panel which is the Master container.
-        containerPanel = new JPanel();
+        containerPanel = new JPanel() {
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                try {
+                    g.drawImage(ImageIO.read(new File("assets/circuit_board_background.jpg")), 0, 0, null);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        };
         containerPanel.add(gamePanel);
         containerPanel.add(Box.createRigidArea(new Dimension(10, 0)));
         containerPanel.add(dashPanel);

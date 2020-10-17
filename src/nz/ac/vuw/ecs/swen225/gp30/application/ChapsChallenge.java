@@ -113,6 +113,7 @@ public class ChapsChallenge {
                             break;
                         case RUNNING:
                             // update
+                            checkInfo();
                             // render
                             renderer.repaint();
                             break;
@@ -151,14 +152,20 @@ public class ChapsChallenge {
         inv.repaint();
     }
 
+    public void checkInfo() {
+        if(game.isChapOnInfo()) {
+            renderer.setInfoText(game.getLevelInfo());
+            renderer.toggleInfo(true);
+        } else {
+            renderer.toggleInfo(false);
+        }
+    }
+
     /**
      * Check which state the game is currently in. This can either
      * be INFO, WON or DEAD.
      */
     public void checkGameState() {
-        if (game.isChapOnInfo()) {
-            state = GameState.INFO;
-        }
         if (game.isChapOnExit()) {
             state = GameState.WON;
         }
