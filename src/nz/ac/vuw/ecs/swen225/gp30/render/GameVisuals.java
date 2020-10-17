@@ -12,7 +12,6 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.Collection;
-import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -27,11 +26,25 @@ public class GameVisuals extends JPanel{
 	private final int TILE_SIZE = 42;
 	private final int CAMERA_VIEW = 9;
 	private final Color BG_COLOR = new Color(144, 164, 174);
+	private String infoText;
+	public boolean toggleInfo = false;
 	
 	public GameVisuals(GameWorld game) {
 		this.game = game;
 		this.setPreferredSize((new Dimension(TILE_SIZE*CAMERA_VIEW, TILE_SIZE*CAMERA_VIEW)));
 		this.setBorder(BorderFactory.createRaisedBevelBorder());
+	}
+
+	public void setInfoText(String text) {
+		this.infoText = text;
+	}
+
+	public void toggleInfo(boolean toggle) {
+		toggleInfo = toggle;
+	}
+
+	public boolean isInfoToggled() {
+		return toggleInfo;
 	}
 
 	public Collection<Tile> getTilesToRender() {
@@ -104,7 +117,12 @@ public class GameVisuals extends JPanel{
 		g.translate(-transX, -transY);
 		renderTiles(g);
 		renderChap(g);
+		if(toggleInfo) {
+			g.setColor(Color.BLACK);
+			g.drawString(infoText, getScreenX(game.getChap().getX()), getScreenY(game.getChap().getY()));
+		}
 		g.translate(transX, transY);
 	}
 }
+ 
  
