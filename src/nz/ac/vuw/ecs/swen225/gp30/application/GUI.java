@@ -15,7 +15,8 @@ public class GUI extends JFrame {
     boolean gamePaused = false;
 
     //JComponents.
-    JPanel gamePanel, infoPanel, containerPanel;
+    JPanel gamePanel, dashPanel, infoPanel, containerPanel;
+    InventoryPanel invPanel;
 
     //JMenu Components.
     JMenuBar menuBar;
@@ -42,24 +43,34 @@ public class GUI extends JFrame {
     public void init() {
 
         //Information panel component of the GUI
-        infoPanel = new JPanel();
-        infoPanel.setBorder(BorderFactory.createRaisedBevelBorder());
-        infoPanel.setPreferredSize(new Dimension(200, 378));
-        infoPanel.setLayout(new BoxLayout(infoPanel, BoxLayout.Y_AXIS));
+        dashPanel = new JPanel();
+        dashPanel.setBorder(BorderFactory.createRaisedBevelBorder());
+        dashPanel.setPreferredSize(new Dimension(200, 378));
+        dashPanel.setLayout(new BoxLayout(dashPanel, BoxLayout.Y_AXIS));
         //Information Panel text Components.
-        levelText = new JLabel("Level: " + gameLevel);
+        levelText = new JLabel("Level: " + gameLevel + " ");
         timeText = new JLabel();
         chipsText = new JLabel("Chips Left: " + chipsLeft + " ");
-        //Add text components to the info panel.
+        // container for text
+        infoPanel = new JPanel();
+        infoPanel.setLayout(new BoxLayout(infoPanel, BoxLayout.Y_AXIS));
         infoPanel.add(levelText);
         infoPanel.add(timeText);
         infoPanel.add(chipsText);
+
+        //inv panel
+        invPanel = new InventoryPanel();
+
+        //Add text components to the info panel.
+        dashPanel.add(infoPanel);
+        dashPanel.add(Box.createRigidArea(new Dimension(0, 100)));
+        dashPanel.add(invPanel);
 
         //Container panel which is the Master container.
         containerPanel = new JPanel();
         containerPanel.add(gamePanel);
         containerPanel.add(Box.createRigidArea(new Dimension(10, 0)));
-        containerPanel.add(infoPanel);
+        containerPanel.add(dashPanel);
         containerPanel.setBorder(BorderFactory.createEmptyBorder(25, 50,50, 50));
         containerPanel.setLayout(new FlowLayout());
 
@@ -163,6 +174,10 @@ public class GUI extends JFrame {
         this.exit.addActionListener(listener);
     }
 
+    public InventoryPanel getInventoryPanel() {
+        return invPanel;
+    }
+
     /**
      * Panel in the GUI which holds the rendered board, holds chap
      * and all other drawn tiles.
@@ -198,4 +213,6 @@ public class GUI extends JFrame {
         timeText.setText("Time: " + timeLeft);
     }
 }
+
+
 

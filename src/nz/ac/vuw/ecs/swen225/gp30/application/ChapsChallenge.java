@@ -6,7 +6,6 @@ import nz.ac.vuw.ecs.swen225.gp30.persistence.writeFile;
 import nz.ac.vuw.ecs.swen225.gp30.recnplay.*;
 import nz.ac.vuw.ecs.swen225.gp30.render.GameVisuals;
 
-import javax.naming.ldap.Control;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -133,6 +132,7 @@ public class ChapsChallenge {
                             break;
                     }
                     checkGameState();
+                    updateDashboard();
 
                     try {
                         Thread.sleep(start + (long)1000/30 - System.currentTimeMillis());
@@ -143,6 +143,12 @@ public class ChapsChallenge {
             }
         };
         new Thread(runnableGame).start();
+    }
+
+    public void updateDashboard() {
+        InventoryPanel inv = gui.getInventoryPanel();
+        inv.setItemsToDisplay(game.getChap().getInventory());
+        inv.repaint();
     }
 
     /**
