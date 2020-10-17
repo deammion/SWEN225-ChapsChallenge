@@ -14,7 +14,6 @@ public class ChapsChallenge {
     enum GameState {
         RUNNING,
         PAUSED,
-        INFO,
         WON,
         DEAD,
         TIMEOUT
@@ -40,6 +39,7 @@ public class ChapsChallenge {
         gui.setGamePanel(renderer);
         Controls control = new Controls(this);
         gui.init();
+        gui.setTimeLeft(timeLeft);
         gui.addKeyListener(control);
         gui.setActionListeners(control);
 

@@ -13,7 +13,7 @@ import java.util.List;
 
 public class InventoryPanel extends JPanel {
     private final int TILE_SIZE = 42;
-    private final int PANEL_TILE_WIDTH = 4;
+    private final int PANEL_TILE_WIDTH = 6;
     private final int PANEL_TILE_HEIGHT = 2;
 
     List<Item> itemsToDisplay;
@@ -24,7 +24,8 @@ public class InventoryPanel extends JPanel {
 
     InventoryPanel() {
         itemsToDisplay = new ArrayList<>();
-        setPreferredSize((new Dimension(TILE_SIZE*PANEL_TILE_WIDTH, TILE_SIZE*PANEL_TILE_HEIGHT)));
+        setMaximumSize(((new Dimension(TILE_SIZE*PANEL_TILE_WIDTH, TILE_SIZE*PANEL_TILE_HEIGHT))));
+        this.setBorder(BorderFactory.createLineBorder(Color.BLACK, 3));
     }
 
     public BufferedImage getImage(Item i) {
