@@ -1,5 +1,6 @@
 package nz.ac.vuw.ecs.swen225.gp30.maze;
 
+import nz.ac.vuw.ecs.swen225.gp30.Move;
 import nz.ac.vuw.ecs.swen225.gp30.maze.item.Item;
 
 import java.util.ArrayList;
@@ -10,6 +11,7 @@ public class Chap extends GameObject {
     private final List<Item> inventory;
     private int chipsCollected;
     private boolean active;
+    private Move dir;
 
     public Chap(int x, int y) {
         this.x = x;
@@ -17,6 +19,7 @@ public class Chap extends GameObject {
         inventory = new ArrayList<>();
         chipsCollected = 0;
         active = true;
+        dir = Move.DOWN;
     }
 
     public void setAt(int x, int y) {
@@ -32,9 +35,23 @@ public class Chap extends GameObject {
         return y;
     }
 
+    public void setDirection(Move dir) {
+        this.dir = dir;
+    }
+
     @Override
     public String getImageString() {
-        return "actor_chap.png";
+        switch(dir) {
+            case UP:
+                return "actor_chap_up.png";
+            case DOWN:
+                return "actor_chap_down.png";
+            case LEFT:
+                return "actor_chap_left.png";
+            case RIGHT:
+                return "actor_chap_right.png";
+        }
+        return null;
     }
 
     public int getChipsCollected() {
