@@ -1,13 +1,17 @@
 package nz.ac.vuw.ecs.swen225.gp30.application;
 
 import nz.ac.vuw.ecs.swen225.gp30.Move;
+import nz.ac.vuw.ecs.swen225.gp30.recnplay.LoadJSON;
+import nz.ac.vuw.ecs.swen225.gp30.recnplay.WriteJSON;
 
 import javax.swing.*;
+import javax.swing.filechooser.FileSystemView;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 
-public abstract class GUI extends JFrame implements ActionListener {
+public class GUI extends JFrame implements ActionListener {
 
     //Current level Chip is on.
     int gameLevel = 1;
@@ -16,10 +20,6 @@ public abstract class GUI extends JFrame implements ActionListener {
     //Boolean for game states.
     boolean recordAndReplayRunning = false;
     boolean gamePaused = false;
-
-    //Timing Component for the Game.
-    long totalTime = 100;
-    long timeLeft = totalTime;
 
     //JComponents.
     JPanel gamePanel, infoPanel, containerPanel;
@@ -41,20 +41,21 @@ public abstract class GUI extends JFrame implements ActionListener {
     //Replay Menu Items.
     JRadioButtonMenuItem speedSet0, speedSet1, speedSet2, speedSet3;
     ButtonGroup speedButtonGroup;
-    JMenuItem step, auto;
+    JMenuItem step, auto, recLoad;
     JMenu speed;
 
     public void init() {
+
         //Information panel component of the GUI
         infoPanel = new JPanel();
         infoPanel.setBorder(BorderFactory.createRaisedBevelBorder());
         infoPanel.setPreferredSize(new Dimension(200, 378));
         infoPanel.setLayout(new BoxLayout(infoPanel, BoxLayout.Y_AXIS));
-
+        //Information Panel text Components.
         levelText = new JLabel("Level: " + gameLevel);
-        timeText = new JLabel("Time: " + timeLeft + " seconds");
+        timeText = new JLabel();
         chipsText = new JLabel("Chips Left: " + chipsLeft + " ");
-
+        //Add text components to the info panel.
         infoPanel.add(levelText);
         infoPanel.add(timeText);
         infoPanel.add(chipsText);
@@ -67,6 +68,7 @@ public abstract class GUI extends JFrame implements ActionListener {
         containerPanel.setBorder(BorderFactory.createEmptyBorder(25, 50,50, 50));
         containerPanel.setLayout(new FlowLayout());
 
+        //Set the attributes for the master JFrame.
         this.setContentPane(containerPanel);
         this.setResizable(false);
         this.setLayout(new FlowLayout());
@@ -81,9 +83,7 @@ public abstract class GUI extends JFrame implements ActionListener {
         this.add(menuBar);
         this.setJMenuBar(menuBar);
 
-        //Key listener set up.
         setFocusable(true);
-        this.addKeyListener(new Controls(this));
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
@@ -129,6 +129,8 @@ public abstract class GUI extends JFrame implements ActionListener {
         step.addActionListener(this);
         auto = new JMenuItem("Auto-Replay");
         auto.addActionListener(this);
+        recLoad = new JMenuItem("Load File");
+        recLoad.addActionListener(this);
 
         //The replay speed setting submenu setup.
         speed = new JMenu("Replay Speed");
@@ -146,7 +148,7 @@ public abstract class GUI extends JFrame implements ActionListener {
         speedButtonGroup.add(speedSet2); speedButtonGroup.add(speedSet3);
 
         //Add all the sun items to the menu.
-        replay.add(step); replay.add(auto); replay.add(speed);
+        replay.add(step); replay.add(auto); replay.add(recLoad); replay.add(speed);
 
         //Help Menu.
         help = new JMenu("Help");
@@ -159,12 +161,6 @@ public abstract class GUI extends JFrame implements ActionListener {
     public void setGamePanel(JPanel gamePanel) {
         this.gamePanel = gamePanel;
     }
-
-    abstract void move(Move move);
-
-    abstract void pause();
-
-    abstract void resume();
 
     /**
      * The user of the game clicks on a menu item, this will invoke a method
@@ -208,13 +204,16 @@ public abstract class GUI extends JFrame implements ActionListener {
             //Replay Menu Items.
             case "Step-by-Step":
                 //Invoke step-by-step method.
-
                 System.out.println("You are in step-by-step\n");
                 break;
             case "Auto-Replay":
                 //Invoke auto-replay method.
-
                 System.out.println("You are in auto-replay\n");
+                break;
+            case "Load File":
+                //Load a file for Record and Replay.
+                loadRecordAndReplayFile();
+                System.out.println("You are in load file\n");
                 break;
             case "0.5x speed":
                 //Set speed to 0.5.
@@ -237,6 +236,23 @@ public abstract class GUI extends JFrame implements ActionListener {
     }
 
     /**
+     * Method to load and pass a file for Record and Replay to use to show
+     * a previously recorded game.
+     */
+    public void loadRecordAndReplayFile(){
+
+        //Open the file chooser directory to get file name for Record and Replay.
+        JFileChooser fileChooser = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
+        int fileReturnValue = fileChooser.showOpenDialog(null);
+        if(fileReturnValue == JFileChooser.APPROVE_OPTION){
+            File selectedFile = fileChooser.getSelectedFile();
+            //Call LoadJSON.loadPlayerMoves(selectedFile);
+            System.out.println(selectedFile.getName());
+        }
+    }
+
+
+    /**
      * Is the game is Record and Repay mode.
      * @return - if the game is in record or replay mode.
      */
@@ -257,25 +273,8 @@ public abstract class GUI extends JFrame implements ActionListener {
      * for the pause option.
      * @param timeLeft - time left to complete a level
      */
-    public void setTimeLeft(Long timeLeft){
-        this.timeLeft = timeLeft;
+    public void setTimeLeft(int timeLeft){
+        timeText.setText("Time: " + timeLeft);
     }
-
-    /**
-     * How much time is left to complete the current level.
-     * @return - time left to complete the level.
-     */
-    public long getTimeLeft() {
-        return timeLeft;
-    }
-
-    /**
-     * The level of the game the player is on.
-     * @return - the level number.
-     */
-    public int getGameLevel(){
-        return gameLevel;
-    }
-
 }
 

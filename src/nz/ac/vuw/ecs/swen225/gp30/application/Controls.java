@@ -2,17 +2,16 @@ package nz.ac.vuw.ecs.swen225.gp30.application;
 
 import nz.ac.vuw.ecs.swen225.gp30.Move;
 import nz.ac.vuw.ecs.swen225.gp30.recnplay.Replay;
-
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
 public class Controls extends KeyAdapter {
 
-    boolean recordMode = false;
-    GUI game;
-    Replay rep;
+    private boolean recordMode = false;
+    private ChapsChallenge game;
+    private Replay rep;
 
-    public Controls(GUI game){
+    public Controls(ChapsChallenge game){
         this.game = game;
     }
 
@@ -65,7 +64,6 @@ public class Controls extends KeyAdapter {
                         game.resume();
                         //Escape - close the "game is paused" dialog and resume the game.
                         break;
-
                 }
             } else {
                 switch (e.getKeyCode()) {
@@ -95,11 +93,11 @@ public class Controls extends KeyAdapter {
         }
         else{
             switch(e.getKeyCode()) {
-                case 37: //LEFT, '<-' slow the game down.
-                    rep.setAutoPlaying();
+                case 37: //LEFT, '<-' step backwards.
+                    rep.getPreviousMove();
                     System.out.println("You are in record mode, step back.");
                     break;
-                case 39: //RIGHT, '->' speed the game up.
+                case 39: //RIGHT, '->' step forwards.
                     rep.playNextMove();
                     System.out.println("You are in record mode, step forward.");
                     break;
@@ -108,12 +106,14 @@ public class Controls extends KeyAdapter {
                     System.out.println("You are in record mode, speed up.");
                     break;
                 case 40: //Down arrow, decrease the speed.
-                    rep.decreaseDelay();
+                    rep.increaseDelay();
                     System.out.println("You are in record mode, slow down.");
                     break;
+                case 32: //Pause and Resume the auto replay.
+                    //Will need a boolean for a toggle.
+                    System.out.println("You have paused/resumed");
+                    break;
             }
-
-
         }
     }
 }

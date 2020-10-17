@@ -1,7 +1,9 @@
 package nz.ac.vuw.ecs.swen225.gp30.recnplay;
 
+
 import nz.ac.vuw.ecs.swen225.gp30.Move;
 import nz.ac.vuw.ecs.swen225.gp30.maze.tile.Tile;
+
 
 import javax.json.*;
 import java.io.File;
@@ -26,23 +28,21 @@ public class WriteJSON {
     private File file;
 
     /**
-     * reset for Json array builder, fileName and file
+     * constructor
      */
-    public void newSave() {
+    public WriteJSON() {
         arrayBuilder = Json.createArrayBuilder();
         fileName = fileNamePrefix + saveIteration + fileNameSuffix;
         file = new File(dir + fileName);
     }
 
     public void storePlayerMove(Move move,int time) {
-
         JsonObjectBuilder playerMoveObject = Json.createObjectBuilder().add("PLayer " + playerMoveIndex++,convertMoveToString(move) + time);
         arrayBuilder.add(playerMoveObject);
 
     }
 
-    public void storeActorMove(Move move, int time){
-
+    public void storeActorMove(Move move, int time) {
         JsonObjectBuilder actorMoveObject = Json.createObjectBuilder().add("Actor " + actorMoveIndex++,convertMoveToString(move) + time);
         arrayBuilder.add(actorMoveObject);
     }
@@ -106,8 +106,7 @@ public class WriteJSON {
      * first checks all existing files to makes sure it is not overwriting old files
      * called when saving a game, or when choosing to watch a replay.
      */
-    public String  writeJsonToFile() {
-
+    public String writeJsonToFile() {
         if(file.exists()) {
             createNewSaveIteration();
         }
@@ -122,7 +121,6 @@ public class WriteJSON {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
         return fileName;
     }
 
