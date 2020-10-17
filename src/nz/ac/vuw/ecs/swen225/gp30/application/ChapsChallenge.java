@@ -6,31 +6,55 @@ import nz.ac.vuw.ecs.swen225.gp30.recnplay.*;
 import nz.ac.vuw.ecs.swen225.gp30.render.GameVisuals;
 
 import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-public class ChapsChallenge extends GUI {
+public class ChapsChallenge {
     enum GameState {
         RUNNING,
         PAUSED,
         INFO,
         WON,
-        DEAD
+        DEAD,
+        TIMEOUT
     }
+
+    /* Timing components for the game */
+    private final int TOTAL_TIME = 100;
+    private int timeLeft;
+    private final int TIMER_DELAY = 1000;
+    private Timer timer;
 
     private GameState state = GameState.RUNNING;
     private GameState prevState = GameState.RUNNING;
     private GameWorld game;
     private GameVisuals renderer;
+    private GUI gui;
     WriteJSON wj;
 
     public ChapsChallenge() {
-
+        gui = new GUI();
+        timeLeft = TOTAL_TIME;
         loadLevel();
-        setGamePanel(renderer);
-        init();
+        gui.setGamePanel(renderer);
+        gui.addKeyListener(new Controls(this));
+        gui.init();
         wj = new WriteJSON();
         startGame();
-
+        timer = new Timer(TIMER_DELAY, gameTimer);
+        timer.start();
     }
+
+    ActionListener gameTimer = new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            if(timeLeft == 0) {
+                state = GameState.TIMEOUT;
+                timer.stop();
+            }
+            gui.setTimeLeft(timeLeft--);
+        }
+    };
 
     /**
      * Method to move Chap about the maze.
@@ -78,6 +102,7 @@ public class ChapsChallenge extends GUI {
             @Override
             public void run() {
                 while(true) {
+                    long start = System.currentTimeMillis();
                     switch(state) {
                         case PAUSED:
                             //Create a JOptionPane. Stop time countdown.
@@ -105,6 +130,12 @@ public class ChapsChallenge extends GUI {
                             break;
                     }
                     checkGameState();
+
+                    try {
+                        Thread.sleep(start + (long)1000/30 - System.currentTimeMillis());
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
         };

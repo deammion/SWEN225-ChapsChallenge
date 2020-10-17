@@ -1,7 +1,6 @@
 package nz.ac.vuw.ecs.swen225.gp30.application;
 
 import javax.swing.*;
-import javax.swing.border.Border;
 import javax.swing.event.MenuEvent;
 import javax.swing.event.MenuListener;
 import javax.swing.text.SimpleAttributeSet;
@@ -91,6 +90,7 @@ public class HelpMenuListener extends JFrame implements MenuListener {
         miscPanel.add(miscInfoText);
         miscPanel.setPreferredSize(new Dimension(468,438));
 
+        //Add the Panels to the tabbed Pane.
         tabbedPane.add("Game", gamePanel);
         tabbedPane.add("Controls", controlPanel);
         tabbedPane.add("Extra", miscPanel);

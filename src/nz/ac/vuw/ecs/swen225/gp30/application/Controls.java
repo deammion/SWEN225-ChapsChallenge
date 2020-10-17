@@ -7,11 +7,11 @@ import java.awt.event.KeyEvent;
 
 public class Controls extends KeyAdapter {
 
-    boolean recordMode = false;
-    GUI game;
-    Replay rep;
+    private boolean recordMode = false;
+    private ChapsChallenge game;
+    private Replay rep;
 
-    public Controls(GUI game){
+    public Controls(ChapsChallenge game){
         this.game = game;
     }
 
