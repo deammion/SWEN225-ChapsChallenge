@@ -2,16 +2,22 @@ package nz.ac.vuw.ecs.swen225.gp30.application;
 
 import nz.ac.vuw.ecs.swen225.gp30.Move;
 import nz.ac.vuw.ecs.swen225.gp30.recnplay.Replay;
+
+import javax.swing.*;
+import javax.swing.filechooser.FileSystemView;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.io.File;
 
-public class Controls extends KeyAdapter {
+public class Controls extends KeyAdapter implements ActionListener {
 
     private boolean recordMode = false;
     private ChapsChallenge game;
     private Replay rep;
 
-    public Controls(ChapsChallenge game){
+    public Controls(ChapsChallenge game) {
         this.game = game;
     }
 
@@ -22,47 +28,33 @@ public class Controls extends KeyAdapter {
      *
      * @param e - the key the player has pressed.
      */
-    public void keyPressed(KeyEvent e){
+    public void keyPressed(KeyEvent e) {
 
-        //If in not in record mode.
-        if(!recordMode) {
+        if (!recordMode) {
             if (!e.isControlDown()) {
                 switch (e.getKeyCode()) {
-
                     //Movement Keys
                     case 37:
                     case 65:   //LEFT, 'A' & 'Arrow left'
-                        System.out.println("You have pressed: A");
                         game.move(Move.LEFT);
-                        //Move LEFT
                         break;
                     case 39:
                     case 68:   //RIGHT, 'D' & 'Arrow right'
-                        System.out.println("You have pressed: D");
                         game.move(Move.RIGHT);
-                        //Move RIGHT
                         break;
                     case 38:
                     case 87:   //UP, 'W' & 'Arrow up'
-                        System.out.println("You have pressed: W");
                         game.move(Move.UP);
-                        //Move UP
                         break;
                     case 40:
                     case 83:   //DOWN, 'S' & 'Arrow down'
-                        System.out.println("You have pressed: S");
                         game.move(Move.DOWN);
-                        //Move DOWN
                         break;
-                    case 32:
-                        System.out.println("You have pressed: SPACE BAR");
+                    case 32:    //Space Bar - Pause Game
                         game.pause();
-                        //Space - pause the game and display a "game is paused" dialog.
                         break;
-                    case 27:
-                        System.out.println("You have pressed: ESCAPE");
+                    case 27:    //Escape - Resume the Game
                         game.resume();
-                        //Escape - close the "game is paused" dialog and resume the game.
                         break;
                 }
             } else {
@@ -90,9 +82,8 @@ public class Controls extends KeyAdapter {
                         break;
                 }
             }
-        }
-        else{
-            switch(e.getKeyCode()) {
+        } else {
+            switch (e.getKeyCode()) {
                 case 37: //LEFT, '<-' step backwards.
                     rep.getPreviousMove();
                     System.out.println("You are in record mode, step back.");
@@ -109,11 +100,103 @@ public class Controls extends KeyAdapter {
                     rep.increaseDelay();
                     System.out.println("You are in record mode, slow down.");
                     break;
-                case 32: //Pause and Resume the auto replay.
-                    //Will need a boolean for a toggle.
+                case 32: //Space Bar, Pause and Resume the auto replay.
+                    //Will need a boolean for a toggle. Iterate between step-by-step and auto replay.
                     System.out.println("You have paused/resumed");
                     break;
             }
+        }
+    }
+
+    /**
+     * The user of the game clicks on a menu item, this will invoke a method
+     * which will Pause, Resume etc.
+     *
+     * @param actionEvent - event happening.
+     */
+    @Override
+    public void actionPerformed(ActionEvent actionEvent) {
+        switch (actionEvent.getActionCommand()) {
+            //Game Menu Items.
+            case "Pause":
+                //Invoke pause method.
+                game.pause();
+                System.out.println("You are in the Pause\n");
+                break;
+            case "Resume":
+                //Invoke resume method.
+                game.resume();
+                System.out.println("You are in the Resume\n");
+                break;
+            case "Exit":
+                //Invoke exit method.
+                break;
+            //Options Menu Items.
+            case "Save":
+                //Invoke save method.
+                System.out.println("You are in the Save\n");
+                break;
+            case "Load":
+                //Invoke load method.
+                break;
+            //Level Menu Items.
+            case "One":
+                //Invoke one method.
+                System.out.println("You are in the One\n");
+                break;
+            case "Two":
+                //Invoke two method.
+                break;
+            case "Three":
+                //Invoke three method.
+                break;
+            //Replay Menu Items.
+            case "Step-by-Step":
+                //Invoke step-by-step method.
+                System.out.println("You are in step-by-step\n");
+                break;
+            case "Auto-Replay":
+                //Invoke auto-replay method.
+                System.out.println("You are in auto-replay\n");
+                break;
+            case "Load File":
+                //Load a file for Record and Replay.
+                loadRecordAndReplayFile();
+                System.out.println("You are in load file\n");
+                break;
+            case "0.5x speed":
+                //Set speed to 0.5.
+                System.out.println("You are in 0.5x speed");
+            case "1.0x speed":
+                //Set speed to 1.0.
+                System.out.println("You are in 1.0x speed");
+            case "1.5x speed":
+                //Set speed to 1.5.
+                System.out.println("You are in 1.5x speed");
+            case "2.0x speed":
+                //Set speed to 2.0.
+                System.out.println("You are in 2.0x speed");
+                //Help Menu Items.
+            case "Help":
+                //Invoke help method (dialog box).
+                System.out.println("You are in the Help");
+
+        }
+    }
+
+    /**
+     * Method to load and pass a file for Record and Replay to use to show
+     * a previously recorded game.
+     */
+    public void loadRecordAndReplayFile(){
+
+        //Open the file chooser directory to get file name for Record and Replay.
+        JFileChooser fileChooser = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
+        int fileReturnValue = fileChooser.showOpenDialog(null);
+        if(fileReturnValue == JFileChooser.APPROVE_OPTION){
+            File selectedFile = fileChooser.getSelectedFile();
+            //Call LoadJSON.loadPlayerMoves(selectedFile.getName());
+            System.out.println(selectedFile.getName());
         }
     }
 }

@@ -1,10 +1,12 @@
 package nz.ac.vuw.ecs.swen225.gp30.application;
+
 import nz.ac.vuw.ecs.swen225.gp30.maze.GameWorld;
 import nz.ac.vuw.ecs.swen225.gp30.Move;
 import nz.ac.vuw.ecs.swen225.gp30.persistence.writeFile;
 import nz.ac.vuw.ecs.swen225.gp30.recnplay.*;
 import nz.ac.vuw.ecs.swen225.gp30.render.GameVisuals;
 
+import javax.naming.ldap.Control;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -37,8 +39,11 @@ public class ChapsChallenge {
         timeLeft = TOTAL_TIME;
         loadLevel();
         gui.setGamePanel(renderer);
-        gui.addKeyListener(new Controls(this));
+        Controls control = new Controls(this);
         gui.init();
+        gui.addKeyListener(control);
+        gui.setActionListeners(control);
+
         wj = new WriteJSON();
         startGame();
         timer = new Timer(TIMER_DELAY, gameTimer);
@@ -63,7 +68,7 @@ public class ChapsChallenge {
     public void move(Move move) {
         if(game.moveChap(move)) {
             //Record.recordPlayerAction(); //FIXME
-            wj.storePlayerMove(move, 0); //FIXME need to have the time variable from game loop.
+            wj.storePlayerMove(move, 0); //Note is this correct time variable used? Is this creating all the files?
         };
     }
 
@@ -107,8 +112,6 @@ public class ChapsChallenge {
                         case PAUSED:
                             //Create a JOptionPane. Stop time countdown.
                             break;
-                        case INFO:
-                            displayInfo();
                         case RUNNING:
                             // update
                             // render
@@ -156,13 +159,6 @@ public class ChapsChallenge {
         if (!game.isChapActive()) {
             state = GameState.DEAD;
         }
-    }
-
-    /**
-     * Method displays the information related to the game level.
-     */
-    public void displayInfo() {
-        //JOptionPane.showMessageDialog(this, game.getLevelInfo());
     }
 
     /**
