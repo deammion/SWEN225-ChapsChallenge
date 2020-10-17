@@ -12,7 +12,7 @@ public class GameWorld {
     private Maze maze;
     private Chap chap;
     private String levelInfo;
-    private int chipsRequired;
+    public static int CHIPS_REQUIRED;
 
     public GameWorld(Maze maze, Chap chap) {
         this.maze = maze;
@@ -79,14 +79,6 @@ public class GameWorld {
 
     public Maze getMaze() {
         return maze;
-    }
-
-    public void setChipsRequired(int chipsRequired) {
-        this.chipsRequired = chipsRequired;
-    }
-
-    public int getChipsRequired() {
-        return chipsRequired;
     }
 
     public void setLevelInfo(String info) {

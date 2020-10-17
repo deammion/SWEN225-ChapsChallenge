@@ -1,6 +1,6 @@
 /**
  * Tests for maze package
  *
- * @Author Oscar Camplin
+ * @author Oscar Camplin
  */
-package nz.ac.vuw.ecs.swen225.gp30.maze;
+package test.nz.ac.vuw.ecs.swen225.gp30.maze;

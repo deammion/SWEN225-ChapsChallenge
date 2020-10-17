@@ -60,7 +60,7 @@ public class writeFile {
             Chap chap = new Chap(chapX, chapY);
             System.out.println(maze.toString());
             GameWorld game = new GameWorld(maze, chap);
-            game.setChipsRequired(chipsRequired);
+            GameWorld.CHIPS_REQUIRED = chipsRequired;
             game.setLevelInfo(levelInfo);
 
             reader.close();

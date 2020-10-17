@@ -1,5 +1,6 @@
 package nz.ac.vuw.ecs.swen225.gp30.maze.tile;
 
+import static com.google.common.base.Preconditions.checkNotNull;
 import nz.ac.vuw.ecs.swen225.gp30.maze.Chap;
 import nz.ac.vuw.ecs.swen225.gp30.maze.IllegalMoveException;
 
@@ -13,8 +14,8 @@ public class TreasureTile extends Tile {
 
     /**
      * Constructs a TreasureTile with x and y position.
-     * @param x - the x position of the tile
-     * @param y - the y position of the tile
+     * @param x the x position of the tile
+     * @param y the y position of the tile
      */
     public TreasureTile(int x, int y) {
         super(x, y);
@@ -27,6 +28,7 @@ public class TreasureTile extends Tile {
 
     @Override
     public void addChap(Chap chap) throws IllegalMoveException {
+        checkNotNull(chap);
         if(!collected) {
             chap.collectChip();
             collected = true;

@@ -2,8 +2,7 @@ package nz.ac.vuw.ecs.swen225.gp30.maze.tile;
 
 import nz.ac.vuw.ecs.swen225.gp30.maze.Chap;
 import nz.ac.vuw.ecs.swen225.gp30.maze.IllegalMoveException;
-
-import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * The InfoTile class represents a tile that if moved to will display level information.
@@ -15,8 +14,8 @@ public class InfoTile extends Tile {
     /**
      * Constructs an InfoTile with x and y position.
      *
-     * @param x - the x position of the tile
-     * @param y - the y position of the tile
+     * @param x the x position of the tile
+     * @param y the y position of the tile
      */
     public InfoTile(int x, int y) {
         super(x, y);
@@ -29,7 +28,7 @@ public class InfoTile extends Tile {
 
     @Override
     public void addChap(Chap chap) throws IllegalMoveException {
-        checkArgument(chap != null, "Chap cannot be null");
+        checkNotNull(chap);
         chap.setAt(getX(), getY());
         this.chap = chap;
     }
