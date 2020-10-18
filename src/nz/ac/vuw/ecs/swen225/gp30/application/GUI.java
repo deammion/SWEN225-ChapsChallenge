@@ -108,8 +108,7 @@ public class GUI extends JFrame {
         createMenu();
         this.add(menuBar);
         this.setJMenuBar(menuBar);
-
-        setFocusable(true);
+        this.setFocusable(true);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
@@ -143,8 +142,6 @@ public class GUI extends JFrame {
 
         //Record n Replay Menu.
         replay = new JMenu("Replay");
-        step = new JMenuItem("Step-by-Step");
-        auto = new JMenuItem("Auto-Replay");
         recLoad = new JMenuItem("Load File");
 
         //The replay speed setting submenu setup.
@@ -159,7 +156,7 @@ public class GUI extends JFrame {
         speedButtonGroup.add(speedSet2); speedButtonGroup.add(speedSet3);
 
         //Add all the sun items to the menu.
-        replay.add(step); replay.add(auto); replay.add(recLoad); replay.add(speed);
+        replay.add(recLoad); replay.add(speed);
 
         //Help Menu.
         help = new JMenu("Help");
@@ -184,8 +181,6 @@ public class GUI extends JFrame {
         one.addActionListener(listener);
         two.addActionListener(listener);
         three.addActionListener(listener);
-        step.addActionListener(listener);
-        auto.addActionListener(listener);
         recLoad.addActionListener(listener);
         speedSet0.addActionListener(listener);
         speedSet1.addActionListener(listener);

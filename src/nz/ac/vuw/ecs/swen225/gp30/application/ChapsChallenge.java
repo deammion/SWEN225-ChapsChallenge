@@ -22,7 +22,7 @@ public class ChapsChallenge {
     /* Timing components for the game */
     private final int TOTAL_TIME = 100;
     private int timeLeft;
-    private final int TIMER_DELAY = 1000;
+    private int TIMER_DELAY = 1000;
     private Timer timer;
 
     private GameState state = GameState.RUNNING;

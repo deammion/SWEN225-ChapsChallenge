@@ -128,7 +128,7 @@ public class Controls extends KeyAdapter implements ActionListener {
                 break;
             case "Exit":
                 //Invoke exit method.
-                exitGame();
+                System.exit(0);
                 break;
             //Options Menu Items.
             case "Save":
@@ -150,16 +150,6 @@ public class Controls extends KeyAdapter implements ActionListener {
                 //Invoke three method.
                 break;
             //Replay Menu Items.
-            case "Step-by-Step":
-                //Invoke step-by-step method.
-                recordMode = true;
-                System.out.println("You are in step-by-step\n");
-                break;
-            case "Auto-Replay":
-                //Invoke auto-replay method.
-                recordMode = true;
-                System.out.println("You are in auto-replay\n");
-                break;
             case "Load File":
                 //Load a file for Record and Replay.
                 recordMode = true;
@@ -191,7 +181,6 @@ public class Controls extends KeyAdapter implements ActionListener {
      * a previously recorded game.
      */
     public void loadRecordAndReplayFile(){
-
         //Open the file chooser directory to get file name for Record and Replay.
         JFileChooser fileChooser = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
         int fileReturnValue = fileChooser.showOpenDialog(null);
@@ -200,17 +189,5 @@ public class Controls extends KeyAdapter implements ActionListener {
             replay.loadJsonToReplay(selectedFile.getName());
             System.out.println(selectedFile.getName());
         }
-    }
-
-    private void exitGame(){
-        addWindowListener(new WindowAdapter(){
-            @Override
-            public void windowClosing(WindowEvent e){
-                int confirmed = JOptionPane.showConfirmDialog(null, "Are you sure you want to exit the game?", "Exit Program Message Box", JOptionPane.YES_NO_OPTION);
-                if(confirmed == JOptionPane.YES_OPTION){
-                    System.exit(0);
-                }
-            }
-        });
     }
 }
