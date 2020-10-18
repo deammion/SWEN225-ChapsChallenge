@@ -138,11 +138,6 @@ public class ChapsChallenge {
                     checkGameState();
                     updateDashboard();
 
-                    try {
-                        Thread.sleep(start + (long)1000/30 - System.currentTimeMillis());
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
                 }
             }
         };
