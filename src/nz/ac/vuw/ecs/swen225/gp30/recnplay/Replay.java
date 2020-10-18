@@ -33,7 +33,7 @@ public class Replay {
     /**
      * toggles the auto play function, and resets the play back timer
      */
-    public void setAutoPlaying() {
+    public void toggleAutoPlaying() {
         autoPlaying = !autoPlaying;
     }
 
@@ -48,7 +48,7 @@ public class Replay {
     public Move autoPlay(int time) {
         while (autoPlaying) {
             int playerMoveTime = convertStringToInt(playerMoves.get(playerIndex));
-            if (playerMoveTime/delay > time) {
+            if (playerMoveTime > time) {
                 char stringMove = playerMoves.get(playerIndex).charAt(0);
                 Move move = convertStringToMove(stringMove);
                 playerIndex++;
@@ -69,7 +69,7 @@ public class Replay {
     public Move autoPlayActor(int time) {
         if(!actorMoves.isEmpty()) {
             int actorMoveTime = convertStringToInt(actorMoves.get(actorIndex));
-            if(actorMoveTime/delay > time){
+            if(actorMoveTime > time){
                 char stringMove = actorMoves.get(actorIndex).charAt(0);
                 Move actorMove = convertStringToMove(stringMove);
                 actorIndex++;
