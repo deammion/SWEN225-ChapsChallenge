@@ -1,18 +1,22 @@
 package test.nz.ac.vuw.ecs.swen225.gp30.maze;
 
+import nz.ac.vuw.ecs.swen225.gp30.Move;
 import nz.ac.vuw.ecs.swen225.gp30.maze.Chap;
 import nz.ac.vuw.ecs.swen225.gp30.maze.GameWorld;
-import nz.ac.vuw.ecs.swen225.gp30.Move;
 import nz.ac.vuw.ecs.swen225.gp30.maze.Maze;
 import nz.ac.vuw.ecs.swen225.gp30.maze.item.Item;
 import nz.ac.vuw.ecs.swen225.gp30.maze.tile.*;
 import org.junit.jupiter.api.Test;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class MazeTest {
 
+    /**
+     * Tests trying to move chap onto a FreeTile.
+     */
     @Test
-    public void validMoveTest_01() { // move chap onto free tile
+    public void validMoveTest_01() {
         Chap chap = new Chap(0,0);
         Maze maze = makeTestMaze(new FreeTile(1, 0));
         GameWorld game = new GameWorld(maze, chap);
@@ -24,8 +28,11 @@ public class MazeTest {
         assertEquals(expected, maze.toString());
     }
 
+    /**
+     * Tests trying to move chap onto an InfoTile.
+     */
     @Test
-    public void validMoveTest_02() { // move chap onto info tile
+    public void validMoveTest_02() {
         Chap chap = new Chap(0,0);
         Maze maze = makeTestMaze(new InfoTile(1, 0));
         GameWorld game = new GameWorld(maze, chap);
@@ -38,8 +45,11 @@ public class MazeTest {
         assertEquals(expected[2], maze.toString());
     }
 
+    /**
+     * Tests trying to move chap onto an ExitTile.
+     */
     @Test
-    public void validMoveTest_03() { // move chap onto exit tile
+    public void validMoveTest_03() {
 
         Chap chap = new Chap(0,0);
         Maze maze = makeTestMaze(new ExitTile(1, 0));
@@ -53,8 +63,11 @@ public class MazeTest {
         assertEquals(expected[1], maze.toString());
     }
 
+    /**
+     * Tests trying to move chap onto a LockedDoorTile with the correct key in inventory.
+     */
     @Test
-    public void validMoveTest_04() { // move chap onto locked door tile
+    public void validMoveTest_04() {
         Chap chap = new Chap(0,0);
         Maze maze = makeTestMaze(new LockedDoorTile(1, 0, Item.KEY_BLUE));
         GameWorld game = new GameWorld(maze, chap);
@@ -70,8 +83,11 @@ public class MazeTest {
         assertEquals(expected[2], maze.toString());
     }
 
+    /**
+     * Tests trying to move chap onto a KeyTile and picking up key.
+     */
     @Test
-    public void validMoveTest_05() { // move chap to key tile and collect key
+    public void validMoveTest_05() {
         Chap chap = new Chap(0,0);
         Maze maze = makeTestMaze(new KeyTile(1, 0, Item.KEY_BLUE));
         GameWorld game = new GameWorld(maze, chap);
@@ -87,8 +103,11 @@ public class MazeTest {
         assertEquals(expected[2], maze.toString());
     }
 
+    /**
+     * Tests trying to move chap onto a TreasureTile to collect treasure.
+     */
     @Test
-    public void validMoveTest_06() { // move chap onto treasure tile and collect treasure
+    public void validMoveTest_06() {
         Chap chap = new Chap(0,0);
         Maze maze = makeTestMaze(new TreasureTile(1, 0));
         GameWorld game = new GameWorld(maze, chap);
@@ -104,8 +123,11 @@ public class MazeTest {
         assertEquals(expected[2], maze.toString());
     }
 
+    /**
+     * Tests trying to move chap onto an ExitLockTile.
+     */
     @Test
-    public void validMoveTest_07() { // move chap onto exit lock tile (with required treasure #)
+    public void validMoveTest_07() {
         Chap chap = new Chap(0,0);
         Maze maze = makeTestMaze(new ExitLockTile(1, 0, 1));
         GameWorld game = new GameWorld(maze, chap);
@@ -122,8 +144,11 @@ public class MazeTest {
         assertEquals(expected[2], maze.toString());
     }
 
+    /**
+     * Tests trying to move chap onto a wall tile.
+     */
     @Test
-    public void invalidMoveTest_01() { // try move chap onto wall tile
+    public void invalidMoveTest_01() {
         Chap chap = new Chap(0,0);
         Maze maze = makeTestMaze(new WallTile(1, 0));
         GameWorld game = new GameWorld(maze, chap);
@@ -134,6 +159,9 @@ public class MazeTest {
         assertEquals(expected, maze.toString());
     }
 
+    /**
+     * Tests trying to move chap to a LockedDoorTile without a key.
+     */
     @Test void invalidMoveTest_02() { // try move chap to locked door tile without key
         Chap chap = new Chap(0,0);
         Maze maze = makeTestMaze(new LockedDoorTile(1, 0, Item.KEY_BLUE));
@@ -145,7 +173,10 @@ public class MazeTest {
         assertEquals(expected, maze.toString());
     }
 
-    @Test void invalidMoveTest_03() { // try move chap to exit lock tile without enough chips
+    /**
+     * Tests trying to move chap to an ExitLockTile with an invalid amount of chips.
+     */
+    @Test void invalidMoveTest_03() {
         Chap chap = new Chap(0,0);
         Maze maze = makeTestMaze(new ExitLockTile(1, 0, 1));
         GameWorld game = new GameWorld(maze, chap);
