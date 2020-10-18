@@ -32,9 +32,9 @@ public class Maze {
     @Override
     public String toString() {
         StringBuilder gridString = new StringBuilder();
-        for(int x=0; x<grid.length; x++) {
-            for(int y=0; y<grid[0].length; y++) {
-                if(x == 0) { gridString.append("|"); }
+        for(int y=0; y<grid[0].length; y++) {
+            for(int x=0; x<grid.length; x++) {
+                if(x == 0) { gridString.append("\n|"); }
                 Tile t = getTileAt(x, y);
                 gridString.append(t.getChar());
                 gridString.append("|");
