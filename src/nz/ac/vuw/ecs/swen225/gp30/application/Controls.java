@@ -1,6 +1,7 @@
 package nz.ac.vuw.ecs.swen225.gp30.application;
 
 import nz.ac.vuw.ecs.swen225.gp30.Move;
+import nz.ac.vuw.ecs.swen225.gp30.recnplay.LoadJSON;
 import nz.ac.vuw.ecs.swen225.gp30.recnplay.Replay;
 
 import javax.swing.*;
@@ -15,10 +16,11 @@ public class Controls extends KeyAdapter implements ActionListener {
 
     private boolean recordMode = false;
     private ChapsChallenge game;
-    private Replay rep;
+    private Replay replay;
 
-    public Controls(ChapsChallenge game) {
+    public Controls(ChapsChallenge game, Replay replay) {
         this.game = game;
+        this.replay = replay;
     }
 
     /**
@@ -29,7 +31,6 @@ public class Controls extends KeyAdapter implements ActionListener {
      * @param e - the key the player has pressed.
      */
     public void keyPressed(KeyEvent e) {
-
         if (!recordMode) {
             if (!e.isControlDown()) {
                 switch (e.getKeyCode()) {
@@ -85,19 +86,19 @@ public class Controls extends KeyAdapter implements ActionListener {
         } else {
             switch (e.getKeyCode()) {
                 case 37: //LEFT, '<-' step backwards.
-                    rep.getPreviousMove();
+                    replay.getPreviousMove();
                     System.out.println("You are in record mode, step back.");
                     break;
                 case 39: //RIGHT, '->' step forwards.
-                    rep.playNextMove();
+                    replay.playNextMove();
                     System.out.println("You are in record mode, step forward.");
                     break;
                 case 38: //Up arrow, increase the speed.
-                    rep.decreaseDelay();
+                    replay.decreaseDelay();
                     System.out.println("You are in record mode, speed up.");
                     break;
                 case 40: //Down arrow, decrease the speed.
-                    rep.increaseDelay();
+                    replay.increaseDelay();
                     System.out.println("You are in record mode, slow down.");
                     break;
                 case 32: //Space Bar, Pause and Resume the auto replay.
@@ -195,7 +196,7 @@ public class Controls extends KeyAdapter implements ActionListener {
         int fileReturnValue = fileChooser.showOpenDialog(null);
         if(fileReturnValue == JFileChooser.APPROVE_OPTION){
             File selectedFile = fileChooser.getSelectedFile();
-            //Call LoadJSON.loadPlayerMoves(selectedFile.getName());
+            replay.loadJsonToreplay(selectedFile.getName());
             System.out.println(selectedFile.getName());
         }
     }

@@ -67,7 +67,7 @@ public class ChapsChallenge {
     public void move(Move move) {
         if(game.moveChap(move)) {
             //Record.recordPlayerAction(); //FIXME
-            wj.storePlayerMove(move, 0); //Note is this correct time variable used? Is this creating all the files?
+            wj.storePlayerMove(move, timeLeft);
         };
     }
 
