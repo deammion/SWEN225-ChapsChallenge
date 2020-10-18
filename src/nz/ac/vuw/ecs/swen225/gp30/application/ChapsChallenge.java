@@ -34,19 +34,19 @@ public class ChapsChallenge {
 
     public ChapsChallenge() {
         gui = new GUI();
-        timeLeft = TOTAL_TIME;
-        loadLevel();
+        renderer = new GameVisuals();
         gui.setGamePanel(renderer);
-        Controls control = new Controls(this);
+        wj = new WriteJSON();
+        timer = new Timer(TIMER_DELAY, gameTimer);
+
         gui.init();
-        gui.setTimeLeft(timeLeft);
+        Controls control = new Controls(this);
         gui.addKeyListener(control);
         gui.setActionListeners(control);
+        gui.setTimeLeft(timeLeft);
 
-        wj = new WriteJSON();
+        loadLevel();
         startGame();
-        timer = new Timer(TIMER_DELAY, gameTimer);
-        timer.start();
     }
 
     ActionListener gameTimer = new ActionListener() {
@@ -71,8 +71,6 @@ public class ChapsChallenge {
         };
     }
 
-    //Call when exiting the game.
-
     public void saveReplay() {
         wj.writeJsonToFile();
     }
@@ -82,6 +80,7 @@ public class ChapsChallenge {
     public void pause() {
         prevState = state;
         state = GameState.PAUSED;
+        JOptionPane.showMessageDialog(gui, "Paused");
     }
 
     /**
@@ -94,7 +93,7 @@ public class ChapsChallenge {
      */
     public void loadLevel() {
         game = writeFile.readLevel();
-        renderer = new GameVisuals(game);
+        renderer.setGame(game);
     }
 
     /**
@@ -102,6 +101,9 @@ public class ChapsChallenge {
      * in states to keep it running.
      */
     public void startGame() {
+        timeLeft = TOTAL_TIME;
+        timer.start();
+
         Runnable runnableGame = new Runnable() {
             @Override
             public void run() {
@@ -121,6 +123,7 @@ public class ChapsChallenge {
                             // game.loadLevel(xx)
                             // winning logic
                             // next level
+                            wonGame();
                             System.out.println("Game: WON");
                             wj.writeJsonToFile();
                             break;
@@ -135,15 +138,17 @@ public class ChapsChallenge {
                     checkGameState();
                     updateDashboard();
 
-                    try {
-                        Thread.sleep(start + (long)1000/30 - System.currentTimeMillis());
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
                 }
             }
         };
         new Thread(runnableGame).start();
+    }
+
+    public void wonGame() {
+        loadLevel();
+        timeLeft = TOTAL_TIME;
+        timer.restart();
+        state = GameState.RUNNING;
     }
 
     public void updateDashboard() {
@@ -188,5 +193,4 @@ public class ChapsChallenge {
                 }
         );
     }
-
 }
