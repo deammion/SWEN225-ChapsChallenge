@@ -30,7 +30,7 @@ public class Record {
     /**
      * constructor
      */
-    public WriteJSON() {
+    public Record() {
         arrayBuilder = Json.createArrayBuilder();
         fileName = fileNamePrefix + saveIteration + fileNameSuffix;
         file = new File(dir + fileName);
@@ -54,7 +54,7 @@ public class Record {
      *
      * @param levelNum -String dictating the level number
      */
-    public void storeLevel(String levelNum) { //FIXME could just load from level
+    public void storeLevel(String levelNum) {
         JsonObjectBuilder gameStateObj = Json.createObjectBuilder().add("level ", levelNum); //converts level to a JsonObject
         arrayBuilder.add(gameStateObj); //adds JsonObject to JsonArray
     }
