@@ -59,25 +59,18 @@ public class WriteJSON {
         arrayBuilder.add(gameStateObj); //adds JsonObject to JsonArray
     }
 
-
-    public String reverseAction(String a) {
-        return switch (a) {
-            case "w" -> "s";
-            case "a" -> "d";
-            case "s" -> "w";
-            case "d" -> "a";
-            default -> throw new IllegalStateException("Unexpected value: " + a);
-        };
-    }
-
     public String convertMoveToString(Move a) {
-        return switch (a) {
-            case DOWN -> "s";
-            case RIGHT -> "d";
-            case UP -> "w";
-            case LEFT -> "a";
+        switch (a) {
+            case DOWN:
+                return "s";
+            case RIGHT:
+                return "d";
+            case UP:
+                return "w";
+            case LEFT:
+                return "a";
         };
-        // throw error
+        return null;
     }
 
 

@@ -98,28 +98,28 @@ public class Replay {
         return null;
     }
 
-    /**
-     * gets the previous game state in the gameStates arraylist
-     * so it can be passed to the maze via levels to render
-     * called by Application
-     *
-     * @return String - String that can be read into a gameState
-     */
-    public void getPreviousMove() {
-        if(playerIndex - 1 >= 0 && !autoPlaying) {
-            playerIndex--;
-            Move playerMove = reverseMove(playerMoves.get(playerIndex).charAt(0));
-            int playerTime = convertStringToInt(playerMoves.get(playerIndex));
-            int actorTime = convertStringToInt(actorMoves.get(actorIndex));
-            if (actorTime > playerTime) {
-                //pass actormove to app
-                Move actorMove = reverseMove(actorMoves.get(actorIndex).charAt(0));
-                actorIndex--;
-            }
-            //pass player move to app
-            playerIndex++;
-        }
-    }
+//    /**
+//     * gets the previous game state in the gameStates arraylist
+//     * so it can be passed to the maze via levels to render
+//     * called by Application
+//     *
+//     * @return String - String that can be read into a gameState
+//     */
+//    public void getPreviousMove() {
+//        if(playerIndex - 1 >= 0 && !autoPlaying) {
+//            playerIndex--;
+//            Move playerMove = reverseMove(playerMoves.get(playerIndex).charAt(0));
+//            int playerTime = convertStringToInt(playerMoves.get(playerIndex));
+//            int actorTime = convertStringToInt(actorMoves.get(actorIndex));
+//            if (actorTime > playerTime) {
+//                //pass actormove to app
+//                Move actorMove = reverseMove(actorMoves.get(actorIndex).charAt(0));
+//                actorIndex--;
+//            }
+//            //pass player move to app
+//            playerIndex++;
+//        }
+//    }
 
     /**
      * called by application, increases the time between steps on autoplay function
@@ -144,25 +144,17 @@ public class Replay {
     }
 
     public Move convertStringTOMove(Character s) {
-        return switch (s) {
-            case 's' -> Move.DOWN;
-            case 'd' -> Move.RIGHT;
-            case 'a' -> Move.LEFT;
-            case 'w' -> Move.UP;
-            default -> null;
+        switch (s) {
+            case 's':
+                return Move.DOWN;
+            case 'd':
+                return Move.RIGHT;
+            case 'a':
+                return Move.LEFT;
+            case 'w':
+                return Move.UP;
         };
-        // throw error
-    }
-
-    public Move reverseMove(Character s){
-        return switch (s) {
-            case 'w' -> Move.DOWN;
-            case 'a' -> Move.RIGHT;
-            case 'd' -> Move.LEFT;
-            case 's' -> Move.UP;
-            default -> null;
-        };
-        // throw error
+        return null;
     }
 
     public int convertStringToInt(String s){
