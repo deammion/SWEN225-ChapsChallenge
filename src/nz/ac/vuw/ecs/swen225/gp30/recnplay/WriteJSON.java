@@ -52,22 +52,10 @@ public class WriteJSON {
      * adds string to a string builder, then creates a Json object using that string.
      * this json object is then added to the Json array builder
      *
-     * @param gameState - 2d array representing the "Maze"/game state
+     * @param levelNum -String dictating the level number
      */
-    public void storeLevel (Tile[][] gameState) { //FIXME could just load from level
-        StringBuilder s = new StringBuilder();
-
-        for(int rows = 0; rows < gameState.length; rows++) { //iterate thru gameState Array
-            for(int cols = 0; cols < gameState[rows].length; cols++) {
-                if(gameState[rows][cols] != null) {
-                    s.append(gameState[rows][cols].toString());//FIXME get write method to get tile description
-
-                }
-            }
-            s.append("\n");
-        }
-
-        JsonObjectBuilder gameStateObj = Json.createObjectBuilder().add("level ", s.toString()); //converts s to a JsonObject
+    public void storeLevel(String levelNum) { //FIXME could just load from level
+        JsonObjectBuilder gameStateObj = Json.createObjectBuilder().add("level ", levelNum); //converts level to a JsonObject
         arrayBuilder.add(gameStateObj); //adds JsonObject to JsonArray
     }
 
