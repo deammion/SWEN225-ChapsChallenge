@@ -71,9 +71,13 @@ public class ChapsChallenge {
         };
     }
 
+    /**
+     * Save the replay to a file.
+     */
     public void saveReplay() {
         wj.writeJsonToFile();
     }
+
     /**
      * Method which will pause the game.
      */
@@ -125,14 +129,14 @@ public class ChapsChallenge {
                             // next level
                             wonGame();
                             System.out.println("Game: WON");
-                            wj.writeJsonToFile();
+                            saveReplay();
                             break;
                         case DEAD:
                             // show dead prompt?
                             // restart level
                             //game.loadLevel()
                             System.out.println("Game: DEAD");
-                            wj.writeJsonToFile();
+                            saveReplay();
                             break;
                     }
                     checkGameState();
