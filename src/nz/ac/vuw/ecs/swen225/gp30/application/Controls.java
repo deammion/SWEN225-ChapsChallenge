@@ -5,20 +5,20 @@ import nz.ac.vuw.ecs.swen225.gp30.recnplay.Replay;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileSystemView;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
+import java.awt.event.*;
 import java.io.File;
+
+import static com.sun.java.accessibility.util.AWTEventMonitor.addWindowListener;
 
 public class Controls extends KeyAdapter implements ActionListener {
 
     private boolean recordMode = false;
     private ChapsChallenge game;
-    private Replay rep;
+    private Replay replay;
 
     public Controls(ChapsChallenge game) {
         this.game = game;
+        replay = new Replay();
     }
 
     /**
@@ -29,7 +29,6 @@ public class Controls extends KeyAdapter implements ActionListener {
      * @param e - the key the player has pressed.
      */
     public void keyPressed(KeyEvent e) {
-
         if (!recordMode) {
             if (!e.isControlDown()) {
                 switch (e.getKeyCode()) {
@@ -84,20 +83,19 @@ public class Controls extends KeyAdapter implements ActionListener {
             }
         } else {
             switch (e.getKeyCode()) {
-                case 37: //LEFT, '<-' step backwards.
-                    rep.getPreviousMove();
+                case 37: //LEFT, '<-'
                     System.out.println("You are in record mode, step back.");
                     break;
                 case 39: //RIGHT, '->' step forwards.
-                    rep.playNextMove();
+                    replay.playNextMove();
                     System.out.println("You are in record mode, step forward.");
                     break;
                 case 38: //Up arrow, increase the speed.
-                    rep.decreaseDelay();
+                    replay.decreaseDelay();
                     System.out.println("You are in record mode, speed up.");
                     break;
                 case 40: //Down arrow, decrease the speed.
-                    rep.increaseDelay();
+                    replay.increaseDelay();
                     System.out.println("You are in record mode, slow down.");
                     break;
                 case 32: //Space Bar, Pause and Resume the auto replay.
@@ -130,6 +128,7 @@ public class Controls extends KeyAdapter implements ActionListener {
                 break;
             case "Exit":
                 //Invoke exit method.
+                exitGame();
                 break;
             //Options Menu Items.
             case "Save":
@@ -153,14 +152,17 @@ public class Controls extends KeyAdapter implements ActionListener {
             //Replay Menu Items.
             case "Step-by-Step":
                 //Invoke step-by-step method.
+                recordMode = true;
                 System.out.println("You are in step-by-step\n");
                 break;
             case "Auto-Replay":
                 //Invoke auto-replay method.
+                recordMode = true;
                 System.out.println("You are in auto-replay\n");
                 break;
             case "Load File":
                 //Load a file for Record and Replay.
+                recordMode = true;
                 loadRecordAndReplayFile();
                 System.out.println("You are in load file\n");
                 break;
@@ -195,8 +197,20 @@ public class Controls extends KeyAdapter implements ActionListener {
         int fileReturnValue = fileChooser.showOpenDialog(null);
         if(fileReturnValue == JFileChooser.APPROVE_OPTION){
             File selectedFile = fileChooser.getSelectedFile();
-            //Call LoadJSON.loadPlayerMoves(selectedFile.getName());
+            replay.loadJsonToReplay(selectedFile.getName());
             System.out.println(selectedFile.getName());
         }
+    }
+
+    private void exitGame(){
+        addWindowListener(new WindowAdapter(){
+            @Override
+            public void windowClosing(WindowEvent e){
+                int confirmed = JOptionPane.showConfirmDialog(null, "Are you sure you want to exit the game?", "Exit Program Message Box", JOptionPane.YES_NO_OPTION);
+                if(confirmed == JOptionPane.YES_OPTION){
+                    System.exit(0);
+                }
+            }
+        });
     }
 }

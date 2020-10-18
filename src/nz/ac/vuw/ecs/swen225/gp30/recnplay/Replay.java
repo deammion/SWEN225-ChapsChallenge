@@ -22,7 +22,7 @@ public class Replay {
      *
      * @param fileName - user selected filename, see LoadJSON
      */
-    public void loadJsonToreplay(String fileName) {
+    public void loadJsonToReplay(String fileName) {
         LoadJSON lj = new LoadJSON();
         playerMoves = lj.loadPlayerMoves(fileName);
         actorMoves = lj.loadActorMoves(fileName);
@@ -98,28 +98,28 @@ public class Replay {
         return null;
     }
 
-    /**
-     * gets the previous game state in the gameStates arraylist
-     * so it can be passed to the maze via levels to render
-     * called by Application
-     *
-     * @return String - String that can be read into a gameState
-     */
-    public void getPreviousMove() {
-        if(playerIndex - 1 >= 0 && !autoPlaying) {
-            playerIndex--;
-            Move playerMove = reverseMove(playerMoves.get(playerIndex).charAt(0));
-            int playerTime = convertStringToInt(playerMoves.get(playerIndex));
-            int actorTime = convertStringToInt(actorMoves.get(actorIndex));
-            if (actorTime > playerTime) {
-                //pass actormove to app
-                Move actorMove = reverseMove(actorMoves.get(actorIndex).charAt(0));
-                actorIndex--;
-            }
-            //pass player move to app
-            playerIndex++;
-        }
-    }
+//    /**
+//     * gets the previous game state in the gameStates arraylist
+//     * so it can be passed to the maze via levels to render
+//     * called by Application
+//     *
+//     * @return String - String that can be read into a gameState
+//     */
+//    public void getPreviousMove() {
+//        if(playerIndex - 1 >= 0 && !autoPlaying) {
+//            playerIndex--;
+//            Move playerMove = reverseMove(playerMoves.get(playerIndex).charAt(0));
+//            int playerTime = convertStringToInt(playerMoves.get(playerIndex));
+//            int actorTime = convertStringToInt(actorMoves.get(actorIndex));
+//            if (actorTime > playerTime) {
+//                //pass actormove to app
+//                Move actorMove = reverseMove(actorMoves.get(actorIndex).charAt(0));
+//                actorIndex--;
+//            }
+//            //pass player move to app
+//            playerIndex++;
+//        }
+//    }
 
     /**
      * called by application, increases the time between steps on autoplay function
@@ -144,7 +144,7 @@ public class Replay {
     }
 
     public Move convertStringTOMove(Character s) {
-        switch (s){
+        switch (s) {
             case 's':
                 return Move.DOWN;
             case 'd':
@@ -153,22 +153,8 @@ public class Replay {
                 return Move.LEFT;
             case 'w':
                 return Move.UP;
-        }
-        return null; // throw error
-    }
-
-    public Move reverseMove(Character s){
-        switch (s){
-            case 'w':
-                return Move.DOWN;
-            case 'a':
-                return Move.RIGHT;
-            case 'd':
-                return Move.LEFT;
-            case 's':
-                return Move.UP;
-        }
-        return null; // throw error
+        };
+        return null;
     }
 
     public int convertStringToInt(String s){

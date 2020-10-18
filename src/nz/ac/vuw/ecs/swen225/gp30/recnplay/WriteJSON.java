@@ -37,13 +37,13 @@ public class WriteJSON {
     }
 
     public void storePlayerMove(Move move,int time) {
-        JsonObjectBuilder playerMoveObject = Json.createObjectBuilder().add("PLayer " + playerMoveIndex++,convertMoveToString(move) + time);
+        JsonObjectBuilder playerMoveObject = Json.createObjectBuilder().add("Player" + playerMoveIndex++,convertMoveToString(move) + time);
         arrayBuilder.add(playerMoveObject);
 
     }
 
     public void storeActorMove(Move move, int time) {
-        JsonObjectBuilder actorMoveObject = Json.createObjectBuilder().add("Actor " + actorMoveIndex++,convertMoveToString(move) + time);
+        JsonObjectBuilder actorMoveObject = Json.createObjectBuilder().add("Actor" + actorMoveIndex++,convertMoveToString(move) + time);
         arrayBuilder.add(actorMoveObject);
     }
 
@@ -52,42 +52,15 @@ public class WriteJSON {
      * adds string to a string builder, then creates a Json object using that string.
      * this json object is then added to the Json array builder
      *
-     * @param gameState - 2d array representing the "Maze"/game state
+     * @param levelNum -String dictating the level number
      */
-    public void storeLevel (Tile[][] gameState) { //FIXME could just load from level
-        StringBuilder s = new StringBuilder();
-
-        for(int rows = 0; rows < gameState.length; rows++) { //iterate thru gameState Array
-            for(int cols = 0; cols < gameState[rows].length; cols++) {
-                if(gameState[rows][cols] != null) {
-                    s.append(gameState[rows][cols].toString());//FIXME get write method to get tile description
-
-                }
-            }
-            s.append("\n");
-        }
-
-        JsonObjectBuilder gameStateObj = Json.createObjectBuilder().add("level ", s.toString()); //converts s to a JsonObject
+    public void storeLevel(String levelNum) { //FIXME could just load from level
+        JsonObjectBuilder gameStateObj = Json.createObjectBuilder().add("level ", levelNum); //converts level to a JsonObject
         arrayBuilder.add(gameStateObj); //adds JsonObject to JsonArray
     }
 
-
-    public String reverseAction(String a) {
-        switch (a){
-            case "w":
-                return "s";
-            case "a":
-                return "d";
-            case "s":
-                return "w";
-            case "d":
-                return "a";
-        }
-        return null;
-    }
-
     public String convertMoveToString(Move a) {
-        switch (a){
+        switch (a) {
             case DOWN:
                 return "s";
             case RIGHT:
@@ -96,8 +69,8 @@ public class WriteJSON {
                 return "w";
             case LEFT:
                 return "a";
-        }
-        return null; // throw error
+        };
+        return null;
     }
 
 
@@ -147,5 +120,4 @@ public class WriteJSON {
         }
         fileName = fileNamePrefix + saveIteration + fileNameSuffix;
     }
-
 }
