@@ -17,9 +17,8 @@ public class Controls extends KeyAdapter implements ActionListener {
     private ChapsChallenge game;
     private Replay replay;
 
-    public Controls(ChapsChallenge game, Replay replay) {
+    public Controls(ChapsChallenge game) {
         this.game = game;
-        this.replay = replay;
     }
 
     /**
@@ -30,6 +29,8 @@ public class Controls extends KeyAdapter implements ActionListener {
      * @param e - the key the player has pressed.
      */
     public void keyPressed(KeyEvent e) {
+        replay = new Replay();
+
         if (!recordMode) {
             if (!e.isControlDown()) {
                 switch (e.getKeyCode()) {
