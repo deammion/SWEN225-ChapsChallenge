@@ -1,7 +1,6 @@
 package nz.ac.vuw.ecs.swen225.gp30.application;
 
 import nz.ac.vuw.ecs.swen225.gp30.Move;
-import nz.ac.vuw.ecs.swen225.gp30.recnplay.LoadJSON;
 import nz.ac.vuw.ecs.swen225.gp30.recnplay.Replay;
 
 import javax.swing.*;
@@ -154,14 +153,17 @@ public class Controls extends KeyAdapter implements ActionListener {
             //Replay Menu Items.
             case "Step-by-Step":
                 //Invoke step-by-step method.
+                recordMode = true;
                 System.out.println("You are in step-by-step\n");
                 break;
             case "Auto-Replay":
                 //Invoke auto-replay method.
+                recordMode = true;
                 System.out.println("You are in auto-replay\n");
                 break;
             case "Load File":
                 //Load a file for Record and Replay.
+                recordMode = true;
                 loadRecordAndReplayFile();
                 System.out.println("You are in load file\n");
                 break;
@@ -196,7 +198,7 @@ public class Controls extends KeyAdapter implements ActionListener {
         int fileReturnValue = fileChooser.showOpenDialog(null);
         if(fileReturnValue == JFileChooser.APPROVE_OPTION){
             File selectedFile = fileChooser.getSelectedFile();
-            replay.loadJsonToreplay(selectedFile.getName());
+            replay.loadJsonToReplay(selectedFile.getName());
             System.out.println(selectedFile.getName());
         }
     }
