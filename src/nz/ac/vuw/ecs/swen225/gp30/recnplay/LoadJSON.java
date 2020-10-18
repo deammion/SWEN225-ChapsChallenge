@@ -1,9 +1,7 @@
 package nz.ac.vuw.ecs.swen225.gp30.recnplay;
 
 import javax.json.*;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 
 
@@ -19,12 +17,13 @@ public class LoadJSON {
      */
     public ArrayList<String> loadPlayerMoves(String fileName){
         ArrayList<String> playerMoves = new ArrayList<>();
+        JsonObject obj = null;
         try {
             String dir = "src/nz/ac/vuw/ecs/swen225/gp30/recnplay/";
-            FileReader fr = new FileReader(new File(dir + fileName));
+            FileReader fr = new FileReader(dir + fileName);
 
-            JsonReader jsonParser = Json.createReader(fr);
-            JsonArray jsonArray = jsonParser.readArray();
+            JsonReader jsonReader = Json.createReader(fr);
+            JsonArray jsonArray = jsonReader.readArray();
 
             for(int i =0; i < jsonArray.size(); i++) { //iterate through Json array
                 JsonObject jsonObj = jsonArray.get(i).asJsonObject(); //convert to Json object
@@ -33,12 +32,13 @@ public class LoadJSON {
                 playerMoves.add(playerAction);
             }
 
-            jsonParser.close();
+            jsonReader.close();
             fr.close();
         } catch (IOException | JsonException e) {
             e.printStackTrace();
             return null;
         }
+
         return playerMoves; // return Arraylist of player moves as strings
     }
 
@@ -53,7 +53,7 @@ public class LoadJSON {
 
             for(int i =0; i < jsonArray.size(); i++) { //iterate through Json array
                 JsonObject jsonObj = jsonArray.get(i).asJsonObject(); //convert to Json object
-                JsonString jsonStringActor = (JsonString) jsonObj.getValue("/Actor " + i); //convert move Json Object to string
+                JsonString jsonStringActor = (JsonString) jsonObj.getValue("/Actor" + i); //convert move Json Object to string
                 String actorAction = jsonStringActor.getString();
                 actorMoves.add(actorAction);
             }
@@ -78,7 +78,7 @@ public class LoadJSON {
 
             for(int i =0; i < jsonArray.size(); i++) { //iterate through Json array
                 JsonObject jsonObj = jsonArray.get(i).asJsonObject(); //convert to Json object
-                JsonString jsonStringLevel = (JsonString) jsonObj.getValue("/Level " + i); //convert move Json Object to string
+                JsonString jsonStringLevel = (JsonString) jsonObj.getValue("Level "); //convert move Json Object to string
                 level = jsonStringLevel.getString();
             }
 

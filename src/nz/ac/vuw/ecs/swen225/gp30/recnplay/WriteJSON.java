@@ -37,13 +37,13 @@ public class WriteJSON {
     }
 
     public void storePlayerMove(Move move,int time) {
-        JsonObjectBuilder playerMoveObject = Json.createObjectBuilder().add("PLayer " + playerMoveIndex++,convertMoveToString(move) + time);
+        JsonObjectBuilder playerMoveObject = Json.createObjectBuilder().add("Player" + playerMoveIndex++,convertMoveToString(move) + time);
         arrayBuilder.add(playerMoveObject);
 
     }
 
     public void storeActorMove(Move move, int time) {
-        JsonObjectBuilder actorMoveObject = Json.createObjectBuilder().add("Actor " + actorMoveIndex++,convertMoveToString(move) + time);
+        JsonObjectBuilder actorMoveObject = Json.createObjectBuilder().add("Actor" + actorMoveIndex++,convertMoveToString(move) + time);
         arrayBuilder.add(actorMoveObject);
     }
 
