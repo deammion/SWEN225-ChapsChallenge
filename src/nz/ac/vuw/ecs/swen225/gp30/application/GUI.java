@@ -229,6 +229,11 @@ public class GUI extends JFrame {
     public void setTimeLeft(int timeLeft){
         timeText.setText("Time: " + timeLeft);
     }
+
+    public void setChipsLeft(int ChipsLeft){
+        chipsText.setText("Chips: " + chipsLeft);
+    }
+
 }
 
 
