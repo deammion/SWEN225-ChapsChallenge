@@ -12,6 +12,7 @@ public class GUI extends JFrame {
     //Current level Chip is on.
     int gameLevel = 1;
     int chipsLeft = 5;
+    int microLeft = 0;
 
     //Boolean for game states.
     boolean recordAndReplayRunning = false;
@@ -26,7 +27,7 @@ public class GUI extends JFrame {
     JMenu game, options, level, replay, help;
 
     //Text Components.
-    JLabel levelText, timeText, chipsText;
+    JLabel levelText, timeText, chipsText, microText;
 
     //Game Menu Items.
     JMenuItem pause, resume, exit;
@@ -57,6 +58,8 @@ public class GUI extends JFrame {
         timeText.setBorder(BorderFactory.createEmptyBorder(10,27,10,10));
         chipsText = new JLabel("Chips Left: " + chipsLeft + " ");
         chipsText.setBorder(BorderFactory.createEmptyBorder(10,14,10,10));
+        microText = new JLabel("Microchips Left: " + microLeft + " ");
+        microText.setBorder(BorderFactory.createEmptyBorder(10,15,10,10));
         // container for text
         infoPanel = new JPanel();
         infoPanel.setLayout(new BoxLayout(infoPanel, BoxLayout.Y_AXIS));
