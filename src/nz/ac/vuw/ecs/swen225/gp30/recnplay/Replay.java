@@ -15,6 +15,7 @@ public class Replay {
 
     public ArrayList<String> playerMoves = new ArrayList<>();
     public ArrayList<String> actorMoves = new ArrayList<>();
+    public int level;
 
     /**
      * Called by the application class, which allows user to select Json file to load,
@@ -24,6 +25,7 @@ public class Replay {
      */
     public void loadJsonToReplay(String fileName) {
         LoadJSON lj = new LoadJSON();
+        level = lj.loadLevel(fileName);
         playerMoves = lj.loadPlayerMoves(fileName);
         actorMoves = lj.loadActorMoves(fileName);
     }
@@ -46,9 +48,9 @@ public class Replay {
     public Move autoPlay(int time) {
         while (autoPlaying) {
             int playerMoveTime = convertStringToInt(playerMoves.get(playerIndex));
-            if (playerMoveTime < time) {
+            if (playerMoveTime/delay > time) {
                 char stringMove = playerMoves.get(playerIndex).charAt(0);
-                Move move = convertStringTOMove(stringMove);
+                Move move = convertStringToMove(stringMove);
                 playerIndex++;
                 return move;
             }
@@ -67,9 +69,9 @@ public class Replay {
     public Move autoPlayActor(int time) {
         if(!actorMoves.isEmpty()) {
             int actorMoveTime = convertStringToInt(actorMoves.get(actorIndex));
-            if(actorMoveTime < time){
+            if(actorMoveTime/delay > time){
                 char stringMove = actorMoves.get(actorIndex).charAt(0);
-                Move actorMove = convertStringTOMove(stringMove);
+                Move actorMove = convertStringToMove(stringMove);
                 actorIndex++;
                 return actorMove;
             }
@@ -88,12 +90,12 @@ public class Replay {
         if(playerIndex + 1 <= playerMoves.size() && !autoPlaying) {
             int playerTime = convertStringToInt(playerMoves.get(playerIndex + 1));
             int actorTime = convertStringToInt(actorMoves.get(actorIndex + 1));
-            if (actorTime < playerTime) {
+            if (actorTime > playerTime) {
                 actorIndex++;
-                return convertStringTOMove(playerMoves.get(actorIndex).charAt(0));
+                return convertStringToMove(playerMoves.get(actorIndex).charAt(0));
             }
             playerIndex++;
-            return convertStringTOMove(playerMoves.get(playerIndex).charAt(0));
+            return convertStringToMove(playerMoves.get(playerIndex).charAt(0));
         }
         return null;
     }
@@ -143,7 +145,13 @@ public class Replay {
         }
     }
 
-    public Move convertStringTOMove(Character s) {
+    /**
+     * converts a string to a move, the json file stores the moves as strings
+     *
+     * @param s - string
+     * @return move - to be called by application
+     */
+    public Move convertStringToMove(Character s) {
         switch (s) {
             case 's':
                 return Move.DOWN;
@@ -157,6 +165,12 @@ public class Replay {
         return null;
     }
 
+    /**
+     * converts a string to an int, use to convert JSON string to int for time
+     *
+     * @param s - string
+     * @return int - time as an int function
+     */
     public int convertStringToInt(String s){
         return Integer.parseInt(s,1,s.length(),10);
     }
