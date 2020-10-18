@@ -17,7 +17,6 @@ public class LoadJSON {
      */
     public ArrayList<String> loadPlayerMoves(String fileName){
         ArrayList<String> playerMoves = new ArrayList<>();
-        JsonObject obj = null;
         try {
             String dir = "src/nz/ac/vuw/ecs/swen225/gp30/recnplay/";
             FileReader fr = new FileReader(dir + fileName);
@@ -27,7 +26,7 @@ public class LoadJSON {
 
             for(int i =0; i < jsonArray.size(); i++) { //iterate through Json array
                 JsonObject jsonObj = jsonArray.get(i).asJsonObject(); //convert to Json object
-                JsonString jsonStringPlayer = (JsonString) jsonObj.getValue("/Player " + i); //converts move Json Object to string
+                JsonString jsonStringPlayer = (JsonString) jsonObj.getValue("/Player" + i); //converts move Json Object to string
                 String playerAction = jsonStringPlayer.getString();
                 playerMoves.add(playerAction);
             }
@@ -67,8 +66,8 @@ public class LoadJSON {
         return actorMoves; // return Arraylist of actor moves as strings
     }
 
-    public String loadLevel(String fileName) {
-        String level = "";
+    public Integer loadLevel(String fileName) {
+        int level = 0;
         try {
             String dir = "src/nz/ac/vuw/ecs/swen225/gp30/recnplay/";
             FileReader fr = new FileReader(new File(dir + fileName));
@@ -78,8 +77,8 @@ public class LoadJSON {
 
             for(int i =0; i < jsonArray.size(); i++) { //iterate through Json array
                 JsonObject jsonObj = jsonArray.get(i).asJsonObject(); //convert to Json object
-                JsonString jsonStringLevel = (JsonString) jsonObj.getValue("Level "); //convert move Json Object to string
-                level = jsonStringLevel.getString();
+                JsonString jsonStringLevel = (JsonString) jsonObj.getValue("Level"); //convert move Json Object to string
+                level = Integer.parseInt(jsonStringLevel.getString());
             }
 
             jsonParser.close();
