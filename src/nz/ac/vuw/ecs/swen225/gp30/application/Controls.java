@@ -5,11 +5,10 @@ import nz.ac.vuw.ecs.swen225.gp30.recnplay.Replay;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileSystemView;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
+import java.awt.event.*;
 import java.io.File;
+
+import static com.sun.java.accessibility.util.AWTEventMonitor.addWindowListener;
 
 public class Controls extends KeyAdapter implements ActionListener {
 
@@ -131,6 +130,7 @@ public class Controls extends KeyAdapter implements ActionListener {
                 break;
             case "Exit":
                 //Invoke exit method.
+                exitGame();
                 break;
             //Options Menu Items.
             case "Save":
@@ -202,5 +202,17 @@ public class Controls extends KeyAdapter implements ActionListener {
             replay.loadJsonToReplay(selectedFile.getName());
             System.out.println(selectedFile.getName());
         }
+    }
+
+    private void exitGame(){
+        addWindowListener(new WindowAdapter(){
+            @Override
+            public void windowClosing(WindowEvent e){
+                int confirmed = JOptionPane.showConfirmDialog(null, "Are you sure you want to exit the game?", "Exit Program Message Box", JOptionPane.YES_NO_OPTION);
+                if(confirmed == JOptionPane.YES_OPTION){
+                    System.exit(0);
+                }
+            }
+        });
     }
 }
