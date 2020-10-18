@@ -54,7 +54,7 @@ public class writeFile {
             Gson gson = new Gson();
 
             // create a reader
-            Reader reader = Files.newBufferedReader(Paths.get("src/nz/ac/vuw/ecs/swen225/gp30/persistence/level1.json"));
+            Reader reader = Files.newBufferedReader(Paths.get("src/nz/ac/vuw/ecs/swen225/gp30/persistence/levels/level1.json"));
 
             // convert JSON file to map
             Map<?, ?> map = gson.fromJson(reader, Map.class);
