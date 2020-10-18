@@ -18,6 +18,7 @@ public class Controls extends KeyAdapter implements ActionListener {
 
     public Controls(ChapsChallenge game) {
         this.game = game;
+        replay = new Replay();
     }
 
     /**
@@ -28,8 +29,6 @@ public class Controls extends KeyAdapter implements ActionListener {
      * @param e - the key the player has pressed.
      */
     public void keyPressed(KeyEvent e) {
-        replay = new Replay();
-
         if (!recordMode) {
             if (!e.isControlDown()) {
                 switch (e.getKeyCode()) {
@@ -84,8 +83,7 @@ public class Controls extends KeyAdapter implements ActionListener {
             }
         } else {
             switch (e.getKeyCode()) {
-                case 37: //LEFT, '<-' step backwards.
-                    replay.getPreviousMove();
+                case 37: //LEFT, '<-'
                     System.out.println("You are in record mode, step back.");
                     break;
                 case 39: //RIGHT, '->' step forwards.
