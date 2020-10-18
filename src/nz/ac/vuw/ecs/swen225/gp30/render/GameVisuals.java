@@ -29,10 +29,13 @@ public class GameVisuals extends JPanel{
 	private String infoText;
 	public boolean toggleInfo = false;
 	
-	public GameVisuals(GameWorld game) {
-		this.game = game;
+	public GameVisuals() {
 		this.setPreferredSize((new Dimension(TILE_SIZE*CAMERA_VIEW, TILE_SIZE*CAMERA_VIEW)));
 		this.setBorder(BorderFactory.createLineBorder(Color.BLACK, 3));
+	}
+
+	public void setGame(GameWorld game) {
+		this.game = game;
 	}
 
 	public void setInfoText(String text) {

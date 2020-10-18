@@ -188,7 +188,7 @@ public class GUI extends JFrame {
         speedSet1.addActionListener(listener);
         speedSet2.addActionListener(listener);
         speedSet3.addActionListener(listener);
-        this.exit.addActionListener(listener);
+        exit.addActionListener(listener);
     }
 
     public InventoryPanel getInventoryPanel() {
