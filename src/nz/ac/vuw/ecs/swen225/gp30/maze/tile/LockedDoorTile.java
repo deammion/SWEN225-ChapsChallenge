@@ -1,14 +1,25 @@
 package nz.ac.vuw.ecs.swen225.gp30.maze.tile;
 
 import nz.ac.vuw.ecs.swen225.gp30.maze.Chap;
+import nz.ac.vuw.ecs.swen225.gp30.maze.IllegalMoveException;
 import nz.ac.vuw.ecs.swen225.gp30.maze.item.Item;
+import static com.google.common.base.Preconditions.checkNotNull;
 
-import static com.google.common.base.Preconditions.checkArgument;
-
+/**
+ * The LockedDoorTile class represents a tile that can be unlocked and moved to if the chap has the required key.
+ *
+ * @author campliosca
+ */
 public class LockedDoorTile extends Tile {
-    private Item keyToUnlock;
-    boolean unlocked = false;
+    private final Item keyToUnlock;
+    private boolean unlocked = false;
 
+    /**
+     * Constructs a LockedDoorTile with x and y position and key required to unlock.
+     * @param x the x position of the tile
+     * @param y the y position of the tile
+     * @param keyToUnlock the key required to unlock the door
+     */
     public LockedDoorTile(int x, int y, Item keyToUnlock) {
         super(x, y);
         this.keyToUnlock = keyToUnlock;
@@ -16,19 +27,18 @@ public class LockedDoorTile extends Tile {
 
     @Override
     public boolean canMoveTo(Chap chap) {
-        return chap.hasItem(keyToUnlock);
+        return unlocked || chap.hasItem(keyToUnlock);
     }
 
     @Override
-    public boolean addChap(Chap chap) {
-        checkArgument(chap != null, "Chap cannot be null");
-        if(chap.consumeItem(keyToUnlock)) {
-            unlocked = true;
-            chap.setAt(getX(), getY());
-            this.chap = chap;
-            return true;
+    public void addChap(Chap chap) throws IllegalMoveException {
+        checkNotNull(chap);
+        if(!unlocked) {
+            if(chap.useItem(keyToUnlock)) { unlocked = true; }
+            else { throw new IllegalMoveException("door is locked: " + keyToUnlock.toString() + " required to add chap"); }
         }
-        return false;
+        chap.setAt(getX(), getY());
+        this.chap = chap;
     }
 
     @Override

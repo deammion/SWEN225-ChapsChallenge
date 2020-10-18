@@ -10,6 +10,7 @@
 /.idea
 #
 *.iml
+/src/nz/ac/vuw/ecs/swen225/gp30/recnplay/record*
 /out
 
 /bin/

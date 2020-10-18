@@ -1,35 +1,33 @@
 package nz.ac.vuw.ecs.swen225.gp30.application;
 
-import nz.ac.vuw.ecs.swen225.gp30.maze.Game;
-
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.IOException;
 
-public class GUI extends JFrame implements ActionListener, Runnable {
+public class GUI extends JFrame {
 
     //Current level Chip is on.
-    public int gameLevel = 1;
+    int gameLevel = 1;
+    int chipsLeft = 5;
+    int microLeft = 0;
 
     //Boolean for game states.
     boolean recordAndReplayRunning = false;
     boolean gamePaused = false;
 
-    //Timing Component for the Game.
-    long totalTime = 100;
-    long timeLeft = totalTime;
-
     //JComponents.
-    JFrame GUIFrame;
-    JPanel gamePanel, infoPanel, containerPanel;
+    JPanel gamePanel, dashPanel, infoPanel, containerPanel;
+    InventoryPanel invPanel;
 
     //JMenu Components.
     JMenuBar menuBar;
     JMenu game, options, level, replay, help;
 
     //Text Components.
-    JLabel levelText, timeText, chipsText;
+    JLabel levelText, timeText, chipsText, microText;
 
     //Game Menu Items.
     JMenuItem pause, resume, exit;
@@ -40,38 +38,63 @@ public class GUI extends JFrame implements ActionListener, Runnable {
     //Replay Menu Items.
     JRadioButtonMenuItem speedSet0, speedSet1, speedSet2, speedSet3;
     ButtonGroup speedButtonGroup;
-    JMenuItem step, auto;
+    JMenuItem step, auto, recLoad;
     JMenu speed;
 
-    GUI(){
-
-        //Game panel component of the GUI, will hold the board to be rendered.
-        gamePanel = new JPanel();
-        gamePanel.setBorder(BorderFactory.createTitledBorder("Game"));
-        gamePanel.setPreferredSize(new Dimension(468, 468));
+    /**
+     * Adds the panels to the master panel.
+     */
+    public void init() {
 
         //Information panel component of the GUI
+        dashPanel = new JPanel();
+        dashPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        dashPanel.setPreferredSize(new Dimension(200, 378));
+        dashPanel.setLayout(new BoxLayout(dashPanel, BoxLayout.Y_AXIS));
+        //Information Panel text Components.
+        levelText = new JLabel("Level: " + gameLevel + " ");
+        levelText.setBorder(BorderFactory.createEmptyBorder(10,30,10,10));
+        timeText = new JLabel();
+        timeText.setBorder(BorderFactory.createEmptyBorder(10,27,10,10));
+        chipsText = new JLabel("Chips Left: " + chipsLeft + " ");
+        chipsText.setBorder(BorderFactory.createEmptyBorder(10,14,10,10));
+        microText = new JLabel("Microchips Left: " + microLeft + " ");
+        microText.setBorder(BorderFactory.createEmptyBorder(10,15,10,10));
+        // container for text
         infoPanel = new JPanel();
-        infoPanel.setBorder(BorderFactory.createTitledBorder("Info"));
-        infoPanel.setPreferredSize(new Dimension(200, 468));
         infoPanel.setLayout(new BoxLayout(infoPanel, BoxLayout.Y_AXIS));
-
-        levelText = new JLabel("Level: ");
-        timeText = new JLabel("Time: ");
-        chipsText = new JLabel("Chips Left: ");
-
         infoPanel.add(levelText);
         infoPanel.add(timeText);
         infoPanel.add(chipsText);
 
+        //inv panel
+        invPanel = new InventoryPanel();
+
+        //Add text components to the info panel.
+        dashPanel.add(infoPanel);
+        dashPanel.add(Box.createRigidArea(new Dimension(60, 100)));
+        dashPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 3));
+        dashPanel.add(invPanel);
+
         //Container panel which is the Master container.
-        containerPanel = new JPanel();
+        containerPanel = new JPanel() {
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                try {
+                    g.drawImage(ImageIO.read(new File("assets/circuit_board_background.jpg")), 0, 0, null);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        };
         containerPanel.add(gamePanel);
         containerPanel.add(Box.createRigidArea(new Dimension(10, 0)));
-        containerPanel.add(infoPanel);
+        containerPanel.add(dashPanel);
         containerPanel.setBorder(BorderFactory.createEmptyBorder(25, 50,50, 50));
         containerPanel.setLayout(new FlowLayout());
 
+        //Set the attributes for the master JFrame.
         this.setContentPane(containerPanel);
         this.setResizable(false);
         this.setLayout(new FlowLayout());
@@ -86,11 +109,8 @@ public class GUI extends JFrame implements ActionListener, Runnable {
         this.add(menuBar);
         this.setJMenuBar(menuBar);
 
-        //Key listener set up.
         setFocusable(true);
-        this.addKeyListener(new Controls());
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
     }
 
     /**
@@ -98,44 +118,34 @@ public class GUI extends JFrame implements ActionListener, Runnable {
      * implemented too.
      */
     public void createMenu(){
-
         //MenuBar.
         menuBar = new JMenuBar();
 
         //Game Menu.
         game = new JMenu("Game");
         resume = new JMenuItem("Resume");
-        resume.addActionListener(this);
         pause = new JMenuItem("Pause");
-        pause.addActionListener(this);
         exit = new JMenuItem("Exit");
-        exit.addActionListener(this);
         game.add(resume); game.add(pause); game.add(exit);
 
         //Option Menu.
         options = new JMenu("Options");
         save = new JMenuItem("Save");
-        save.addActionListener(this);
         load = new JMenuItem("Load");
-        load.addActionListener(this);
         options.add(save); options.add(load);
 
         //Level Menu.
         level = new JMenu("Level");
         one = new JMenuItem("One");
-        one.addActionListener(this);
         two = new JMenuItem("Two");
-        two.addActionListener(this);
         three = new JMenuItem("Three");
-        three.addActionListener(this);
         level.add(one); level.add(two); level.add(three);
 
         //Record n Replay Menu.
         replay = new JMenu("Replay");
         step = new JMenuItem("Step-by-Step");
-        step.addActionListener(this);
         auto = new JMenuItem("Auto-Replay");
-        auto.addActionListener(this);
+        recLoad = new JMenuItem("Load File");
 
         //The replay speed setting submenu setup.
         speed = new JMenu("Replay Speed");
@@ -148,9 +158,8 @@ public class GUI extends JFrame implements ActionListener, Runnable {
         speedButtonGroup.add(speedSet0); speedButtonGroup.add(speedSet1);
         speedButtonGroup.add(speedSet2); speedButtonGroup.add(speedSet3);
 
-
         //Add all the sun items to the menu.
-        replay.add(step); replay.add(auto); replay.add(speed);
+        replay.add(step); replay.add(auto); replay.add(recLoad); replay.add(speed);
 
         //Help Menu.
         help = new JMenu("Help");
@@ -158,114 +167,50 @@ public class GUI extends JFrame implements ActionListener, Runnable {
 
         //Add Menu Components.
         menuBar.add(game); menuBar.add(options); menuBar.add(level); menuBar.add(replay); menuBar.add(help);
-
     }
 
     /**
-     * The user of the game clicks on a menu item, this will invoke a method
-     * which will Pause, Resume etc.
+     * Adds the menu item action listeners so that they are active for when they
+     * are called by the controls class.
      *
-     * @param actionEvent - event happening.
+     * @param listener - action listener.
      */
-    @Override
-    public void actionPerformed(ActionEvent actionEvent) {
-        switch(actionEvent.getActionCommand()){
+    public void setActionListeners(ActionListener listener) {
+        resume.addActionListener(listener);
+        pause.addActionListener(listener);
+        exit.addActionListener(listener);
+        save.addActionListener(listener);
+        load.addActionListener(listener);
+        one.addActionListener(listener);
+        two.addActionListener(listener);
+        three.addActionListener(listener);
+        step.addActionListener(listener);
+        auto.addActionListener(listener);
+        recLoad.addActionListener(listener);
+        speedSet0.addActionListener(listener);
+        speedSet1.addActionListener(listener);
+        speedSet2.addActionListener(listener);
+        speedSet3.addActionListener(listener);
+        exit.addActionListener(listener);
+    }
 
-            //Game Menu Items.
-            case "Pause":
-                //Invoke pause method.
-                System.out.println("You are in the Pause\n");
-                break;
-            case "Resume":
-                //Invoke resume method.
-                System.out.println("You are in the Resume\n");
-                break;
-            case "Exit":
-                //Invoke exit method.
-                break;
-
-            //Options Menu Items.
-            case "Save":
-                //Invoke save method.
-                System.out.println("You are in the Save\n");
-                break;
-            case "Load":
-                //Invoke load method.
-                break;
-
-            //Level Menu Items.
-            case "One":
-                //Invoke one method.
-                System.out.println("You are in the One\n");
-                break;
-            case "Two":
-                //Invoke two method.
-                break;
-            case "Three":
-                //Invoke three method.
-                break;
-
-
-            //Replay Menu Items.
-            case "Step-by-Step":
-                //Invoke step-by-step method.
-                System.out.println("You are in step-by-step\n");
-                break;
-            case "Auto-Replay":
-                //Invoke auto-replay method.
-                System.out.println("You are in auto-replay\n");
-                break;
-
-            //Help Menu Items.
-            case "Help":
-                //Invoke help method (dialog box).
-                System.out.println("You are in the Help");
-
-        }
+    public InventoryPanel getInventoryPanel() {
+        return invPanel;
     }
 
     /**
-     * Allows the game to run smoothly, takes care of the rendering updates and internal components. The
-     * time count down
+     * Panel in the GUI which holds the rendered board, holds chap
+     * and all other drawn tiles.
+     *
+     * @param gamePanel - is the Game Panel.
      */
-
-    @Override
-    public void run() {
-
-        //Game loop details:
-        //Implement the run method of the thread
-        //Create an infinite while loop
-        //Use a boolean variable running to control the loop.
-
-        while(true) {
-
-            if(!isGamePaused() && !isRecordAndReplayRunning()){
-
-                if(timeLeft > 0){
-
-                    //update the board
-
-                }
-
-            }
-
-        }
-
-        }
-
-    //Helper Methods all implemented below. The get/set/is methods:
-
-        // get the time left.
-        // get the player inventory.
-        // get the player treasure count.
-        // get the number of treasures in a level.
-
-
+    public void setGamePanel(JPanel gamePanel) {
+        this.gamePanel = gamePanel;
+    }
 
     /**
      * Is the game is Record and Repay mode.
-     *
-      * @return - if the game is in record or replay mode.
+     * @return - if the game is in record or replay mode.
      */
     private boolean isRecordAndReplayRunning() {
         return recordAndReplayRunning;
@@ -273,7 +218,6 @@ public class GUI extends JFrame implements ActionListener, Runnable {
 
     /**
      * Is the game paused.
-     *
      * @return - if the game is paused or not.
      */
     private boolean isGamePaused() {
@@ -283,29 +227,17 @@ public class GUI extends JFrame implements ActionListener, Runnable {
     /**
      * The amount of time left in a level to be set, complimentary
      * for the pause option.
-     *
      * @param timeLeft - time left to complete a level
      */
-    public void setTimeLeft(Long timeLeft){
-        this.timeLeft = timeLeft;
+    public void setTimeLeft(int timeLeft){
+        timeText.setText("Time: " + timeLeft);
     }
 
-    /**
-     * How much time is left to complete the current level.
-     *
-     * @return - time left to complete the level.
-     */
-    public long getTimeLeft() {
-        return timeLeft;
-    }
-
-    /**
-     * The level of the game the player is on.
-     *
-     * @return - the level number.
-     */
-    public int getGameLevel(){
-        return gameLevel;
+    public void setChipsLeft(int ChipsLeft){
+        chipsText.setText("Chips: " + chipsLeft);
     }
 
 }
+
+
+

@@ -3,6 +3,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 import nz.ac.vuw.ecs.swen225.gp30.maze.tile.Tile;
 
 import java.util.Arrays;
+import java.util.stream.Stream;
 
 public class Maze {
     private Tile[][] grid;
@@ -24,12 +25,16 @@ public class Maze {
         return grid[x][y];
     }
 
+    public Stream<Tile> getTiles() {
+        return Arrays.stream(grid).flatMap(Stream::of);
+    }
+
     @Override
     public String toString() {
         StringBuilder gridString = new StringBuilder();
-        for(int x=0; x<grid.length; x++) {
-            for(int y=0; y<grid[0].length; y++) {
-                if(x == 0) { gridString.append("|"); }
+        for(int y=0; y<grid[0].length; y++) {
+            for(int x=0; x<grid.length; x++) {
+                if(x == 0) { gridString.append("\n|"); }
                 Tile t = getTileAt(x, y);
                 gridString.append(t.getChar());
                 gridString.append("|");

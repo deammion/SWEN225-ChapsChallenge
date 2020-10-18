@@ -1,11 +1,19 @@
 package nz.ac.vuw.ecs.swen225.gp30.maze.tile;
 
-import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
 import nz.ac.vuw.ecs.swen225.gp30.maze.Chap;
-import nz.ac.vuw.ecs.swen225.gp30.maze.item.Item;
+import nz.ac.vuw.ecs.swen225.gp30.maze.IllegalMoveException;
 
+/**
+ * The FreeTile class represents a tile that can be moved to freely without any requirements.
+ */
 public class FreeTile extends Tile {
 
+    /**
+     * Constructs a FreeTile with x and y position.
+     * @param x the x position of the tile
+     * @param y the y position of the tile
+     */
     public FreeTile(int x, int y) {
         super(x, y);
     }
@@ -16,11 +24,10 @@ public class FreeTile extends Tile {
     }
 
     @Override
-    public boolean addChap(Chap chap) {
-        checkArgument(chap != null, "Chap cannot be null");
+    public void addChap(Chap chap) throws IllegalMoveException {
+        checkNotNull(chap);
         chap.setAt(getX(), getY());
         this.chap = chap;
-        return true;
     }
 
     @Override
