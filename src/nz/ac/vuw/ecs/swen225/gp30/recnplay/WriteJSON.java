@@ -73,31 +73,23 @@ public class WriteJSON {
 
 
     public String reverseAction(String a) {
-        switch (a){
-            case "w":
-                return "s";
-            case "a":
-                return "d";
-            case "s":
-                return "w";
-            case "d":
-                return "a";
-        }
-        return null;
+        return switch (a) {
+            case "w" -> "s";
+            case "a" -> "d";
+            case "s" -> "w";
+            case "d" -> "a";
+            default -> throw new IllegalStateException("Unexpected value: " + a);
+        };
     }
 
     public String convertMoveToString(Move a) {
-        switch (a){
-            case DOWN:
-                return "s";
-            case RIGHT:
-                return "d";
-            case UP:
-                return "w";
-            case LEFT:
-                return "a";
-        }
-        return null; // throw error
+        return switch (a) {
+            case DOWN -> "s";
+            case RIGHT -> "d";
+            case UP -> "w";
+            case LEFT -> "a";
+        };
+        // throw error
     }
 
 
@@ -147,5 +139,4 @@ public class WriteJSON {
         }
         fileName = fileNamePrefix + saveIteration + fileNameSuffix;
     }
-
 }

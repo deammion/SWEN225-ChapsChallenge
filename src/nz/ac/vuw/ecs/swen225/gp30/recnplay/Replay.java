@@ -22,7 +22,7 @@ public class Replay {
      *
      * @param fileName - user selected filename, see LoadJSON
      */
-    public void loadJsonToreplay(String fileName) {
+    public void loadJsonToReplay(String fileName) {
         LoadJSON lj = new LoadJSON();
         playerMoves = lj.loadPlayerMoves(fileName);
         actorMoves = lj.loadActorMoves(fileName);
@@ -144,31 +144,25 @@ public class Replay {
     }
 
     public Move convertStringTOMove(Character s) {
-        switch (s){
-            case 's':
-                return Move.DOWN;
-            case 'd':
-                return Move.RIGHT;
-            case 'a':
-                return Move.LEFT;
-            case 'w':
-                return Move.UP;
-        }
-        return null; // throw error
+        return switch (s) {
+            case 's' -> Move.DOWN;
+            case 'd' -> Move.RIGHT;
+            case 'a' -> Move.LEFT;
+            case 'w' -> Move.UP;
+            default -> null;
+        };
+        // throw error
     }
 
     public Move reverseMove(Character s){
-        switch (s){
-            case 'w':
-                return Move.DOWN;
-            case 'a':
-                return Move.RIGHT;
-            case 'd':
-                return Move.LEFT;
-            case 's':
-                return Move.UP;
-        }
-        return null; // throw error
+        return switch (s) {
+            case 'w' -> Move.DOWN;
+            case 'a' -> Move.RIGHT;
+            case 'd' -> Move.LEFT;
+            case 's' -> Move.UP;
+            default -> null;
+        };
+        // throw error
     }
 
     public int convertStringToInt(String s){

@@ -88,6 +88,6 @@ public class LoadJSON {
             e.printStackTrace();
             return null;
         }
-        return level; // return Arraylist of actor moves as strings
+        return level; // return the level number as a string
     }
 }
