@@ -17,10 +17,9 @@ public class GameWorld {
     public static int CHIPS_REQUIRED;
     public MobManager mobMgr;
 
-    public GameWorld(Maze maze, MobManager mobMgr, Chap chap) {
+    public GameWorld(Maze maze, Chap chap) {
         this.maze = maze;
         this.chap = chap;
-        this.mobMgr = mobMgr;
         setChapOnMaze(chap.getX(), chap.getY());
     }
 
