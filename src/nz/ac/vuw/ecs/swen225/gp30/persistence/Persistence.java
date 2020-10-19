@@ -1,13 +1,10 @@
-
 package nz.ac.vuw.ecs.swen225.gp30.persistence;
 
 import com.google.gson.Gson;
 import nz.ac.vuw.ecs.swen225.gp30.application.ChapsChallenge;
-import nz.ac.vuw.ecs.swen225.gp30.maze.Chap;
-import nz.ac.vuw.ecs.swen225.gp30.maze.GameWorld;
-import nz.ac.vuw.ecs.swen225.gp30.maze.Maze;
-import nz.ac.vuw.ecs.swen225.gp30.maze.MobManager;
+import nz.ac.vuw.ecs.swen225.gp30.maze.*;
 import nz.ac.vuw.ecs.swen225.gp30.maze.item.Item;
+import nz.ac.vuw.ecs.swen225.gp30.maze.item.ItemType;
 import nz.ac.vuw.ecs.swen225.gp30.maze.tile.*;
 
 import java.io.BufferedWriter;
@@ -16,47 +13,43 @@ import java.io.IOException;
 import java.io.Reader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
 
 public class Persistence {
 
-    private final int NUM_LEVELS = 2;
-
-
-
     public static void main(String args[]){
-        GameWorld g = readLevel(1);
+        GameWorld g = readLevel();
     }
 
     public static void saveGame(ChapsChallenge game, String name) {
 
-     //String g = getState(game);
-     try {
-     BufferedWriter w = new BufferedWriter(new FileWriter(name));
-     //w.write(g);
-     w.close();
-     } catch (IOException e) {
-     System.out.println("Error saving game: " + e);
-     }
+        String g = getState(game);
+        try {
+            BufferedWriter w = new BufferedWriter(new FileWriter(name));
+            w.write(g);
+            w.close();
+        } catch (IOException e) {
+            System.out.println("Error saving game: " + e);
+        }
 
-     }
-
-
-     //public static String getState(ChapsChallenge game){
+    }
 
 
-     //}
+    public static String getState(ChapsChallenge game){
+        return "";
+    }
 
-    public static GameWorld readLevel(int level) {
-        String path = "src/nz/ac/vuw/ecs/swen225/gp30/persistence/levels/level" + level + ".json";
+    public static GameWorld readLevel() {
         try {
             // create Gson instance
             Gson gson = new Gson();
 
             // create a reader
-            Reader reader = Files.newBufferedReader(Paths.get(path));
+            Reader reader = Files.newBufferedReader(Paths.get("src/nz/ac/vuw/ecs/swen225/gp30/persistence/levels/level2.json"));
 
             // convert JSON file to map
             Map<?, ?> map = gson.fromJson(reader, Map.class);
@@ -64,25 +57,25 @@ public class Persistence {
             int width = (int) Double.parseDouble(map.get("boardWidth").toString());
             int height = (int) Double.parseDouble(map.get("boardHeight").toString());
             int chipsRequired = (int) Double.parseDouble(map.get("chipsRequired").toString());
+            String boardString = map.get("board").toString();
+            Maze maze = readBoard(chipsRequired, width, height, boardString);
+
             int chapX = (int) Double.parseDouble(((Map)map.get("chap")).get("x").toString());
             int chapY = (int) Double.parseDouble(((Map)map.get("chap")).get("y").toString());
-            int mobX = (int) Double.parseDouble(((Map)map.get("mob")).get("x").toString());
-            int mobY = (int) Double.parseDouble(((Map)map.get("mob")).get("y").toString());
-            //int[] mobPath = map.get("mob".get("path"));
-
-
-            String levelInfo = map.get("levelInfo").toString();
-            String boardString = map.get("board").toString();
-
-
-            Maze maze = readBoard(chipsRequired, width, height, boardString);
-            MobManager mob = new MobManager(maze);
-            //mob.addMob(mobX, mobY);
             Chap chap = new Chap(chapX, chapY);
-            System.out.println(maze.toString());
-            GameWorld game = new GameWorld(maze, mob, chap);
-            GameWorld.CHIPS_REQUIRED = chipsRequired;
+
+            MobManager mobMgr = new MobManager(maze);
+            if(map.containsKey("mobs")) {
+                List<Mob> mobs = readMobs((Map)map.get("mobs"));
+                mobMgr.setMobs(mobs);
+            }
+
+            GameWorld game = new GameWorld(maze, chap);
+            String levelInfo = map.get("levelInfo").toString();
+
+            game.setMobManager(mobMgr);
             game.setLevelInfo(levelInfo);
+            GameWorld.CHIPS_REQUIRED = chipsRequired;
 
             reader.close();
             return game;
@@ -90,6 +83,26 @@ public class Persistence {
             ex.printStackTrace();
         }
         return null;
+    }
+
+    public static List<Mob> readMobs(Map mobs) {
+        List<Mob> mobsList = new ArrayList<>();
+        int mobX;
+        int mobY;
+        int[] path;
+        for(Object entry : mobs.values()) {
+            mobX = (int) Double.parseDouble(((Map) entry).get("x").toString());
+            mobY = (int) Double.parseDouble(((Map) entry).get("y").toString());
+            List<Double> pathArr = ((List<Double>) ((Map) entry).get("path"));
+            path = new int[pathArr.size()];
+            for(int i=0; i<pathArr.size(); i++) {
+                path[i] = pathArr.get(i).intValue();
+            }
+
+            mobsList.add(new Bug(mobX, mobY, path));
+        }
+
+        return mobsList;
     }
 
     public static Maze readBoard(int chipsRequired, int width, int height, String board){
@@ -153,9 +166,4 @@ public class Persistence {
         }
         return m;
     }
-
-    public int getTotalLevels(){
-      return NUM_LEVELS;
-    }
-
 }
