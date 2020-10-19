@@ -20,7 +20,7 @@ import java.util.Map;
 import java.util.Scanner;
 
 
-public class writeFile {
+public class Persistence {
 
     public static void main(String args[]){
         GameWorld g = readLevel();

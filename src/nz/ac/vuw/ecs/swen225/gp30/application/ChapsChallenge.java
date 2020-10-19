@@ -2,8 +2,7 @@ package nz.ac.vuw.ecs.swen225.gp30.application;
 
 import nz.ac.vuw.ecs.swen225.gp30.maze.GameWorld;
 import nz.ac.vuw.ecs.swen225.gp30.Move;
-import nz.ac.vuw.ecs.swen225.gp30.persistence.writeFile;
-import nz.ac.vuw.ecs.swen225.gp30.recnplay.*;
+import nz.ac.vuw.ecs.swen225.gp30.persistence.Persistence;
 import nz.ac.vuw.ecs.swen225.gp30.render.GameVisuals;
 
 import javax.swing.*;
@@ -96,7 +95,7 @@ public class ChapsChallenge {
      * Method will load a level for the game.
      */
     public void loadLevel() {
-        game = writeFile.readLevel();
+        game = Persistence.readLevel();
         renderer.setGame(game);
     }
 
