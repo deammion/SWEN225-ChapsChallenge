@@ -2,6 +2,7 @@
 package nz.ac.vuw.ecs.swen225.gp30.persistence;
 
 import com.google.gson.Gson;
+import nz.ac.vuw.ecs.swen225.gp30.application.ChapsChallenge;
 import nz.ac.vuw.ecs.swen225.gp30.maze.Chap;
 import nz.ac.vuw.ecs.swen225.gp30.maze.GameWorld;
 import nz.ac.vuw.ecs.swen225.gp30.maze.Maze;
@@ -9,6 +10,9 @@ import nz.ac.vuw.ecs.swen225.gp30.maze.item.Item;
 import nz.ac.vuw.ecs.swen225.gp30.maze.item.ItemType;
 import nz.ac.vuw.ecs.swen225.gp30.maze.tile.*;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.io.Reader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -22,18 +26,18 @@ public class writeFile {
         GameWorld g = readLevel();
     }
 
-    /**public static void saveGame(ChapsChallenge game, String name) {
+    public static void saveGame(ChapsChallenge game, String name) {
 
      //String game = getState(game);
      try {
      BufferedWriter w = new BufferedWriter(new FileWriter(name));
-     w.write(game);
+     //w.write(game);
      w.close();
      } catch (IOException e) {
      System.out.println("Error saving game: " + e);
      }
 
-     }**/
+     }
 
 
     public static GameWorld readLevel() {
