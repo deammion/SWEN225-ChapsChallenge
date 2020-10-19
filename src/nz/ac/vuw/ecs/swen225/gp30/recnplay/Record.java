@@ -1,9 +1,6 @@
 package nz.ac.vuw.ecs.swen225.gp30.recnplay;
 
-
 import nz.ac.vuw.ecs.swen225.gp30.Move;
-import nz.ac.vuw.ecs.swen225.gp30.maze.tile.Tile;
-
 
 import javax.json.*;
 import java.io.File;
@@ -36,29 +33,47 @@ public class Record {
         file = new File(dir + fileName);
     }
 
+    /**
+     * called by chapsChallenge, converts the move to a string, includes the time
+     * done this way to limit file size
+     *
+     * @param move - Move functions used by application to move actors
+     * @param time - time remaining in level
+     */
     public void storePlayerMove(Move move,int time) {
         JsonObjectBuilder playerMoveObject = Json.createObjectBuilder().add("Player" + playerMoveIndex++,convertMoveToString(move) + time);
         arrayBuilder.add(playerMoveObject);
 
     }
 
+    /**
+     * called by chapsChallenge, converts the move to a string, includes the time
+     * done this way to limit file size
+     *
+     * @param move - Move functions used by application to move actors
+     * @param time - time remaining in level
+     */
     public void storeActorMove(Move move, int time) {
         JsonObjectBuilder actorMoveObject = Json.createObjectBuilder().add("Actor" + actorMoveIndex++,convertMoveToString(move) + time);
         arrayBuilder.add(actorMoveObject);
     }
 
     /**
-     * takes a gameState, iterators through it, saves each "tile" as a string.
-     * adds string to a string builder, then creates a Json object using that string.
-     * this json object is then added to the Json array builder
+     * stores the level number, so correct level info can be loaded for replay
      *
-     * @param levelNum -String dictating the level number
+     * @param levelNum -Integer dictating the level number
      */
-    public void storeLevel(String levelNum) {
+    public void storeLevel(Integer levelNum) {
         JsonObjectBuilder gameStateObj = Json.createObjectBuilder().add("level ", levelNum); //converts level to a JsonObject
         arrayBuilder.add(gameStateObj); //adds JsonObject to JsonArray
     }
 
+    /**
+     *
+     *
+     * @param a - a move function used by application
+     * @return move as a String
+     */
     public String convertMoveToString(Move a) {
         switch (a) {
             case DOWN:
@@ -99,6 +114,7 @@ public class Record {
 
     /**
      * updates the file name to a new iterations i.e. changes the saveIteration
+     * finds lowest possible number. i.e if a file is deleted the new save will take its place
      */
     private void createNewSaveIteration() {
         File recordDir = new File(dir);
