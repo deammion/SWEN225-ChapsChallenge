@@ -1,13 +1,12 @@
-
 package nz.ac.vuw.ecs.swen225.gp30.recnplay;
 
 import nz.ac.vuw.ecs.swen225.gp30.Move;
-
 
 import java.util.ArrayList;
 
 public class Replay {
 
+    //all variables initialised when new replay instance is called
     public Boolean autoPlaying = false;
     private int playerIndex = 0;
     private int actorIndex = 0;
@@ -18,8 +17,9 @@ public class Replay {
     public int level;
 
     /**
-     * Called by the application class, which allows user to select Json file to load,
-     * feeds file to LoadJson class which will update the local gameStates arraylist
+     * Called by the application module, which allows user to select Json file to load,
+     * feeds file to LoadJson class which will update the local playerMoves arraylist and level int
+     * playerMoves are used but other methods in this class
      *
      * @param fileName - user selected filename, see LoadJSON
      */
@@ -39,7 +39,7 @@ public class Replay {
 
     /**
      * gets the time from the next move in the playerMoves arraylist
-     * checks that against the game time, if the move time is less then the game timer
+     * checks that against the game time, if the move time is greater then the game timer (as the timer counts down)
      * the move is passed to application.
      *
      * @Param time - game timer
@@ -161,7 +161,7 @@ public class Replay {
                 return Move.LEFT;
             case 'w':
                 return Move.UP;
-        };
+        }
         return null;
     }
 
@@ -172,7 +172,8 @@ public class Replay {
      * @return int - time as an int function
      */
     public int convertStringToInt(String s){
-        return Integer.parseInt(s,1,s.length(),10);
+        String numbers = s.substring(1); //create new string which only contains ints
+        return Integer.parseInt(numbers);
     }
 
 }

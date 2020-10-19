@@ -137,7 +137,7 @@ public class ChapsChallenge {
      * Method will load a level for the game.
      */
     public void loadLevel() {
-        game = Persistence.readLevel();
+        game = Persistence.readLevel(1);
         renderer.setGame(game);
     }
 
