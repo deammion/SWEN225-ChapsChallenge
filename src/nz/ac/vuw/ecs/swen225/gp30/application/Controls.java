@@ -142,11 +142,12 @@ public class Controls extends KeyAdapter implements ActionListener {
             //Level Menu Items.
             case "One":
                 //Invoke one method.
-                game.loadLevel();
+                game.loadLevel(1);
                 System.out.println("You are in the level One\n");
                 break;
             case "Two":
                 //Invoke two method.
+                game.loadLevel(2);
                 System.out.println("You are in level Two\n");
                 break;
             //Replay Menu Items.

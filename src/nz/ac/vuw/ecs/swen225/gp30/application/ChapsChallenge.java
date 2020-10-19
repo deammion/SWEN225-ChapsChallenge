@@ -48,7 +48,7 @@ public class ChapsChallenge {
         gui.setTimeLeft(timeLeft);
 
         gameLevel = 1;
-        loadLevel();
+        loadLevel(gameLevel);
         startGame();
     }
 
@@ -136,9 +136,14 @@ public class ChapsChallenge {
     /**
      * Method will load a level for the game.
      */
-    public void loadLevel() {
-        game = Persistence.readLevel(1);
+    public void loadLevel(int i) {
+        game = Persistence.readLevel(gameLevel);
         renderer.setGame(game);
+    }
+
+    public void loadNextLevel(){
+        gameLevel++;
+        loadLevel(gameLevel);
     }
 
     /**
@@ -168,6 +173,8 @@ public class ChapsChallenge {
                                 game.advance();
                                 elapsed = 0;
                             }
+                            renderer.repaint();
+                            break;
                         case WON:
                             // game.loadLevel(xx)
                             // winning logic
@@ -202,7 +209,7 @@ public class ChapsChallenge {
     }
 
     public void wonGame() {
-        loadLevel();
+        loadNextLevel();
         timeLeft = TOTAL_TIME;
         timer.restart();
         state = GameState.RUNNING;
