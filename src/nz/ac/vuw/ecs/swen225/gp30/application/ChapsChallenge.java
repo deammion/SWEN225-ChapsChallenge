@@ -32,6 +32,8 @@ public class ChapsChallenge {
     private GUI gui;
     Record record;
 
+    public int gameLevel;
+
     public ChapsChallenge() {
         gui = new GUI();
         renderer = new GameVisuals();
@@ -45,6 +47,7 @@ public class ChapsChallenge {
         gui.setActionListeners(control);
         gui.setTimeLeft(timeLeft);
 
+        gameLevel = 1;
         loadLevel();
         startGame();
     }
