@@ -183,13 +183,14 @@ public class ChapsChallenge {
                         case TIMEOUT:
                             renderer.repaint();
                             break;
-                        }
-                checkGameState();
-                updateDashboard();
-                try {
-                    Thread.sleep(start + (long) 1000 / (long) 30 - System.currentTimeMillis());
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
+                    }
+                    checkGameState();
+                    updateDashboard();
+
+                    try {
+                        Thread.sleep(start + (long) 1000 / (long) 30 - System.currentTimeMillis());
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
                     }
                 }
             }
