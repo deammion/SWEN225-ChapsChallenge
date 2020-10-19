@@ -23,6 +23,9 @@ import java.util.Scanner;
 
 public class Persistence {
 
+    private final int NUM_LEVELS = 2;
+
+
     public static void main(String args[]){
         GameWorld g = readLevel();
     }
@@ -149,4 +152,9 @@ public class Persistence {
         }
         return m;
     }
+
+    public int getTotalLevels(){
+      return NUM_LEVELS;
+    }
+
 }
