@@ -34,11 +34,11 @@ public class GUI extends JFrame {
     //Options Menu Items.
     JMenuItem save, load;
     //Level Menu Items.
-    JMenuItem one, two, three;
+    JMenuItem one, two;
     //Replay Menu Items.
     JRadioButtonMenuItem speedSet0, speedSet1, speedSet2, speedSet3;
     ButtonGroup speedButtonGroup;
-    JMenuItem step, auto, recLoad;
+    JMenuItem recLoad;
     JMenu speed;
 
     /**
@@ -137,8 +137,7 @@ public class GUI extends JFrame {
         level = new JMenu("Level");
         one = new JMenuItem("One");
         two = new JMenuItem("Two");
-        three = new JMenuItem("Three");
-        level.add(one); level.add(two); level.add(three);
+        level.add(one); level.add(two);
 
         //Record n Replay Menu.
         replay = new JMenu("Replay");
@@ -180,7 +179,6 @@ public class GUI extends JFrame {
         load.addActionListener(listener);
         one.addActionListener(listener);
         two.addActionListener(listener);
-        three.addActionListener(listener);
         recLoad.addActionListener(listener);
         speedSet0.addActionListener(listener);
         speedSet1.addActionListener(listener);

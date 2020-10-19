@@ -8,7 +8,6 @@ import nz.ac.vuw.ecs.swen225.gp30.maze.GameWorld;
 import nz.ac.vuw.ecs.swen225.gp30.maze.Maze;
 import nz.ac.vuw.ecs.swen225.gp30.maze.MobManager;
 import nz.ac.vuw.ecs.swen225.gp30.maze.item.Item;
-import nz.ac.vuw.ecs.swen225.gp30.maze.item.ItemType;
 import nz.ac.vuw.ecs.swen225.gp30.maze.tile.*;
 
 import java.io.BufferedWriter;
@@ -23,16 +22,20 @@ import java.util.Scanner;
 
 public class Persistence {
 
+    private final int NUM_LEVELS = 2;
+
+
+
     public static void main(String args[]){
-        GameWorld g = readLevel();
+        GameWorld g = readLevel(1);
     }
 
     public static void saveGame(ChapsChallenge game, String name) {
 
-     String g = getState(game);
+     //String g = getState(game);
      try {
      BufferedWriter w = new BufferedWriter(new FileWriter(name));
-     w.write(g);
+     //w.write(g);
      w.close();
      } catch (IOException e) {
      System.out.println("Error saving game: " + e);
@@ -41,18 +44,19 @@ public class Persistence {
      }
 
 
-     public static String getState(ChapsChallenge game){
+     //public static String getState(ChapsChallenge game){
 
 
-     }
+     //}
 
-    public static GameWorld readLevel() {
+    public static GameWorld readLevel(int level) {
+        String path = "src/nz/ac/vuw/ecs/swen225/gp30/persistence/levels/level" + level + ".json";
         try {
             // create Gson instance
             Gson gson = new Gson();
 
             // create a reader
-            Reader reader = Files.newBufferedReader(Paths.get("src/nz/ac/vuw/ecs/swen225/gp30/persistence/levels/level1.json"));
+            Reader reader = Files.newBufferedReader(Paths.get(path));
 
             // convert JSON file to map
             Map<?, ?> map = gson.fromJson(reader, Map.class);
@@ -64,7 +68,7 @@ public class Persistence {
             int chapY = (int) Double.parseDouble(((Map)map.get("chap")).get("y").toString());
             int mobX = (int) Double.parseDouble(((Map)map.get("mob")).get("x").toString());
             int mobY = (int) Double.parseDouble(((Map)map.get("mob")).get("y").toString());
-            int[] mobPath = map.get("mob".get("path"));
+            //int[] mobPath = map.get("mob".get("path"));
 
 
             String levelInfo = map.get("levelInfo").toString();
@@ -73,7 +77,7 @@ public class Persistence {
 
             Maze maze = readBoard(chipsRequired, width, height, boardString);
             MobManager mob = new MobManager(maze);
-            mob.addMob(mobX, mobY);
+            //mob.addMob(mobX, mobY);
             Chap chap = new Chap(chapX, chapY);
             System.out.println(maze.toString());
             GameWorld game = new GameWorld(maze, mob, chap);
@@ -149,4 +153,9 @@ public class Persistence {
         }
         return m;
     }
+
+    public int getTotalLevels(){
+      return NUM_LEVELS;
+    }
+
 }
