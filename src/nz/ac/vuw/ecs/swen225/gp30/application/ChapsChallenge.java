@@ -22,7 +22,7 @@ public class ChapsChallenge {
     /* Timing components for the game */
     private final int TOTAL_TIME = 100;
     private int timeLeft;
-    private int TIMER_DELAY = 1000;
+    private int timerDelay = 1000;
     private Timer timer;
 
     private GameState state = GameState.RUNNING;
@@ -30,14 +30,14 @@ public class ChapsChallenge {
     private GameWorld game;
     private GameVisuals renderer;
     private GUI gui;
-    WriteJSON wj;
+    Record record;
 
     public ChapsChallenge() {
         gui = new GUI();
         renderer = new GameVisuals();
         gui.setGamePanel(renderer);
-        wj = new WriteJSON();
-        timer = new Timer(TIMER_DELAY, gameTimer);
+        record = new Record();
+        timer = new Timer(timerDelay, gameTimer);
 
         gui.init();
         Controls control = new Controls(this);
@@ -66,16 +66,51 @@ public class ChapsChallenge {
      */
     public void move(Move move) {
         if(game.moveChap(move)) {
-            //Record.recordPlayerAction(); //FIXME
-            wj.storePlayerMove(move, timeLeft);
-        };
+            record.storePlayerMove(move, timeLeft);
+        }
+    }
+
+    /**
+     * Returns the time left.
+     */
+    public int getTimeLeft(){
+        return timeLeft;
+    }
+
+    /**
+     * Increase the timer Delay.
+     */
+    public void decreaseTimerDelay(){
+        if (timerDelay > 500) {
+            timerDelay = timerDelay/2;
+        } else {
+            timerDelay = 500;
+        }
+    }
+
+    /**
+     * Decrease the timer Delay.
+     */
+    public void increaseTimerDelay(){
+        if(timerDelay < 4000) {
+            timerDelay = timerDelay*2;
+        } else {
+            timerDelay = 4000;
+        }
+    }
+
+    /**
+     * Set the timer Delay speed with the menu buttons.
+     */
+    public void setTimerDelay(int setTime){
+        timerDelay = setTime;
     }
 
     /**
      * Save the replay to a file.
      */
     public void saveReplay() {
-        wj.writeJsonToFile();
+        record.writeJsonToFile();
     }
 
     /**
