@@ -2,6 +2,7 @@ package nz.ac.vuw.ecs.swen225.gp30.application;
 
 import nz.ac.vuw.ecs.swen225.gp30.maze.GameWorld;
 import nz.ac.vuw.ecs.swen225.gp30.Move;
+import nz.ac.vuw.ecs.swen225.gp30.recnplay.Record;
 import nz.ac.vuw.ecs.swen225.gp30.persistence.Persistence;
 import nz.ac.vuw.ecs.swen225.gp30.render.GameVisuals;
 
@@ -51,7 +52,7 @@ public class ChapsChallenge {
     ActionListener gameTimer = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
-            if(timeLeft == 0) {
+            if (timeLeft == 0) {
                 state = GameState.TIMEOUT;
                 timer.stop();
             }
@@ -61,10 +62,11 @@ public class ChapsChallenge {
 
     /**
      * Method to move Chap about the maze.
+     *
      * @param move - direction.
      */
     public void move(Move move) {
-        if(game.moveChap(move)) {
+        if (game.moveChap(move)) {
             record.storePlayerMove(move, timeLeft);
         }
     }
@@ -72,16 +74,16 @@ public class ChapsChallenge {
     /**
      * Returns the time left.
      */
-    public int getTimeLeft(){
+    public int getTimeLeft() {
         return timeLeft;
     }
 
     /**
      * Increase the timer Delay.
      */
-    public void decreaseTimerDelay(){
+    public void decreaseTimerDelay() {
         if (timerDelay > 500) {
-            timerDelay = timerDelay/2;
+            timerDelay = timerDelay / 2;
         } else {
             timerDelay = 500;
         }
@@ -90,9 +92,9 @@ public class ChapsChallenge {
     /**
      * Decrease the timer Delay.
      */
-    public void increaseTimerDelay(){
-        if(timerDelay < 4000) {
-            timerDelay = timerDelay*2;
+    public void increaseTimerDelay() {
+        if (timerDelay < 4000) {
+            timerDelay = timerDelay * 2;
         } else {
             timerDelay = 4000;
         }
@@ -101,7 +103,7 @@ public class ChapsChallenge {
     /**
      * Set the timer Delay speed with the menu buttons.
      */
-    public void setTimerDelay(int setTime){
+    public void setTimerDelay(int setTime) {
         timerDelay = setTime;
     }
 
@@ -124,7 +126,9 @@ public class ChapsChallenge {
     /**
      * Method which will resume the game.
      */
-    public void resume() { state = prevState; }
+    public void resume() {
+        state = prevState;
+    }
 
     /**
      * Method will load a level for the game.
@@ -145,18 +149,22 @@ public class ChapsChallenge {
         Runnable runnableGame = new Runnable() {
             @Override
             public void run() {
-                while(true) {
+                long elapsed = 0;
+                while (true) {
                     long start = System.currentTimeMillis();
-                    switch(state) {
+                    switch (state) {
+                        //Create a JOptionPane. Stop time countdown.
                         case PAUSED:
-                            //Create a JOptionPane. Stop time countdown.
+                            //Pause game.
                             break;
                         case RUNNING:
+                            elapsed += (long) 1000 / (long) 30;
                             // update
                             checkInfo();
-                            // render
-                            renderer.repaint();
-                            break;
+                            if (elapsed > 1000) {
+                                game.advance();
+                                elapsed = 0;
+                            }
                         case WON:
                             // game.loadLevel(xx)
                             // winning logic
@@ -172,10 +180,18 @@ public class ChapsChallenge {
                             System.out.println("Game: DEAD");
                             saveReplay();
                             break;
+                        case TIMEOUT:
+                            renderer.repaint();
+                            break;
                     }
                     checkGameState();
                     updateDashboard();
 
+                    try {
+                        Thread.sleep(start + (long) 1000 / (long) 30 - System.currentTimeMillis());
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
         };
