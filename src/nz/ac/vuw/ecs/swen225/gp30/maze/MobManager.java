@@ -23,6 +23,10 @@ public class MobManager {
 				return mobs;
 		}
 
+		public void setMobs(List<Mob> mobs) {
+				this.mobs = mobs;
+		}
+
 		public void advanceMobs() {
 				for(Mob m : mobs) {
 						Move move = m.getNextMove();
