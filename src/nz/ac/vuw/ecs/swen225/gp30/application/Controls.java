@@ -87,7 +87,7 @@ public class Controls extends KeyAdapter implements ActionListener {
                     System.out.println("You are in record mode, step back.");
                     break;
                 case 39: //RIGHT, '->' step forwards.
-                    replay.playNextMove();
+                    game.move(replay.playNextMove());
                     System.out.println("You are in record mode, step forward.");
                     break;
                 case 38: //Up arrow, increase the speed.
@@ -100,6 +100,7 @@ public class Controls extends KeyAdapter implements ActionListener {
                     break;
                 case 32: //Space Bar, Pause and Resume the auto replay.
                     //Will need a boolean for a toggle. Iterate between step-by-step and auto replay.
+                    replay.toggleAutoPlaying();
                     System.out.println("You have paused/resumed");
                     break;
             }
@@ -158,15 +159,19 @@ public class Controls extends KeyAdapter implements ActionListener {
                 break;
             case "0.5x speed":
                 //Set speed to 0.5.
+                game.setTimerDelay(2000);
                 System.out.println("You are in 0.5x speed");
             case "1.0x speed":
                 //Set speed to 1.0.
+                game.setTimerDelay(1000);
                 System.out.println("You are in 1.0x speed");
             case "1.5x speed":
                 //Set speed to 1.5.
+                game.setTimerDelay(750);
                 System.out.println("You are in 1.5x speed");
             case "2.0x speed":
                 //Set speed to 2.0.
+                game.setTimerDelay(500);
                 System.out.println("You are in 2.0x speed");
                 //Help Menu Items.
             case "Help":
@@ -189,5 +194,6 @@ public class Controls extends KeyAdapter implements ActionListener {
             replay.loadJsonToReplay(selectedFile.getName());
             System.out.println(selectedFile.getName());
         }
+        replay.autoPlay(game.getTimeLeft());
     }
 }
