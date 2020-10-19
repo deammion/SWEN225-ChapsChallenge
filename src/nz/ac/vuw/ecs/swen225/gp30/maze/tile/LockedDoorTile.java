@@ -57,6 +57,11 @@ public class LockedDoorTile extends Tile {
     }
 
     @Override
+    public boolean isMobAllowed() {
+        return false;
+    }
+
+    @Override
     public String getImageString() {
         return unlocked? "tile_free.png" :
         "tile_locked_door_" + keyToUnlock.toString().toLowerCase() + ".png";

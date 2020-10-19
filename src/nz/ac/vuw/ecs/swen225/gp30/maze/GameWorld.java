@@ -6,6 +6,8 @@ import nz.ac.vuw.ecs.swen225.gp30.maze.tile.ExitTile;
 import nz.ac.vuw.ecs.swen225.gp30.maze.tile.InfoTile;
 import nz.ac.vuw.ecs.swen225.gp30.maze.tile.Tile;
 
+import java.util.stream.Stream;
+
 import static com.google.common.base.Preconditions.checkArgument;
 
 public class GameWorld {
@@ -13,28 +15,20 @@ public class GameWorld {
     private Chap chap;
     private String levelInfo;
     public static int CHIPS_REQUIRED;
+    public MobManager mobMgr;
 
-    public GameWorld(Maze maze, Chap chap) {
+    public GameWorld(Maze maze, MobManager mobMgr, Chap chap) {
         this.maze = maze;
         this.chap = chap;
+        this.mobMgr = mobMgr;
         setChapOnMaze(chap.getX(), chap.getY());
-    }
-
-    public Tile getNewTile(Move move, int oldX, int oldY) {
-        switch(move) {
-            case UP: return maze.getTileAt(oldX, oldY-1);
-            case DOWN: return maze.getTileAt(oldX, oldY+1);
-            case LEFT: return maze.getTileAt(oldX-1, oldY);
-            case RIGHT: return maze.getTileAt(oldX+1, oldY);
-        }
-        return null;
     }
 
     public boolean moveChap(Move move) {
         int oldX = chap.getX();
         int oldY = chap.getY();
         Tile oldTile = maze.getTileAt(oldX, oldY);
-        Tile newTile = getNewTile(move, oldX, oldY);
+        Tile newTile = maze.getNewTileFromMove(move, oldX, oldY);
 
         if(!newTile.canMoveTo(chap)) { return false; }
         else {
@@ -45,8 +39,12 @@ public class GameWorld {
         return true;
     }
 
+    public void advance() {
+        mobMgr.advanceMobs();
+    }
+
     public void setChapOnMaze(int x, int y) {
-        Preconditions.checkArgument(chap != null, "chap cannot be null");
+        Preconditions.checkNotNull(chap);
         Tile tile = maze.getTileAt(x, y);
         tile.addChap(chap);
         assert(tile.getX() == chap.getX() && tile.getY() == chap.getY());
@@ -80,6 +78,14 @@ public class GameWorld {
 
     public Maze getMaze() {
         return maze;
+    }
+
+    public void setMobManager(MobManager m) {
+        this.mobMgr = m;
+    }
+
+    public MobManager getMobManager() {
+        return mobMgr;
     }
 
     public void setLevelInfo(String info) {

@@ -4,5 +4,9 @@ public enum Move {
     UP,
     DOWN,
     LEFT,
-    RIGHT
+    RIGHT;
+
+    public static Move getFromOrdinal(int ordinal) {
+        return values()[ordinal];
+    }
 }
