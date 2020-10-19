@@ -1,5 +1,7 @@
 package nz.ac.vuw.ecs.swen225.gp30.maze;
 import static com.google.common.base.Preconditions.checkArgument;
+
+import nz.ac.vuw.ecs.swen225.gp30.Move;
 import nz.ac.vuw.ecs.swen225.gp30.maze.tile.Tile;
 
 import java.util.Arrays;
@@ -23,6 +25,16 @@ public class Maze {
         checkArgument(x >= 0 && x < grid.length, "x (" + x + ") must be within bounds: 0 - " + (grid.length-1));
         checkArgument(y >= 0 && y < grid[0].length, "y (" + y + ") must be within bounds: 0 - " + (grid[0].length-1));
         return grid[x][y];
+    }
+
+    public Tile getNewTileFromMove(Move move, int oldX, int oldY) {
+        switch(move) {
+            case UP: return getTileAt(oldX, oldY-1);
+            case DOWN: return getTileAt(oldX, oldY+1);
+            case LEFT: return getTileAt(oldX-1, oldY);
+            case RIGHT: return getTileAt(oldX+1, oldY);
+        }
+        return null;
     }
 
     public Stream<Tile> getTiles() {

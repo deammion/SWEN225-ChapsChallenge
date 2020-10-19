@@ -16,9 +16,11 @@ import nz.ac.vuw.ecs.swen225.gp30.maze.IllegalMoveException;
  *
  * @author campliosca
  */
-public abstract class Tile extends GameObject {
+public abstract class Tile implements GameObject {
     private final int x, y;
+    //private TileType type;
     protected Chap chap = null;
+    private boolean hasMob;
 
     /**
      * Constructs a new Tile that stores the x and y position.
@@ -77,6 +79,22 @@ public abstract class Tile extends GameObject {
     public int getY() {
         return y;
     }
+
+    public abstract boolean isMobAllowed();
+
+    public boolean occupiedByMob() {
+        return hasMob;
+    }
+
+    public void addMob() {
+        if(hasChap()) { chap.setActive(false); }
+        hasMob = true;
+    }
+
+    public void removeMob() {
+        hasMob = false;
+    }
+
 
     /**
      * Returns string of this tiles image asset name.

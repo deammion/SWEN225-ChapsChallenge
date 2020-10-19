@@ -6,16 +6,14 @@ import nz.ac.vuw.ecs.swen225.gp30.maze.item.Item;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Chap extends GameObject {
-    private int x, y;
+public class Chap extends Actor {
     private final List<Item> inventory;
     private int chipsCollected;
     private boolean active;
     private Move dir;
 
     public Chap(int x, int y) {
-        this.x = x;
-        this.y = y;
+        super(x, y);
         inventory = new ArrayList<>();
         chipsCollected = 0;
         active = true;

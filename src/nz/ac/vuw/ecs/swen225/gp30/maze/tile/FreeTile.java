@@ -26,6 +26,7 @@ public class FreeTile extends Tile {
     @Override
     public void addChap(Chap chap) throws IllegalMoveException {
         checkNotNull(chap);
+        if(occupiedByMob()) { chap.setActive(false); }
         chap.setAt(getX(), getY());
         this.chap = chap;
     }
@@ -43,6 +44,11 @@ public class FreeTile extends Tile {
     @Override
     public char getChar() {
         return hasChap() ? 'c' : '_';
+    }
+
+    @Override
+    public boolean isMobAllowed() {
+        return !occupiedByMob();
     }
 
     @Override

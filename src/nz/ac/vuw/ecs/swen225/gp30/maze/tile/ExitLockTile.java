@@ -55,6 +55,11 @@ public class ExitLockTile extends Tile {
     }
 
     @Override
+    public boolean isMobAllowed() {
+        return false;
+    }
+
+    @Override
     public String getImageString() {
         return unlocked? "tile_free.png" : "tile_exit_lock.png";
     }

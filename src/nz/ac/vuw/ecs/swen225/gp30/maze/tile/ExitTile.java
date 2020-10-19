@@ -47,6 +47,11 @@ public class ExitTile extends Tile {
     }
 
     @Override
+    public boolean isMobAllowed() {
+        return false;
+    }
+
+    @Override
     public String getImageString() {
         return "tile_exit.png";
     }

@@ -53,6 +53,11 @@ public class TreasureTile extends Tile {
     }
 
     @Override
+    public boolean isMobAllowed() {
+        return false;
+    }
+
+    @Override
     public String getImageString() {
         return collected? "tile_free.png" : "tile_treasure.png";
     }
