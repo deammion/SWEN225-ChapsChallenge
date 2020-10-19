@@ -22,7 +22,7 @@ import java.util.Scanner;
 public class Persistence {
 
     public static void main(String args[]){
-        GameWorld g = readLevel();
+        GameWorld g = readLevel(1);
     }
 
     public static void saveGame(ChapsChallenge game, String name) {
@@ -43,13 +43,14 @@ public class Persistence {
         return "";
     }
 
-    public static GameWorld readLevel() {
+    public static GameWorld readLevel(int level) {
+        String path = "src/nz/ac/vuw/ecs/swen225/gp30/persistence/levels/level" + level + ".json";
         try {
             // create Gson instance
             Gson gson = new Gson();
 
             // create a reader
-            Reader reader = Files.newBufferedReader(Paths.get("src/nz/ac/vuw/ecs/swen225/gp30/persistence/levels/level2.json"));
+            Reader reader = Files.newBufferedReader(Paths.get(path));
 
             // convert JSON file to map
             Map<?, ?> map = gson.fromJson(reader, Map.class);
