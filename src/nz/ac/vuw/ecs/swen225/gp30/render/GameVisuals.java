@@ -3,6 +3,7 @@ package nz.ac.vuw.ecs.swen225.gp30.render;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 
+import nz.ac.vuw.ecs.swen225.gp30.maze.Bug;
 import nz.ac.vuw.ecs.swen225.gp30.maze.GameObject;
 import nz.ac.vuw.ecs.swen225.gp30.maze.GameWorld;
 import nz.ac.vuw.ecs.swen225.gp30.maze.Mob;
@@ -116,8 +117,7 @@ public class GameVisuals extends JPanel{
 	
 	public void renderMobs(Graphics g) {
 		MobManager m = game.getMobManager();
-		List<Mob> lm = m.getMobs();
-		for(Mob mo: lm) {
+		for(Mob mo: m.getMobs()) {
 			int screenX = getScreenX(mo.getX());
 			int screenY = getScreenY(mo.getY());
 			g.drawImage(getImageFromObject(mo), screenX, screenY, null);
