@@ -22,12 +22,14 @@ public class Replay {
      * playerMoves are used but other methods in this class
      *
      * @param fileName - user selected filename, see LoadJSON
+     * @return int to load correct level
      */
-    public void loadJsonToReplay(String fileName) {
+    public Integer loadJsonToReplay(String fileName) {
         LoadJSON lj = new LoadJSON();
-        level = lj.loadLevel(fileName);
+        //level = lj.loadLevel(fileName);
         playerMoves = lj.loadPlayerMoves(fileName);
-        actorMoves = lj.loadActorMoves(fileName);
+        //actorMoves = lj.loadActorMoves(fileName);
+        return 1;
     }
 
     /**
@@ -42,7 +44,7 @@ public class Replay {
      * checks that against the game time, if the move time is greater then the game timer (as the timer counts down)
      * the move is passed to application.
      *
-     * @Param time - game timer
+     * @param time - game timer
      * @return Move - to be passed to application
      */
     public Move autoPlay(int time) {
@@ -63,7 +65,7 @@ public class Replay {
      * checks that against the game time, if the move time is less then the game timer
      * the move is passed to application.
      *
-     * @Param time - game timer
+     * @param time - game timer
      * @return Move - to be passed to application
      */
     public Move autoPlayActor(int time) {

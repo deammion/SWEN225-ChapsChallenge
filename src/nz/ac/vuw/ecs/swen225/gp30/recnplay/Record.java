@@ -34,7 +34,7 @@ public class Record {
     }
 
     /**
-     * called by chapsChallenge, converts the move to a string, includes the time
+     * called by chapsChallenge, saves the move which is converted to a string, includes the time remaining
      * done this way to limit file size
      *
      * @param move - Move functions used by application to move actors
@@ -64,12 +64,12 @@ public class Record {
      * @param levelNum -Integer dictating the level number
      */
     public void storeLevel(Integer levelNum) {
-        JsonObjectBuilder gameStateObj = Json.createObjectBuilder().add("level ", levelNum); //converts level to a JsonObject
+        JsonObjectBuilder gameStateObj = Json.createObjectBuilder().add("level", levelNum); //converts level to a JsonObject
         arrayBuilder.add(gameStateObj); //adds JsonObject to JsonArray
     }
 
     /**
-     *
+     * converts the given move to the corresponding key/String
      *
      * @param a - a move function used by application
      * @return move as a String
