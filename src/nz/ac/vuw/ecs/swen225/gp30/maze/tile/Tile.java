@@ -80,17 +80,31 @@ public abstract class Tile implements GameObject {
         return y;
     }
 
+    /**
+     * Returns true if mob is allowed on the tile.
+     * @return true if mob is allowed on the tile.
+     */
     public abstract boolean isMobAllowed();
 
+    /**
+     * Returns true if a mob occupies the tile.
+     * @return true if mob occupies the tile.
+     */
     public boolean occupiedByMob() {
         return hasMob;
     }
 
+    /**
+     * Adds mob to the tile, sets chap inactive if the tile contains chap.
+     */
     public void addMob() {
         if(hasChap()) { chap.setActive(false); }
         hasMob = true;
     }
 
+    /**
+     * Removes mob from the tile.
+     */
     public void removeMob() {
         hasMob = false;
     }
