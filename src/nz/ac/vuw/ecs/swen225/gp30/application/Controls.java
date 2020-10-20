@@ -95,6 +95,7 @@ public class Controls extends KeyAdapter implements ActionListener {
                 case 32: //Space Bar, Pause and Resume the auto replay.
                     //Will need a boolean for a toggle. Iterate between step-by-step and auto replay.
                     replay.toggleAutoPlaying();
+                    game.pausedAndRunning();
                     System.out.println("You have paused/resumed");
                     break;
             }
