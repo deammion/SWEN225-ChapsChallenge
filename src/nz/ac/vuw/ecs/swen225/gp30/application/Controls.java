@@ -3,16 +3,10 @@ package nz.ac.vuw.ecs.swen225.gp30.application;
 import nz.ac.vuw.ecs.swen225.gp30.Move;
 import nz.ac.vuw.ecs.swen225.gp30.recnplay.Replay;
 
-import javax.swing.*;
-import javax.swing.filechooser.FileSystemView;
 import java.awt.event.*;
-import java.io.File;
-
-import static com.sun.java.accessibility.util.AWTEventMonitor.addWindowListener;
 
 public class Controls extends KeyAdapter implements ActionListener {
 
-    private boolean recordMode = false;
     private ChapsChallenge game;
     private Replay replay;
 
@@ -29,7 +23,7 @@ public class Controls extends KeyAdapter implements ActionListener {
      * @param e - the key the player has pressed.
      */
     public void keyPressed(KeyEvent e) {
-        if (!recordMode) {
+        if (!game.recordMode) {
             if (!e.isControlDown()) {
                 switch (e.getKeyCode()) {
                     //Movement Keys
@@ -91,11 +85,11 @@ public class Controls extends KeyAdapter implements ActionListener {
                     System.out.println("You are in record mode, step forward.");
                     break;
                 case 38: //Up arrow, increase the speed.
-                    replay.decreaseDelay();
+                    game.decreaseTimerDelay();
                     System.out.println("You are in record mode, speed up.");
                     break;
                 case 40: //Down arrow, decrease the speed.
-                    replay.increaseDelay();
+                    game.increaseTimerDelay();
                     System.out.println("You are in record mode, slow down.");
                     break;
                 case 32: //Space Bar, Pause and Resume the auto replay.
@@ -153,22 +147,21 @@ public class Controls extends KeyAdapter implements ActionListener {
             //Replay Menu Items.
             case "Load File":
                 //Load a file for Record and Replay.
-                recordMode = true;
-                loadRecordAndReplayFile();
+                game.playReplay();
                 System.out.println("You are in load file\n");
                 break;
             case "0.5x speed":
                 //Set speed to 0.5.
-                game.setTimerDelay(2000);
-                System.out.println("You are in 0.5x speed");
+                game.setTimerDelay(4000);
+                System.out.println("You are in 0.25x speed");
             case "1.0x speed":
                 //Set speed to 1.0.
-                game.setTimerDelay(1000);
-                System.out.println("You are in 1.0x speed");
+                game.setTimerDelay(2000);
+                System.out.println("You are in 0.5x speed");
             case "1.5x speed":
                 //Set speed to 1.5.
-                game.setTimerDelay(750);
-                System.out.println("You are in 1.5x speed");
+                game.setTimerDelay(1000);
+                System.out.println("You are in 1.0x speed");
             case "2.0x speed":
                 //Set speed to 2.0.
                 game.setTimerDelay(500);
@@ -179,21 +172,5 @@ public class Controls extends KeyAdapter implements ActionListener {
                 System.out.println("You are in the Help");
 
         }
-    }
-
-    /**
-     * Method to load and pass a file for Record and Replay to use to show
-     * a previously recorded game.
-     */
-    public void loadRecordAndReplayFile(){
-        //Open the file chooser directory to get file name for Record and Replay.
-        JFileChooser fileChooser = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
-        int fileReturnValue = fileChooser.showOpenDialog(null);
-        if(fileReturnValue == JFileChooser.APPROVE_OPTION){
-            File selectedFile = fileChooser.getSelectedFile();
-            replay.loadJsonToReplay(selectedFile.getName());
-            System.out.println(selectedFile.getName());
-        }
-        replay.autoPlay(game.getTimeLeft());
     }
 }

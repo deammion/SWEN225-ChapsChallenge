@@ -4,11 +4,14 @@ import nz.ac.vuw.ecs.swen225.gp30.maze.GameWorld;
 import nz.ac.vuw.ecs.swen225.gp30.Move;
 import nz.ac.vuw.ecs.swen225.gp30.recnplay.Record;
 import nz.ac.vuw.ecs.swen225.gp30.persistence.Persistence;
+import nz.ac.vuw.ecs.swen225.gp30.recnplay.Replay;
 import nz.ac.vuw.ecs.swen225.gp30.render.GameVisuals;
 
 import javax.swing.*;
+import javax.swing.filechooser.FileSystemView;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 
 public class ChapsChallenge {
     enum GameState {
@@ -27,12 +30,15 @@ public class ChapsChallenge {
 
     private GameState state = GameState.RUNNING;
     private GameState prevState = GameState.RUNNING;
-    private GameWorld game;
     private GameVisuals renderer;
+    private GameWorld game;
     private GUI gui;
-    Record record;
+    private Record record;
+    private Replay replay;
 
+    public Boolean recordMode = false;
     public int gameLevel;
+
 
     public ChapsChallenge() {
         gui = new GUI();
@@ -64,12 +70,13 @@ public class ChapsChallenge {
     };
 
     /**
-     * Method to move Chap about the maze.
+     * Method to move Chap about the maze if in record mode it
+     * won't make a second copy of the move.
      *
      * @param move - direction.
      */
     public void move(Move move) {
-        if (game.moveChap(move)) {
+        if (game.moveChap(move) && !recordMode) {
             record.storePlayerMove(move, timeLeft);
         }
     }
@@ -114,6 +121,7 @@ public class ChapsChallenge {
      * Save the replay to a file.
      */
     public void saveReplay() {
+        record.storeLevel(gameLevel);
         record.writeJsonToFile();
     }
 
@@ -123,7 +131,13 @@ public class ChapsChallenge {
     public void pause() {
         prevState = state;
         state = GameState.PAUSED;
-        JOptionPane.showMessageDialog(gui, "Paused");
+        //timer.stop();
+        UIManager.put("OptionPane.okButtonText", "Resume");
+        int close = JOptionPane.showOptionDialog(gui, "Game is currently paused!", "Game: Paused", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null,null,null);
+        if(close == 0 || close == -1){
+            state = prevState;
+            timer.start();
+        }
     }
 
     /**
@@ -131,6 +145,7 @@ public class ChapsChallenge {
      */
     public void resume() {
         state = prevState;
+        timer.start();
     }
 
     /**
@@ -140,6 +155,33 @@ public class ChapsChallenge {
         game = Persistence.readLevel(gameLevel);
         renderer.setGame(game);
     }
+
+    public void playReplay(){
+        recordMode = true;
+        int replayLevel = loadRecordAndReplayFile();
+        game = Persistence.readLevel(replayLevel);
+        renderer.setGame(game);
+        startGame();
+    }
+
+    /**
+     * Method to load and pass a file for Record and Replay to use to show
+     * a previously recorded game.
+     */
+    public Integer loadRecordAndReplayFile(){
+        int level = 0;
+        replay = new Replay();
+        //Open the file chooser directory to get file name for Record and Replay.
+        JFileChooser fileChooser = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
+        int fileReturnValue = fileChooser.showOpenDialog(null);
+        if(fileReturnValue == JFileChooser.APPROVE_OPTION){
+            File selectedFile = fileChooser.getSelectedFile();
+            level = replay.loadJsonToReplay(selectedFile.getName());
+            System.out.println(selectedFile.getName());
+        }
+        return level;
+    }
+
 
     public void loadNextLevel(){
         gameLevel++;
@@ -163,12 +205,15 @@ public class ChapsChallenge {
                     switch (state) {
                         //Create a JOptionPane. Stop time countdown.
                         case PAUSED:
-                            //Pause game.
+                            timer.stop();
                             break;
                         case RUNNING:
                             elapsed += (long) 1000 / (long) 30;
                             // update
                             checkInfo();
+                            if(recordMode){
+                                move(replay.autoPlay(timeLeft));
+                            }
                             if (elapsed > 1000) {
                                 game.advance();
                                 elapsed = 0;
