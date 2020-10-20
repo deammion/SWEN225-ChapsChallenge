@@ -36,35 +36,6 @@ public class Chap extends Actor {
     }
 
     /**
-     * Sets chap at an x and y position.
-     * 
-     * @param x the x position to set
-     * @param y the y position to set
-     */
-    public void setAt(int x, int y) {
-        this.x = x;
-        this.y = y;
-    }
-
-    /**
-     * Returns the x position of chap.
-     * 
-     * @return the x position of chap
-     */
-    public int getX() {
-        return x;
-    }
-
-    /**
-     * Returns the y position of chap.
-     * 
-     * @return the y position of chap
-     */
-    public int getY() {
-        return y;
-    }
-
-    /**
      * Sets the current direction of chap.
      * 
      * @param dir the direction to set
