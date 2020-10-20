@@ -7,6 +7,8 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * The ExitTile class represents the tile that will complete the level when moved to.
+ * 
+ * @author campliosca
  */
 public class ExitTile extends Tile {
 

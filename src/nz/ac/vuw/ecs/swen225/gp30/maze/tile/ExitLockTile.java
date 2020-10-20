@@ -7,6 +7,8 @@ import static com.google.common.base.Preconditions.checkNotNull;
 /**
  * The ExitLockTile class represents the tile that is placed before the Exit tile.
  * - It must be unlocked by collecting a certain amount of chips for chap to be able to move here.
+ *
+ * @author campliosca
  */
 public class ExitLockTile extends Tile {
     private int chipsRequired;
