@@ -4,7 +4,6 @@ import com.google.gson.Gson;
 import nz.ac.vuw.ecs.swen225.gp30.application.ChapsChallenge;
 import nz.ac.vuw.ecs.swen225.gp30.maze.*;
 import nz.ac.vuw.ecs.swen225.gp30.maze.item.Item;
-import nz.ac.vuw.ecs.swen225.gp30.maze.item.ItemType;
 import nz.ac.vuw.ecs.swen225.gp30.maze.tile.*;
 
 import java.io.BufferedWriter;
@@ -20,6 +19,8 @@ import java.util.Scanner;
 
 
 public class Persistence {
+
+    public static int NUM_LEVELS = 2;
 
     public static void main(String args[]){
         GameWorld g = readLevel(1);
