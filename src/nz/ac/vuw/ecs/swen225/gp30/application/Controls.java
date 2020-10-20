@@ -159,16 +159,16 @@ public class Controls extends KeyAdapter implements ActionListener {
                 break;
             case "0.5x speed":
                 //Set speed to 0.5.
-                game.setTimerDelay(2000);
-                System.out.println("You are in 0.5x speed");
+                game.setTimerDelay(4000);
+                System.out.println("You are in 0.25x speed");
             case "1.0x speed":
                 //Set speed to 1.0.
-                game.setTimerDelay(1000);
-                System.out.println("You are in 1.0x speed");
+                game.setTimerDelay(2000);
+                System.out.println("You are in 0.5x speed");
             case "1.5x speed":
                 //Set speed to 1.5.
-                game.setTimerDelay(750);
-                System.out.println("You are in 1.5x speed");
+                game.setTimerDelay(1000);
+                System.out.println("You are in 1.0x speed");
             case "2.0x speed":
                 //Set speed to 2.0.
                 game.setTimerDelay(500);
