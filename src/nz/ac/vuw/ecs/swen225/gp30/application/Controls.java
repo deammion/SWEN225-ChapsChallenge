@@ -3,16 +3,10 @@ package nz.ac.vuw.ecs.swen225.gp30.application;
 import nz.ac.vuw.ecs.swen225.gp30.Move;
 import nz.ac.vuw.ecs.swen225.gp30.recnplay.Replay;
 
-import javax.swing.*;
-import javax.swing.filechooser.FileSystemView;
 import java.awt.event.*;
-import java.io.File;
-
-import static com.sun.java.accessibility.util.AWTEventMonitor.addWindowListener;
 
 public class Controls extends KeyAdapter implements ActionListener {
 
-    private boolean recordMode = false;
     private ChapsChallenge game;
     private Replay replay;
 
@@ -29,7 +23,7 @@ public class Controls extends KeyAdapter implements ActionListener {
      * @param e - the key the player has pressed.
      */
     public void keyPressed(KeyEvent e) {
-        if (game.recordMode) {
+        if (!game.recordMode) {
             if (!e.isControlDown()) {
                 switch (e.getKeyCode()) {
                     //Movement Keys

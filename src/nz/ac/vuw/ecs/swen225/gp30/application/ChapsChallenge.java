@@ -131,7 +131,7 @@ public class ChapsChallenge {
     public void pause() {
         prevState = state;
         state = GameState.PAUSED;
-        timer.stop();
+        //timer.stop();
         UIManager.put("OptionPane.okButtonText", "Resume");
         int close = JOptionPane.showOptionDialog(gui, "Game is currently paused!", "Game: Paused", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null,null,null);
         if(close == 0 || close == -1){
@@ -205,7 +205,7 @@ public class ChapsChallenge {
                     switch (state) {
                         //Create a JOptionPane. Stop time countdown.
                         case PAUSED:
-                            //Pause game.
+                            timer.stop();
                             break;
                         case RUNNING:
                             elapsed += (long) 1000 / (long) 30;
