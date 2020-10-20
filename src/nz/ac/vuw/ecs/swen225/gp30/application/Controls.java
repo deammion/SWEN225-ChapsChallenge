@@ -95,6 +95,7 @@ public class Controls extends KeyAdapter implements ActionListener {
                 case 32: //Space Bar, Pause and Resume the auto replay.
                     //Will need a boolean for a toggle. Iterate between step-by-step and auto replay.
                     replay.toggleAutoPlaying();
+                    game.pausedAndRunning();
                     System.out.println("You have paused/resumed");
                     break;
             }
@@ -150,15 +151,15 @@ public class Controls extends KeyAdapter implements ActionListener {
                 game.playReplay();
                 System.out.println("You are in load file\n");
                 break;
-            case "0.5x speed":
+            case "0.25x speed":
                 //Set speed to 0.5.
                 game.setTimerDelay(4000);
                 System.out.println("You are in 0.25x speed");
-            case "1.0x speed":
+            case "0.5x speed":
                 //Set speed to 1.0.
                 game.setTimerDelay(2000);
                 System.out.println("You are in 0.5x speed");
-            case "1.5x speed":
+            case "1.0x speed":
                 //Set speed to 1.5.
                 game.setTimerDelay(1000);
                 System.out.println("You are in 1.0x speed");

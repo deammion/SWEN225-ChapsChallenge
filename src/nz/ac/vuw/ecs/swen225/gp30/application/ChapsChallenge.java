@@ -149,6 +149,18 @@ public class ChapsChallenge {
     }
 
     /**
+     * Toggle between paused and replay game states.
+     */
+    public void pausedAndRunning(){
+        if(state == GameState.PAUSED){
+            state = GameState.RUNNING;
+        }
+        else{
+            state = GameState.PAUSED;
+        }
+    }
+
+    /**
      * Method will load a level for the game.
      */
     public void loadLevel(int i) {
@@ -224,9 +236,9 @@ public class ChapsChallenge {
                             // game.loadLevel(xx)
                             // winning logic
                             // next level
+                            saveReplay();
                             wonGame();
                             System.out.println("Game: WON");
-                            saveReplay();
                             break;
                         case DEAD:
                             // show dead prompt?
