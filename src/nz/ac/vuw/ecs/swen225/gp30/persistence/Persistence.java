@@ -4,9 +4,10 @@ import com.google.gson.Gson;
 import nz.ac.vuw.ecs.swen225.gp30.application.ChapsChallenge;
 import nz.ac.vuw.ecs.swen225.gp30.maze.*;
 import nz.ac.vuw.ecs.swen225.gp30.maze.item.Item;
-import nz.ac.vuw.ecs.swen225.gp30.maze.item.ItemType;
 import nz.ac.vuw.ecs.swen225.gp30.maze.tile.*;
 
+import javax.json.Json;
+import javax.json.JsonObjectBuilder;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -19,29 +20,45 @@ import java.util.Map;
 import java.util.Scanner;
 
 
+
 public class Persistence {
+
+    public static int NUM_LEVELS = 2;
 
     public static void main(String args[]){
         GameWorld g = readLevel(1);
     }
 
-    public static void saveGame(ChapsChallenge game, String name) {
+    public static void saveGame(GameWorld game, String name) {
 
-        String g = getState(game);
+        String gameSave;
+
+        StringBuilder iString = new StringBuilder();
+        for (Item i : game.getChap().getInventory()){
+            iString.append(i+",");
+        }
+
+        JsonObjectBuilder b = Json.createObjectBuilder()
+                .add("levelInfo", game.getLevelInfo())
+                //.add("maze", game.getMaze())
+                .add("inventory", iString.toString());
+                //.add("boardx", game.getBoardWidth())
+                //.add("boardy", game.getBoardHeight())
+                //.add("time", game.getTime())
+
         try {
             BufferedWriter w = new BufferedWriter(new FileWriter(name));
-            w.write(g);
+            Json.createWriter(w).write(b.build());
+            gameSave = w.toString();
             w.close();
         } catch (IOException e) {
             System.out.println("Error saving game: " + e);
         }
+        //return gameSave;
 
     }
 
 
-    public static String getState(ChapsChallenge game){
-        return "";
-    }
 
     public static GameWorld readLevel(int level) {
         String path = "src/nz/ac/vuw/ecs/swen225/gp30/persistence/levels/level" + level + ".json";

@@ -13,11 +13,7 @@ public class GUI extends JFrame {
     int gameLevel = 1;
     int chipsLeft = 5;
     int microLeft = 0;
-
-    //Boolean for game states.
-    boolean recordAndReplayRunning = false;
-    boolean gamePaused = false;
-
+    
     //JComponents.
     JPanel gamePanel, dashPanel, infoPanel, containerPanel;
     InventoryPanel invPanel;
@@ -59,13 +55,14 @@ public class GUI extends JFrame {
         chipsText = new JLabel("Chips Left: " + chipsLeft + " ");
         chipsText.setBorder(BorderFactory.createEmptyBorder(10,14,10,10));
         microText = new JLabel("Microchips Left: " + microLeft + " ");
-        microText.setBorder(BorderFactory.createEmptyBorder(10,15,10,10));
+        microText.setBorder(BorderFactory.createEmptyBorder(10,7,10,10));
         // container for text
         infoPanel = new JPanel();
         infoPanel.setLayout(new BoxLayout(infoPanel, BoxLayout.Y_AXIS));
         infoPanel.add(levelText);
         infoPanel.add(timeText);
         infoPanel.add(chipsText);
+        infoPanel.add(microText);
 
         //inv panel
         invPanel = new InventoryPanel();
@@ -202,22 +199,6 @@ public class GUI extends JFrame {
     }
 
     /**
-     * Is the game is Record and Repay mode.
-     * @return - if the game is in record or replay mode.
-     */
-    private boolean isRecordAndReplayRunning() {
-        return recordAndReplayRunning;
-    }
-
-    /**
-     * Is the game paused.
-     * @return - if the game is paused or not.
-     */
-    private boolean isGamePaused() {
-        return gamePaused;
-    }
-
-    /**
      * The amount of time left in a level to be set, complimentary
      * for the pause option.
      * @param timeLeft - time left to complete a level
@@ -226,11 +207,4 @@ public class GUI extends JFrame {
         timeText.setText("Time: " + timeLeft);
     }
 
-    public void setChipsLeft(int ChipsLeft){
-        chipsText.setText("Chips: " + chipsLeft);
-    }
-
 }
-
-
-
