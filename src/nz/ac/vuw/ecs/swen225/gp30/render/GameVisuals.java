@@ -5,6 +5,8 @@ import javax.swing.*;
 
 import nz.ac.vuw.ecs.swen225.gp30.maze.GameObject;
 import nz.ac.vuw.ecs.swen225.gp30.maze.GameWorld;
+import nz.ac.vuw.ecs.swen225.gp30.maze.Mob;
+import nz.ac.vuw.ecs.swen225.gp30.maze.MobManager;
 import nz.ac.vuw.ecs.swen225.gp30.maze.tile.Tile;
 
 import java.awt.*;
@@ -15,6 +17,7 @@ import java.util.Collection;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+import java.util.List;
 
 public class GameVisuals extends JPanel{
 	/**
@@ -109,6 +112,16 @@ public class GameVisuals extends JPanel{
 		int screenX = getScreenX(chap.getX());
 		int screenY = getScreenY(chap.getY());
 		g.drawImage(getImageFromObject(chap), screenX, screenY, null);
+	}
+	
+	public void renderMobs(Graphics g) {
+		MobManager m = game.getMobManager();
+		List<Mob> lm = m.getMobs();
+		for(Mob mo: lm) {
+			int screenX = getScreenX(mo.getX());
+			int screenY = getScreenY(mo.getY());
+			g.drawImage(getImageFromObject(mo), screenX, screenY, null);
+		}
 	}
 	
 	@Override
