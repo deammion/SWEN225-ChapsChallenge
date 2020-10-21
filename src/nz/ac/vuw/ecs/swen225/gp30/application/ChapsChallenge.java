@@ -48,6 +48,8 @@ public class ChapsChallenge {
      * Initialize and Start the Game.
      */
     public ChapsChallenge() {
+
+        gameLevel = 1;
         gui = new GUI();
         renderer = new GameVisuals();
         gui.setGamePanel(renderer);
@@ -57,9 +59,9 @@ public class ChapsChallenge {
         gui.init();
         Controls control = new Controls(this);
         gui.addKeyListener(control);
+        gui.setLevelLeft(gameLevel);
         gui.setActionListeners(control);
 
-        gameLevel = 1;
         loadLevel(gameLevel);
         startGame();
     }
@@ -123,6 +125,7 @@ public class ChapsChallenge {
                         break;
                     case TIMEOUT:
                         renderer.repaint();
+                        gameLost();
                         break;
                 }
                 checkGameState();
@@ -172,7 +175,7 @@ public class ChapsChallenge {
      */
     public void replayNextMove(){
         move(replay.playNextMove());
-        //timeLeft = replay.updateTimer();
+        game.setTimeLeft(replay.updateTimer());
     }
 
     /**
@@ -248,14 +251,20 @@ public class ChapsChallenge {
     }
 
     /**
-     * If Chap has run out of time or collides with a bug.
+     * If Chap has run out of time or collides with a bug, see if the player
+     * wants to reset the game to level 1 or exit.
      */
     public void gameLost(){
-        UIManager.put("OptionPane.yesButtonText", "Restart");
-        UIManager.put("OptionPane.noButtonText", "Exit");
+        UIManager.put("OptionPane.yesButtonText", "Restart on Level 1");
+        UIManager.put("OptionPane.noButtonText", "Exit Game");
         int option = JOptionPane.showOptionDialog(gui, "You have lost the current game!", "Game: Lost", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE,null, null, null);
+        saveReplay();
         if(option == 0){
             game = Persistence.readLevel(gameLevel);
+            renderer.setGame(game);
+            state = prevState;
+            startGame();
+            gui.setLevelLeft(gameLevel);
         }
         else{
             System.exit(0);
@@ -304,9 +313,10 @@ public class ChapsChallenge {
     /**
      * Method will load a level for the game.
      */
-    public void loadLevel(int i) {
-        game = Persistence.readLevel(i);
+    public void loadLevel(int level) {
+        game = Persistence.readLevel(level);
         renderer.setGame(game);
+        gui.setLevelLeft(level);
         game.setTimeLeft(TOTAL_TIME);
     }
 
@@ -348,6 +358,12 @@ public class ChapsChallenge {
         loadLevel(gameLevel);
     }
 
+    /**
+     * Get the game level.
+     */
+    public int getGameLevel(){
+        return gameLevel;
+    }
 
     /**
      * Main method, begins the game.
