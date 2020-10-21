@@ -26,10 +26,10 @@ public class Replay {
      */
     public Integer loadJsonToReplay(String fileName) {
         LoadJSON lj = new LoadJSON();
-        //level = lj.loadLevel(fileName);
+        level = lj.loadLevel(fileName);
         playerMoves = lj.loadPlayerMoves(fileName);
         //actorMoves = lj.loadActorMoves(fileName);
-        return 1;
+        return level;
     }
 
     /**
@@ -48,10 +48,10 @@ public class Replay {
      * @return Move - to be passed to application
      */
     public Move autoPlay(int time) {
-        while (autoPlaying) {
+        if (autoPlaying) {
             int playerMoveTime = convertStringToInt(playerMoves.get(playerIndex));
             if (playerMoveTime > time) {
-                char stringMove = playerMoves.get(playerIndex).charAt(0);
+                char stringMove = playerMoves.get(playerIndex).charAt(1);
                 Move move = convertStringToMove(stringMove);
                 playerIndex++;
                 return move;
@@ -94,10 +94,10 @@ public class Replay {
             int actorTime = convertStringToInt(actorMoves.get(actorIndex + 1));
             if (actorTime > playerTime) {
                 actorIndex++;
-                return convertStringToMove(playerMoves.get(actorIndex).charAt(0));
+                return convertStringToMove(playerMoves.get(actorIndex).charAt(1));
             }
             playerIndex++;
-            return convertStringToMove(playerMoves.get(playerIndex).charAt(0));
+            return convertStringToMove(playerMoves.get(playerIndex).charAt(1));
         }
         return null;
     }
@@ -174,7 +174,7 @@ public class Replay {
      * @return int - time as an int function
      */
     public int convertStringToInt(String s){
-        String numbers = s.substring(1); //create new string which only contains ints
+        String numbers = s.substring(2, s.length()-1); //create new string which only contains ints
         return Integer.parseInt(numbers);
     }
 
