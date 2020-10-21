@@ -300,6 +300,7 @@ public class ChapsChallenge {
         InventoryPanel inv = gui.getInventoryPanel();
         inv.setItemsToDisplay(game.getChap().getInventory());
         inv.repaint();
+        gui.setChipsLeft(game.getChipsLeft());
     }
 
     /**
