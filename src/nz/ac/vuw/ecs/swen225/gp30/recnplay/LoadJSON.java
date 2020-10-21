@@ -23,11 +23,10 @@ public class LoadJSON {
             JsonReader jsonReader = Json.createReader(fr);
             JsonArray jsonArray = jsonReader.readArray();
 
-            for(int i =0; i < jsonArray.size(); i++) { //iterate through Json array
+            for(int i =0; i < jsonArray.size()-1; i++) { //iterate through Json array
                 JsonObject jsonObj = jsonArray.get(i).asJsonObject(); //convert to Json object
                 JsonString jsonStringPlayer = (JsonString) jsonObj.getValue("/Player" + i); //converts move Json Object to string
-                String playerAction = jsonStringPlayer.getString();
-                playerMoves.add(playerAction);
+                playerMoves.add(jsonStringPlayer.toString());
             }
 
             jsonReader.close();
@@ -58,8 +57,7 @@ public class LoadJSON {
             for(int i =0; i < jsonArray.size(); i++) { //iterate through Json array
                 JsonObject jsonObj = jsonArray.get(i).asJsonObject(); //convert to Json object
                 JsonString jsonStringActor = (JsonString) jsonObj.getValue("/Actor" + i); //convert move Json Object to string
-                String actorAction = jsonStringActor.getString();
-                actorMoves.add(actorAction);
+                actorMoves.add(jsonStringActor.getString());
             }
 
             jsonParser.close();
@@ -86,11 +84,9 @@ public class LoadJSON {
             JsonReader jsonParser = Json.createReader(fr);
             JsonArray jsonArray = jsonParser.readArray();
 
-            for(int i =0; i < jsonArray.size(); i++) { //iterate through Json array
-                JsonObject jsonObj = jsonArray.get(i).asJsonObject(); //convert to Json object
-                JsonString jsonStringLevel = (JsonString) jsonObj.getValue("/Level"); //convert move Json Object to string
-                level = Integer.parseInt(jsonStringLevel.getString());
-            }
+            JsonObject jsonObj = jsonArray.get(jsonArray.size()-1).asJsonObject(); //convert to Json object
+            JsonString jsonStringLevel = (JsonString) jsonObj.getValue("/Level"); //convert move Json Object to string
+            level = Integer.parseInt(jsonStringLevel.getString());
 
             jsonParser.close();
             fr.close();
