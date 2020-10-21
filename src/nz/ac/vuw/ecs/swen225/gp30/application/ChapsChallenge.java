@@ -13,6 +13,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 
+/**
+ * @author jakeh
+ */
 public class ChapsChallenge {
     enum GameState {
         RUNNING,
@@ -27,6 +30,7 @@ public class ChapsChallenge {
     private Timer timer;
     private final int TOTAL_TIME = 100;
 
+    /* Game State and Class Components */
     private GameState state = GameState.RUNNING;
     private GameState prevState = GameState.RUNNING;
     private GameVisuals renderer;
@@ -35,10 +39,13 @@ public class ChapsChallenge {
     private Record record;
     private Replay replay;
 
+    /* Record mode and level */
     public Boolean recordMode = false;
     public int gameLevel;
 
-
+    /**
+     * Initialize and Start the Game.
+     */
     public ChapsChallenge() {
         gui = new GUI();
         renderer = new GameVisuals();
@@ -50,7 +57,6 @@ public class ChapsChallenge {
         Controls control = new Controls(this);
         gui.addKeyListener(control);
         gui.setActionListeners(control);
-        gui.setTimeLeft(game.getTimeLeft());
 
         gameLevel = 1;
         loadLevel(gameLevel);
@@ -143,12 +149,11 @@ public class ChapsChallenge {
         UIManager.put("OptionPane.noButtonText", "Exit");
         int option = JOptionPane.showOptionDialog(gui, "You have lost the current game!", "Game: Lost", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE,null, null, null);
         if(option == 0){
-            loadLevel(gameLevel);
+            game = Persistence.readLevel(gameLevel);
         }
         else{
             System.exit(0);
         }
-
     }
 
     /**
@@ -177,10 +182,14 @@ public class ChapsChallenge {
      * Method will load a level for the game.
      */
     public void loadLevel(int i) {
-        game = Persistence.readLevel(gameLevel);
+        game = Persistence.readLevel(i);
         renderer.setGame(game);
+        game.setTimeLeft(TOTAL_TIME);
     }
 
+    /**
+     * Put the game in replay mode.
+     */
     public void playReplay(){
         recordMode = true;
         state = GameState.PAUSED;
@@ -208,7 +217,9 @@ public class ChapsChallenge {
         return level;
     }
 
-
+    /**
+     * Load the next game level.
+     */
     public void loadNextLevel(){
         gameLevel++;
         loadLevel(gameLevel);
@@ -222,61 +233,59 @@ public class ChapsChallenge {
         game.setTimeLeft(TOTAL_TIME);
         timer.start();
 
-        Runnable runnableGame = new Runnable() {
-            @Override
-            public void run() {
-                long elapsed = 0;
-                while (true) {
-                    long start = System.currentTimeMillis();
-                    switch (state) {
-                        //Create a JOptionPane. Stop time countdown.
-                        case PAUSED:
-                            timer.stop();
-                            break;
-                        case RUNNING:
-                            elapsed += (long) 1000 / (long) 30;
-                            // update
-                            checkInfo();
-                            if(recordMode){
-                                Move nextMove = replay.autoPlay(game.getTimeLeft());
-                                if(nextMove != null){
-                                    move(nextMove);
-                                }
+        Runnable runnableGame = () -> {
+            long elapsed = 0;
+            //noinspection InfiniteLoopStatement
+            while (true) {
+                long start = System.currentTimeMillis();
+                switch (state) {
+                    //Create a JOptionPane. Stop time countdown.
+                    case PAUSED:
+                        timer.stop();
+                        break;
+                    case RUNNING:
+                        elapsed += (long) 1000 / (long) 30;
+                        // update
+                        checkInfo();
+                        if(recordMode){
+                            Move nextMove = replay.autoPlay(game.getTimeLeft());
+                            if(nextMove != null){
+                                move(nextMove);
                             }
-                            if (elapsed > 1000) {
-                                game.advance();
-                                elapsed = 0;
-                            }
-                            renderer.repaint();
-                            break;
-                        case WON:
-                            // game.loadLevel(xx)
-                            // winning logic
-                            // next level
-                            saveReplay();
-                            wonGame();
-                            System.out.println("Game: WON");
-                            break;
-                        case DEAD:
-                            // show dead prompt?
-                            // restart level
-                            //game.loadLevel()
-                            gameLost();
-                            System.out.println("Game: DEAD");
-                            saveReplay();
-                            break;
-                        case TIMEOUT:
-                            renderer.repaint();
-                            break;
-                    }
-                    checkGameState();
-                    updateDashboard();
+                        }
+                        if (elapsed > 1000) {
+                            game.advance();
+                            elapsed = 0;
+                        }
+                        renderer.repaint();
+                        break;
+                    case WON:
+                        // game.loadLevel(xx)
+                        // winning logic
+                        // next level
+                        saveReplay();
+                        wonGame();
+                        System.out.println("Game: WON");
+                        break;
+                    case DEAD:
+                        // show dead prompt?
+                        // restart level
+                        //game.loadLevel()
+                        gameLost();
+                        System.out.println("Game: DEAD");
+                        saveReplay();
+                        break;
+                    case TIMEOUT:
+                        renderer.repaint();
+                        break;
+                }
+                checkGameState();
+                updateDashboard();
 
-                    try {
-                        Thread.sleep(start + (long) 1000 / (long) 30 - System.currentTimeMillis());
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
+                try {
+                    Thread.sleep(start + (long) 1000 / (long) 30 - System.currentTimeMillis());
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
                 }
             }
         };
@@ -348,12 +357,7 @@ public class ChapsChallenge {
      */
     public static void main(String[] args) {
         SwingUtilities.invokeLater(
-                new Runnable() {
-                    @Override
-                    public void run() {
-                        new ChapsChallenge();
-                    }
-                }
+                ChapsChallenge::new
         );
     }
 }
