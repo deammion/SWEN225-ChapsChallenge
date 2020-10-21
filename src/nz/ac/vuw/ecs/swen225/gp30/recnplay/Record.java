@@ -7,6 +7,13 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
+/**
+ * Record class stores all moves passed from the application class.
+ * converts them to JSON objects to be stored in an JSON array which
+ * is then saved as a JSON file
+ *
+ * @author tamasedami
+ */
 public class Record {
 
     //initialises for directory, and standard naming for files
@@ -17,7 +24,6 @@ public class Record {
     //initialises ints required for saving gameState and file iterations
     private int saveIteration = 1;
     private int playerMoveIndex = 0;
-    private int actorMoveIndex =0;
 
     //initialises Json array builder, file name and file in order to save gameState in an array and write to file
     private JsonArrayBuilder arrayBuilder;
@@ -28,9 +34,9 @@ public class Record {
      * constructor
      */
     public Record() {
-        arrayBuilder = Json.createArrayBuilder();
+        arrayBuilder = Json.createArrayBuilder(); //initialise new json array builder
         fileName = fileNamePrefix + saveIteration + fileNameSuffix;
-        file = new File(dir + fileName);
+        file = new File(dir + fileName); //initialise new file
     }
 
     /**
@@ -44,18 +50,6 @@ public class Record {
         JsonObjectBuilder playerMoveObject = Json.createObjectBuilder().add("Player" + playerMoveIndex++,convertMoveToString(move) + time);
         arrayBuilder.add(playerMoveObject);
 
-    }
-
-    /**
-     * called by chapsChallenge, converts the move to a string, includes the time
-     * done this way to limit file size
-     *
-     * @param move - Move functions used by application to move actors
-     * @param time - time remaining in level
-     */
-    public void storeActorMove(Move move, int time) {
-        JsonObjectBuilder actorMoveObject = Json.createObjectBuilder().add("Actor" + actorMoveIndex++,convertMoveToString(move) + time);
-        arrayBuilder.add(actorMoveObject);
     }
 
     /**
@@ -73,7 +67,7 @@ public class Record {
      * converts the given move to the corresponding key/String
      *
      * @param a - a move function used by application
-     * @return move as a String
+     * @return move as a String represented by "WASD"
      */
     public String convertMoveToString(Move a) {
         switch (a) {
@@ -88,7 +82,6 @@ public class Record {
         };
         return null;
     }
-
 
     /**
      * writes the Json array builder to a Json file
