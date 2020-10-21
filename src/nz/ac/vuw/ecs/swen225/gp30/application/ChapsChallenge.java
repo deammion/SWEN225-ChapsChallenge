@@ -17,6 +17,7 @@ import java.io.File;
  * @author jakeh
  */
 public class ChapsChallenge {
+
     enum GameState {
         RUNNING,
         PAUSED,
@@ -25,12 +26,12 @@ public class ChapsChallenge {
         TIMEOUT
     }
 
-    /* Timing components for the game */
+    // Timing components for the game
     private int timerDelay = 1000;
     private Timer timer;
     private final int TOTAL_TIME = 100;
 
-    /* Game State and Class Components */
+    // Game State and Class Components
     private GameState state = GameState.RUNNING;
     private GameState prevState = GameState.RUNNING;
     private GameVisuals renderer;
@@ -39,7 +40,7 @@ public class ChapsChallenge {
     private Record record;
     private Replay replay;
 
-    /* Record mode and level */
+    // Record mode and level
     public Boolean recordMode = false;
     public int gameLevel;
 
@@ -74,6 +75,117 @@ public class ChapsChallenge {
             gui.setTimeLeft(game.getTimeLeft());
         }
     };
+
+
+
+    /**
+     * Method is responsible for the starting of the game, keeps the game
+     * in states to keep it running.
+     */
+    public void startGame() {
+        game.setTimeLeft(TOTAL_TIME);
+        timer.start();
+
+        Runnable runnableGame = () -> {
+            long elapsed = 0;
+            //noinspection InfiniteLoopStatement
+            while (true) {
+                long start = System.currentTimeMillis();
+                switch (state) {
+                    case PAUSED:
+                        timer.stop();
+                        break;
+                    case RUNNING:
+                        elapsed += (long) 1000 / (long) 30;
+                        checkInfo();
+                        if(recordMode){
+                            Move nextMove = replay.autoPlay(game.getTimeLeft());
+                            if(nextMove != null){
+                                move(nextMove);
+                            }
+                        }
+                        if (elapsed > 1000) {
+                            game.advance();
+                            elapsed = 0;
+                        }
+                        renderer.repaint();
+                        break;
+                    case WON:
+                        saveReplay();
+                        wonGame();
+                        System.out.println("Game: WON");
+                        break;
+                    case DEAD:
+                        gameLost();
+                        System.out.println("Game: DEAD");
+                        saveReplay();
+                        break;
+                    case TIMEOUT:
+                        renderer.repaint();
+                        break;
+                }
+                checkGameState();
+                updateDashboard();
+                //Remove?
+                try {
+                    Thread.sleep(start + (long) 1000 / (long) 30 - System.currentTimeMillis());
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+        new Thread(runnableGame).start();
+    }
+
+    /**
+     * Update the dashboard to show the inventory keys.
+     */
+    public void updateDashboard() {
+        InventoryPanel inv = gui.getInventoryPanel();
+        inv.setItemsToDisplay(game.getChap().getInventory());
+        inv.repaint();
+        gui.setChipsLeft(game.getChipsLeft());
+    }
+
+    /**
+     *  Display the info for Chap when on the information tile.
+     */
+    public void checkInfo() {
+        if(game.isChapOnInfo()) {
+            renderer.setInfoText(game.getLevelInfo());
+            renderer.toggleInfo(true);
+        } else {
+            renderer.toggleInfo(false);
+        }
+    }
+
+    /**
+     * Toggle between auto and step by step replaying.
+     */
+    public void togglePlay(){
+        replay.toggleAutoPlaying();
+    }
+
+    /**
+     * Play the next move, update the timer for the replay mode.
+     */
+    public void replayNextMove(){
+        move(replay.playNextMove());
+        //timeLeft = replay.updateTimer();
+    }
+
+    /**
+     * Check which state the game is currently in. This can either
+     * be INFO, WON or DEAD.
+     */
+    public void checkGameState() {
+        if (game.isChapOnExit()) {
+            state = GameState.WON;
+        }
+        if (!game.isChapActive()) {
+            state = GameState.DEAD;
+        }
+    }
 
     /**
      * Method to move Chap about the maze if in record mode it
@@ -125,20 +237,13 @@ public class ChapsChallenge {
     }
 
     /**
-     * Method which will pause the game.
+     * If the game has been won.
      */
-    public void pause() {
-        if(game.getTimeLeft() > 0) {
-            prevState = state;
-            state = GameState.PAUSED;
-            //timer.stop();
-            UIManager.put("OptionPane.okButtonText", "Resume");
-            int option = JOptionPane.showOptionDialog(gui, "Game is currently paused!", "Game: Paused", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, null, null);
-            if (option == 0 || option == -1) {
-                state = prevState;
-                timer.start();
-            }
-        }
+    public void wonGame() {
+        loadNextLevel();
+        game.setTimeLeft(TOTAL_TIME);
+        timer.restart();
+        state = GameState.RUNNING;
     }
 
     /**
@@ -179,6 +284,23 @@ public class ChapsChallenge {
     }
 
     /**
+     * Method which will pause the game.
+     */
+    public void pause() {
+        if(game.getTimeLeft() > 0) {
+            prevState = state;
+            state = GameState.PAUSED;
+            //timer.stop();
+            UIManager.put("OptionPane.okButtonText", "Resume");
+            int option = JOptionPane.showOptionDialog(gui, "Game is currently paused!", "Game: Paused", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, null, null);
+            if (option == 0 || option == -1) {
+                state = prevState;
+                timer.start();
+            }
+        }
+    }
+
+    /**
      * Method will load a level for the game.
      */
     public void loadLevel(int i) {
@@ -207,13 +329,13 @@ public class ChapsChallenge {
         int level = 0;
         replay = new Replay();
         //Open the file chooser directory to get file name for Record and Replay.
-            JFileChooser fileChooser = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
-            int fileReturnValue = fileChooser.showOpenDialog(null);
-            if(fileReturnValue == JFileChooser.APPROVE_OPTION) {
-                File selectedFile = fileChooser.getSelectedFile();
-                level = replay.loadJsonToReplay(selectedFile.getName());
-                System.out.println(selectedFile.getName());
-            }
+        JFileChooser fileChooser = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
+        int fileReturnValue = fileChooser.showOpenDialog(null);
+        if(fileReturnValue == JFileChooser.APPROVE_OPTION) {
+            File selectedFile = fileChooser.getSelectedFile();
+            level = replay.loadJsonToReplay(selectedFile.getName());
+            System.out.println(selectedFile.getName());
+        }
         return level;
     }
 
@@ -225,132 +347,6 @@ public class ChapsChallenge {
         loadLevel(gameLevel);
     }
 
-    /**
-     * Method is responsible for the starting of the game, keeps the game
-     * in states to keep it running.
-     */
-    public void startGame() {
-        game.setTimeLeft(TOTAL_TIME);
-        timer.start();
-
-        Runnable runnableGame = () -> {
-            long elapsed = 0;
-            //noinspection InfiniteLoopStatement
-            while (true) {
-                long start = System.currentTimeMillis();
-                switch (state) {
-                    //Create a JOptionPane. Stop time countdown.
-                    case PAUSED:
-                        timer.stop();
-                        break;
-                    case RUNNING:
-                        elapsed += (long) 1000 / (long) 30;
-                        // update
-                        checkInfo();
-                        if(recordMode){
-                            Move nextMove = replay.autoPlay(game.getTimeLeft());
-                            if(nextMove != null){
-                                move(nextMove);
-                            }
-                        }
-                        if (elapsed > 1000) {
-                            game.advance();
-                            elapsed = 0;
-                        }
-                        renderer.repaint();
-                        break;
-                    case WON:
-                        // game.loadLevel(xx)
-                        // winning logic
-                        // next level
-                        saveReplay();
-                        wonGame();
-                        System.out.println("Game: WON");
-                        break;
-                    case DEAD:
-                        // show dead prompt?
-                        // restart level
-                        //game.loadLevel()
-                        gameLost();
-                        System.out.println("Game: DEAD");
-                        saveReplay();
-                        break;
-                    case TIMEOUT:
-                        renderer.repaint();
-                        break;
-                }
-                checkGameState();
-                updateDashboard();
-
-                try {
-                    Thread.sleep(start + (long) 1000 / (long) 30 - System.currentTimeMillis());
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-        };
-        new Thread(runnableGame).start();
-    }
-
-    /**
-     * If the game has been won.
-     */
-    public void wonGame() {
-        loadNextLevel();
-        game.setTimeLeft(TOTAL_TIME);
-        timer.restart();
-        state = GameState.RUNNING;
-    }
-
-    /**
-     * Update the dashboard to show the inventory keys.
-     */
-    public void updateDashboard() {
-        InventoryPanel inv = gui.getInventoryPanel();
-        inv.setItemsToDisplay(game.getChap().getInventory());
-        inv.repaint();
-        gui.setChipsLeft(game.getChipsLeft());
-    }
-
-    /**
-     *  Display the info for Chap when on the information tile.
-     */
-    public void checkInfo() {
-        if(game.isChapOnInfo()) {
-            renderer.setInfoText(game.getLevelInfo());
-            renderer.toggleInfo(true);
-        } else {
-            renderer.toggleInfo(false);
-        }
-    }
-
-    /**
-     * Toggle between auto and step by step replaying.
-     */
-    public void togglePlay(){
-        replay.toggleAutoPlaying();
-    }
-
-    /**
-     * Play the next move, update the timer for the replay mode.
-     */
-    public void replayNextMove(){
-        move(replay.playNextMove());
-        timeLeft = replay.updateTimer();
-    }
-
-    /**
-     * Check which state the game is currently in. This can either
-     * be INFO, WON or DEAD.
-     */
-    public void checkGameState() {
-        if (game.isChapOnExit()) {
-            state = GameState.WON;
-        }
-        if (!game.isChapActive()) {
-            state = GameState.DEAD;
-        }
-    }
 
     /**
      * Main method, begins the game.
