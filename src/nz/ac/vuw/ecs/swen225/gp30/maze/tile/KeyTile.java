@@ -54,12 +54,12 @@ public class KeyTile extends Tile {
 
     @Override
     public char getChar() {
-        return hasChap()? 'c' : collected? '_' : '%';
+        return collected? '_' : key.getChar();
     }
 
     @Override
     public boolean isMobAllowed() {
-        return false;
+        return collected;
     }
 
     @Override

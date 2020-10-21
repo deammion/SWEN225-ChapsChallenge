@@ -33,4 +33,8 @@ public abstract class Mob extends Actor {
 		public Move getNextMove() {
 				return Move.getFromOrdinal(path[move++ % path.length]);
 		}
+
+		public int[] getPath() {
+				return path;
+		}
 }

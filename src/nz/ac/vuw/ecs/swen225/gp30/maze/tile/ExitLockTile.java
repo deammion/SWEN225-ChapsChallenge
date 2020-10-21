@@ -53,12 +53,12 @@ public class ExitLockTile extends Tile {
 
     @Override
     public char getChar() {
-        return hasChap() ? 'c' : unlocked? '_' : 'X';
+        return unlocked? '_' : 'l';
     }
 
     @Override
     public boolean isMobAllowed() {
-        return false;
+        return unlocked;
     }
 
     @Override

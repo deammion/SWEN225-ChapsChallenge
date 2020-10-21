@@ -10,24 +10,26 @@ public enum Item {
     /**
      * A blue key
      */
-    KEY_BLUE(true),
+    KEY_BLUE(true, 'b'),
     /**
      * A green key
      */
-    KEY_GREEN(false),
+    KEY_GREEN(false, 'g'),
     /**
      * A red key
      */
-    KEY_RED(true),
+    KEY_RED(true, 'r'),
     /**
      * A yellow key
      */
-    KEY_YELLOW(true);
+    KEY_YELLOW(true, 'y');
 
     private final boolean consumable;
+    private final char itemChar;
 
-    Item(boolean consumable) {
+    Item(boolean consumable, char itemChar) {
         this.consumable = consumable;
+        this.itemChar = itemChar;
     }
 
     /**
@@ -36,5 +38,9 @@ public enum Item {
      */
     public boolean isConsumable() {
         return consumable;
+    }
+
+    public char getChar() {
+        return itemChar;
     }
 }

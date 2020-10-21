@@ -45,7 +45,7 @@ public class InfoTile extends Tile {
 
     @Override
     public char getChar() {
-        return hasChap()? 'c' : 'i';
+        return 'i';
     }
 
     @Override
