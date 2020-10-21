@@ -15,12 +15,12 @@ public class Audio implements LineListener{
 	public void playSound(String p) throws Exception{
 		//AudioInputStream a = AudioSystem.getAudioInputStream(new File(path).getAbsoluteFile());
 		File audioFile = new File(p);
-        AudioInputStream st = AudioSystem.getAudioInputStream(audioFile);
-        AudioFormat f = st.getFormat();
+        AudioInputStream s = AudioSystem.getAudioInputStream(audioFile);
+        AudioFormat f = s.getFormat();
         DataLine.Info info = new DataLine.Info(Clip.class, f);
         Clip c = (Clip) AudioSystem.getLine(info);
         c.addLineListener(this);
-        c.open(st);
+        c.open(s);
         c.start();
 	}
 
