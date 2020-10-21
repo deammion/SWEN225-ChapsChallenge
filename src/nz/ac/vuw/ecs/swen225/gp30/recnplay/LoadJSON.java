@@ -41,38 +41,7 @@ public class LoadJSON {
             e.printStackTrace();
             return null;
         }
-
         return playerMoves; // return Arraylist of player moves as strings
-    }
-
-    /**
-     *
-     *
-     * @param fileName
-     * @return
-     */
-    public ArrayList<String> loadActorMoves(String fileName){
-        ArrayList<String> actorMoves = new ArrayList<>();
-        try {
-            String dir = "src/nz/ac/vuw/ecs/swen225/gp30/recnplay/";
-            FileReader fr = new FileReader(new File(dir + fileName));
-
-            JsonReader jsonParser = Json.createReader(fr);
-            JsonArray jsonArray = jsonParser.readArray();
-
-            for(int i =0; i < jsonArray.size(); i++) { //iterate through Json array
-                JsonObject jsonObj = jsonArray.get(i).asJsonObject(); //convert to Json object
-                JsonString jsonStringActor = (JsonString) jsonObj.getValue("/Actor" + i); //convert move Json Object to string
-                actorMoves.add(jsonStringActor.getString());
-            }
-
-            jsonParser.close();
-            fr.close();
-        } catch (IOException | JsonException e) {
-            e.printStackTrace();
-            return null;
-        }
-        return actorMoves; // return Arraylist of actor moves as strings
     }
 
     /**

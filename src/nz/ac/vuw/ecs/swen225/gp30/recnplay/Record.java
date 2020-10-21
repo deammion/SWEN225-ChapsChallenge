@@ -17,18 +17,18 @@ import java.io.IOException;
 public class Record {
 
     //initialises for directory, and standard naming for files
-    private final String dir = "src/nz/ac/vuw/ecs/swen225/gp30/recnplay/";
-    private final String fileNamePrefix = "record-";
-    private final String fileNameSuffix = ".json";
+    private static final String dir = "src/nz/ac/vuw/ecs/swen225/gp30/recnplay/";
+    private static final String fileNamePrefix = "record-";
+    private static final String fileNameSuffix = ".json";
 
     //initialises ints required for saving gameState and file iterations
     private int saveIteration = 1;
     private int playerMoveIndex = 0;
 
     //initialises Json array builder, file name and file in order to save gameState in an array and write to file
-    private JsonArrayBuilder arrayBuilder;
+    private final JsonArrayBuilder arrayBuilder;
     private String fileName;
-    private File file;
+    private final File file;
 
     /**
      * constructor
@@ -88,7 +88,7 @@ public class Record {
      * first checks all existing files to makes sure it is not overwriting old files
      * called when saving a game, or when choosing to watch a replay.
      */
-    public String writeJsonToFile() {
+    public void writeJsonToFile() {
         if(file.exists()) {
             createNewSaveIteration();
         }
@@ -103,7 +103,6 @@ public class Record {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return fileName;
     }
 
     /**
