@@ -45,7 +45,7 @@ public class FreeTile extends Tile {
 
     @Override
     public char getChar() {
-        return hasChap() ? 'c' : '_';
+        return '_';
     }
 
     @Override

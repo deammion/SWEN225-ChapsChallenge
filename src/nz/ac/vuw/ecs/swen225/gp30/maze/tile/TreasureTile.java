@@ -49,12 +49,12 @@ public class TreasureTile extends Tile {
 
     @Override
     public char getChar() {
-        return hasChap() ? 'c' : collected? '_' : '*';
+        return collected? '_' : 'T';
     }
 
     @Override
     public boolean isMobAllowed() {
-        return false;
+        return collected;
     }
 
     @Override

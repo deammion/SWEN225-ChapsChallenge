@@ -7,10 +7,6 @@ import nz.ac.vuw.ecs.swen225.gp30.maze.tile.ExitTile;
 import nz.ac.vuw.ecs.swen225.gp30.maze.tile.InfoTile;
 import nz.ac.vuw.ecs.swen225.gp30.maze.tile.Tile;
 
-import java.util.stream.Stream;
-
-import static com.google.common.base.Preconditions.checkArgument;
-
 /**
  * The GameWorld is the main class in the maze package that has functionality for changing and checking the state of objects within the game
  * Provides functionality for setting and getting objects within the game.
@@ -59,14 +55,27 @@ public class GameWorld {
         return true;
     }
 
+    /**
+     * Returns the time left in the game.
+     *
+     * @return time left in the game
+     */
     public int getTimeLeft() {
         return timeLeft;
     }
 
+    /**
+     * Decrements the time left in the game by 1.
+     */
     public void decrementTimeLeft() {
         timeLeft--;
     }
 
+    /**
+     * Sets the time left in the game.
+     *
+     * @param time the time left to set.
+     */
     public void setTimeLeft(int time) {
         this.timeLeft = time;
     }
@@ -91,6 +100,11 @@ public class GameWorld {
         assert(tile.getX() == chap.getX() && tile.getY() == chap.getY());
     }
 
+    /**
+     * Returns the amount of chips left for chap to collect.
+     *
+     * @return chips left for chap to collect
+     */
     public int getChipsLeft() {
         return ExitLockTile.CHIPS_REQUIRED - chap.getChipsCollected();
     }

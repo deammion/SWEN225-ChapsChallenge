@@ -45,7 +45,7 @@ public class ExitTile extends Tile {
 
     @Override
     public char getChar() {
-        return hasChap() ? 'c' : 'O';
+        return 'E';
     }
 
     @Override

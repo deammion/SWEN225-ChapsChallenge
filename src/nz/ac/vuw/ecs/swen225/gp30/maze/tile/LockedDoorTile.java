@@ -53,12 +53,12 @@ public class LockedDoorTile extends Tile {
 
     @Override
     public char getChar() {
-        return hasChap() ? 'c' : unlocked? '_' : 'D';
+        return unlocked? '_' : Character.toUpperCase(keyToUnlock.getChar());
     }
 
     @Override
     public boolean isMobAllowed() {
-        return false;
+        return unlocked;
     }
 
     @Override
