@@ -14,6 +14,8 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -30,10 +32,25 @@ public class GameVisuals extends JPanel{
 	private final Color BG_COLOR = new Color(144, 164, 174);
 	private String infoText;
 	public boolean toggleInfo = false;
+	public Map<String, BufferedImage> imageMap;
 	
 	public GameVisuals() {
 		this.setPreferredSize((new Dimension(TILE_SIZE*CAMERA_VIEW, TILE_SIZE*CAMERA_VIEW)));
 		this.setBorder(BorderFactory.createLineBorder(Color.BLACK, 3));
+		loadImages();
+	}
+
+	public void loadImages() {
+			imageMap = new HashMap<>();
+			try {
+					File fp = new File("assets/");
+					File[] files = fp.listFiles();
+					for(File f : files) {
+							imageMap.put(f.getName(), ImageIO.read(f));
+					}
+			} catch (IOException e) {
+					e.printStackTrace();
+			}
 	}
 
 	public void setGame(GameWorld game) {
@@ -46,10 +63,6 @@ public class GameVisuals extends JPanel{
 
 	public void toggleInfo(boolean toggle) {
 		toggleInfo = toggle;
-	}
-
-	public boolean isInfoToggled() {
-		return toggleInfo;
 	}
 
 	public Collection<Tile> getTilesToRender() {
@@ -66,18 +79,6 @@ public class GameVisuals extends JPanel{
 		Stream<Tile> allTiles = game.getMaze().getTiles();
 
 		return allTiles.filter(inRange).collect(Collectors.toList());
-	}
-	
-	public BufferedImage getImageFromObject(GameObject g) {
-		String path = "assets/" + g.getImageString();
-		try {
-			File imgFile = new File(path);
-			return ImageIO.read(imgFile);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return null;
 	}
 	
 	public int getScreenX(int x) {
@@ -102,7 +103,7 @@ public class GameVisuals extends JPanel{
 		for(Tile t : getTilesToRender()) {
 			int screenX = getScreenX(t.getX());
 			int screenY = getScreenY(t.getY());
-			g.drawImage(getImageFromObject(t), screenX, screenY, null);
+			g.drawImage(imageMap.get(t.getImageString()), screenX, screenY, null);
 		}
 	}
 	
@@ -110,7 +111,7 @@ public class GameVisuals extends JPanel{
 		GameObject chap = game.getChap();
 		int screenX = getScreenX(chap.getX());
 		int screenY = getScreenY(chap.getY());
-		g.drawImage(getImageFromObject(chap), screenX, screenY, null);
+		g.drawImage(imageMap.get(chap.getImageString()), screenX, screenY, null);
 	}
 	
 	public void renderMobs(Graphics g) {
@@ -118,7 +119,7 @@ public class GameVisuals extends JPanel{
 		for(Mob mo: m.getMobs()) {
 			int screenX = getScreenX(mo.getX());
 			int screenY = getScreenY(mo.getY());
-			g.drawImage(getImageFromObject(mo), screenX, screenY, null);
+			g.drawImage(imageMap.get(mo.getImageString()), screenX, screenY, null);
 		}
 	}
 	

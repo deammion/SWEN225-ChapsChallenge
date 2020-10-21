@@ -4,18 +4,34 @@ import java.io.*;
 
 import javax.sound.sampled.*;
 
-public class Audio {
+//template from codejava.net
+public class Audio implements LineListener{
 
-	private String path;
+	boolean done;
 	
-	public Audio(String p) {
-		path = p;
+	public Audio() {
 	}
 	
-	public void playSound() throws Exception{
-		AudioInputStream a = AudioSystem.getAudioInputStream(new File(path).getAbsoluteFile());
-		Clip c = AudioSystem.getClip();
-		c.open(a);
-		c.start();
+	public void playSound(String p) throws Exception{
+		//AudioInputStream a = AudioSystem.getAudioInputStream(new File(path).getAbsoluteFile());
+		File audioFile = new File(p);
+        AudioInputStream s = AudioSystem.getAudioInputStream(audioFile);
+        AudioFormat f = s.getFormat();
+        DataLine.Info info = new DataLine.Info(Clip.class, f);
+        Clip c = (Clip) AudioSystem.getLine(info);
+        c.addLineListener(this);
+        c.open(s);
+        c.start();
+	}
+
+	@Override
+	public void update(LineEvent event) {
+		LineEvent.Type type = event.getType();
+        if (type == LineEvent.Type.START) {
+            System.out.println("Started.");
+        } else if (type == LineEvent.Type.STOP) {
+            done = true;
+            System.out.println("Stopped.");
+        }
 	}
 }
