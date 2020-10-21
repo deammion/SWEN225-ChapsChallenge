@@ -7,13 +7,11 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
 
-/**
- * @author jakeh
- */
 public class GUI extends JFrame {
 
     //Current level Chip is on.
     int gameLevel = 1;
+    int chipsLeft = 5;
     
     //JComponents.
     JPanel gamePanel, dashPanel, infoPanel, containerPanel;
@@ -183,11 +181,6 @@ public class GUI extends JFrame {
         exit.addActionListener(listener);
     }
 
-    /**
-     * Method gets the inventory panel.
-     *
-     * @return - the inventory panel.
-     */
     public InventoryPanel getInventoryPanel() {
         return invPanel;
     }

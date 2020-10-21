@@ -8,9 +8,6 @@ import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
 import java.awt.*;
 
-/**
- * @author jakeh
- */
 public class HelpMenuListener extends JFrame implements MenuListener {
 
     //Help Menu Components.
