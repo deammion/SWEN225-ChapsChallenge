@@ -93,7 +93,6 @@ public class Persistence {
 
             game.setMobManager(mobMgr);
             game.setLevelInfo(levelInfo);
-            GameWorld.CHIPS_REQUIRED = chipsRequired;
 
             reader.close();
             return game;
