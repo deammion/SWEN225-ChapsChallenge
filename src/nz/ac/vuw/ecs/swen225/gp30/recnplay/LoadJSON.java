@@ -4,6 +4,12 @@ import javax.json.*;
 import java.io.*;
 import java.util.ArrayList;
 
+/**
+ * LoadJSON class is responsible for parsing the JSON file and returning the moves as an arraylist
+ * and the level number as an int to the Replay class.
+ *
+ * @author tamasedami
+ */
 public class LoadJSON {
 
     /**
@@ -76,7 +82,7 @@ public class LoadJSON {
      * @return level - an int use to differ between levels for the replay
      */
     public Integer loadLevel(String fileName) {
-        int level = 0;
+        int level = 0; //initialise as 0
         try {
             String dir = "src/nz/ac/vuw/ecs/swen225/gp30/recnplay/";
             FileReader fr = new FileReader(new File(dir + fileName));
