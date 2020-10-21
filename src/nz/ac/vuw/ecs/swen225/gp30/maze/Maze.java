@@ -80,6 +80,24 @@ public class Maze {
         return Arrays.stream(grid).flatMap(Stream::of);
     }
 
+    /**
+     * Returns the number of rows in the maze.
+     *
+     * @return rows in the maze
+     */
+    public int getRows() {
+        return grid[0].length;
+    }
+
+    /**
+     * Return the number of cols in the maze.
+     *
+     * @return cols in the maze
+     */
+    public int getCols() {
+        return grid.length;
+    }
+
     @Override
     public String toString() {
         StringBuilder gridString = new StringBuilder();
