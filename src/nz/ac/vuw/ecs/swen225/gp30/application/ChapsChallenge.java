@@ -208,13 +208,13 @@ public class ChapsChallenge {
         int level = 0;
         replay = new Replay();
         //Open the file chooser directory to get file name for Record and Replay.
-        JFileChooser fileChooser = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
-        int fileReturnValue = fileChooser.showOpenDialog(null);
-        if(fileReturnValue == JFileChooser.APPROVE_OPTION){
-            File selectedFile = fileChooser.getSelectedFile();
-            level = replay.loadJsonToReplay(selectedFile.getName());
-            System.out.println(selectedFile.getName());
-        }
+            JFileChooser fileChooser = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
+            int fileReturnValue = fileChooser.showOpenDialog(null);
+            if(fileReturnValue == JFileChooser.APPROVE_OPTION) {
+                File selectedFile = fileChooser.getSelectedFile();
+                level = replay.loadJsonToReplay(selectedFile.getName());
+                System.out.println(selectedFile.getName());
+            }
         return level;
     }
 
@@ -333,10 +333,11 @@ public class ChapsChallenge {
     }
 
     /**
-     * Play the next move.
+     * Play the next move, update the timer for the replay mode.
      */
     public void replayNextMove(){
         move(replay.playNextMove());
+        timeLeft = replay.updateTimer();
     }
 
     /**
