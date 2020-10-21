@@ -4,19 +4,16 @@ import nz.ac.vuw.ecs.swen225.gp30.Move;
 
 import java.util.ArrayList;
 
-/**
- * Replay class stores an arraylist of player moves loaded from JSON files (handled by the LoadJSON class)
- * methods within this class handle iterating this arraylist and passing moves and time to the application class
- *
- * @author tamasedami
- */
 public class Replay {
 
     //all variables initialised when new replay instance is called
     public Boolean autoPlaying = false;
     private int playerIndex = 0;
+    private int actorIndex = 0;
+    private double delay = 1;
 
     public ArrayList<String> playerMoves = new ArrayList<>();
+    public ArrayList<String> actorMoves = new ArrayList<>();
     public int level;
 
     /**
@@ -31,11 +28,12 @@ public class Replay {
         LoadJSON lj = new LoadJSON();
         level = lj.loadLevel(fileName);
         playerMoves = lj.loadPlayerMoves(fileName);
+        //actorMoves = lj.loadActorMoves(fileName);
         return level;
     }
 
     /**
-     * toggles the autoplay boolean
+     * toggles the auto play function, and resets the play back timer
      */
     public void toggleAutoPlaying() {
         autoPlaying = !autoPlaying;
@@ -63,32 +61,96 @@ public class Replay {
     }
 
     /**
-     * returns the next move in the playerMove arraylist and updates the playerIndex
+     * gets the time from the next move in the actorMoves arraylist
+     * checks that against the game time, if the move time is less then the game timer
+     * the move is passed to application.
+     *
+     * @param time - game timer
+     * @return Move - to be passed to application
+     */
+    public Move autoPlayActor(int time) {
+        if(!actorMoves.isEmpty()) {
+            int actorMoveTime = convertStringToInt(actorMoves.get(actorIndex));
+            if(actorMoveTime > time){
+                char stringMove = actorMoves.get(actorIndex).charAt(0);
+                Move actorMove = convertStringToMove(stringMove);
+                actorIndex++;
+                return actorMove;
+            }
+        }
+        return  null;
+    }
+
+    /**
+     * gets the time from the actor arraylist and player arraylist
+     * compares these two ints, and returns the move with the lowest time.
+     * needs to be seperate from the auto play function to account for timer
      *
      * @return Move - to be passed to application
      */
     public Move playNextMove() {
-        if(playerIndex + 1 <= playerMoves.size() && !autoPlaying) { //checks there is an available move
+        if(playerIndex + 1 <= playerMoves.size() && !autoPlaying) {
+            int playerTime = convertStringToInt(playerMoves.get(playerIndex + 1));
+            int actorTime = convertStringToInt(actorMoves.get(actorIndex + 1));
+            if (actorTime > playerTime) {
+                actorIndex++;
+                return convertStringToMove(playerMoves.get(actorIndex).charAt(1));
+            }
             playerIndex++;
             return convertStringToMove(playerMoves.get(playerIndex).charAt(1));
         }
         return null;
     }
 
+//    /**
+//     * gets the previous game state in the gameStates arraylist
+//     * so it can be passed to the maze via levels to render
+//     * called by Application
+//     *
+//     * @return String - String that can be read into a gameState
+//     */
+//    public void getPreviousMove() {
+//        if(playerIndex - 1 >= 0 && !autoPlaying) {
+//            playerIndex--;
+//            Move playerMove = reverseMove(playerMoves.get(playerIndex).charAt(0));
+//            int playerTime = convertStringToInt(playerMoves.get(playerIndex));
+//            int actorTime = convertStringToInt(actorMoves.get(actorIndex));
+//            if (actorTime > playerTime) {
+//                //pass actormove to app
+//                Move actorMove = reverseMove(actorMoves.get(actorIndex).charAt(0));
+//                actorIndex--;
+//            }
+//            //pass player move to app
+//            playerIndex++;
+//        }
+//    }
+
     /**
-     * gets the time from the current move to return to application to
-     * update the game timer
-     *
-     * @return time - an int representing the game timer
+     * called by application, increases the time between steps on autoplay function
      */
-    public int updateTimer() {
-        return convertStringToInt(playerMoves.get(playerIndex));
+    public void decreaseDelay(){
+        if(delay < 4) {
+            delay = delay*2;
+        } else {
+            delay = 4;
+        }
+    }
+
+    /**
+     * called by Application, decreases the time between steps on autoplay function
+     */
+    public void increaseDelay() {
+        if (delay > .5) {
+            delay = delay/2;
+        } else {
+            delay = 0.5;
+        }
     }
 
     /**
      * converts a string to a move, the json file stores the moves as strings
      *
-     * @param s - string representing movement via "WASD" inputs
+     * @param s - string
      * @return move - to be called by application
      */
     public Move convertStringToMove(Character s) {
@@ -108,11 +170,12 @@ public class Replay {
     /**
      * converts a string to an int, use to convert JSON string to int for time
      *
-     * @param s - string form of the JSON object. format: ""a99""
+     * @param s - string
      * @return int - time as an int function
      */
     public int convertStringToInt(String s){
         String numbers = s.substring(2, s.length()-1); //create new string which only contains ints
         return Integer.parseInt(numbers);
     }
+
 }

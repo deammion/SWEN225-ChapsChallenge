@@ -26,10 +26,9 @@ public class ChapsChallenge {
     }
 
     /* Timing components for the game */
-    private final int TOTAL_TIME = 100;
-    private int timeLeft;
     private int timerDelay = 1000;
     private Timer timer;
+    private final int TOTAL_TIME = 100;
 
     /* Game State and Class Components */
     private GameState state = GameState.RUNNING;
@@ -58,7 +57,6 @@ public class ChapsChallenge {
         Controls control = new Controls(this);
         gui.addKeyListener(control);
         gui.setActionListeners(control);
-        gui.setTimeLeft(timeLeft);
 
         gameLevel = 1;
         loadLevel(gameLevel);
@@ -68,11 +66,12 @@ public class ChapsChallenge {
     ActionListener gameTimer = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
-            if (timeLeft == 0) {
+            if (game.getTimeLeft() == 0) {
                 state = GameState.TIMEOUT;
                 timer.stop();
             }
-            gui.setTimeLeft(timeLeft--);
+            game.decrementTimeLeft();
+            gui.setTimeLeft(game.getTimeLeft());
         }
     };
 
@@ -84,7 +83,7 @@ public class ChapsChallenge {
      */
     public void move(Move move) {
         if (game.moveChap(move) && !recordMode) {
-            record.storePlayerMove(move, timeLeft);
+            record.storePlayerMove(move, game.getTimeLeft());
         }
     }
 
@@ -129,7 +128,7 @@ public class ChapsChallenge {
      * Method which will pause the game.
      */
     public void pause() {
-        if(timeLeft > 0) {
+        if(game.getTimeLeft() > 0) {
             prevState = state;
             state = GameState.PAUSED;
             //timer.stop();
@@ -183,9 +182,9 @@ public class ChapsChallenge {
      * Method will load a level for the game.
      */
     public void loadLevel(int i) {
-        timeLeft = TOTAL_TIME;
         game = Persistence.readLevel(i);
         renderer.setGame(game);
+        game.setTimeLeft(TOTAL_TIME);
     }
 
     /**
@@ -231,7 +230,7 @@ public class ChapsChallenge {
      * in states to keep it running.
      */
     public void startGame() {
-        timeLeft = TOTAL_TIME;
+        game.setTimeLeft(TOTAL_TIME);
         timer.start();
 
         Runnable runnableGame = () -> {
@@ -249,7 +248,7 @@ public class ChapsChallenge {
                         // update
                         checkInfo();
                         if(recordMode){
-                            Move nextMove = replay.autoPlay(timeLeft);
+                            Move nextMove = replay.autoPlay(game.getTimeLeft());
                             if(nextMove != null){
                                 move(nextMove);
                             }
@@ -298,7 +297,7 @@ public class ChapsChallenge {
      */
     public void wonGame() {
         loadNextLevel();
-        timeLeft = TOTAL_TIME;
+        game.setTimeLeft(TOTAL_TIME);
         timer.restart();
         state = GameState.RUNNING;
     }
