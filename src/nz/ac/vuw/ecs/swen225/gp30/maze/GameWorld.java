@@ -2,6 +2,7 @@ package nz.ac.vuw.ecs.swen225.gp30.maze;
 
 import com.google.common.base.Preconditions;
 import nz.ac.vuw.ecs.swen225.gp30.Move;
+import nz.ac.vuw.ecs.swen225.gp30.maze.tile.ExitLockTile;
 import nz.ac.vuw.ecs.swen225.gp30.maze.tile.ExitTile;
 import nz.ac.vuw.ecs.swen225.gp30.maze.tile.InfoTile;
 import nz.ac.vuw.ecs.swen225.gp30.maze.tile.Tile;
@@ -21,7 +22,6 @@ public class GameWorld {
     private Maze maze;
     private Chap chap;
     private String levelInfo;
-    public static int CHIPS_REQUIRED;
     public MobManager mobMgr;
 
     /**
@@ -75,6 +75,10 @@ public class GameWorld {
         Tile tile = maze.getTileAt(x, y);
         tile.addChap(chap);
         assert(tile.getX() == chap.getX() && tile.getY() == chap.getY());
+    }
+
+    public int getChipsLeft() {
+        return ExitLockTile.CHIPS_REQUIRED - chap.getChipsCollected();
     }
 
     /**

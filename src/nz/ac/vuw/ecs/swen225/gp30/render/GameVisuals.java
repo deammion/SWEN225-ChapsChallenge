@@ -3,7 +3,6 @@ package nz.ac.vuw.ecs.swen225.gp30.render;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 
-import nz.ac.vuw.ecs.swen225.gp30.maze.Bug;
 import nz.ac.vuw.ecs.swen225.gp30.maze.GameObject;
 import nz.ac.vuw.ecs.swen225.gp30.maze.GameWorld;
 import nz.ac.vuw.ecs.swen225.gp30.maze.Mob;
@@ -18,7 +17,6 @@ import java.util.Collection;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-import java.util.List;
 
 public class GameVisuals extends JPanel{
 	/**
@@ -133,6 +131,7 @@ public class GameVisuals extends JPanel{
 		g.translate(-transX, -transY);
 		renderTiles(g);
 		renderChap(g);
+		renderMobs(g);
 		if(toggleInfo) {
 			g.setColor(Color.BLACK);
 			g.drawString(infoText, getScreenX(game.getChap().getX()), getScreenY(game.getChap().getY()));
