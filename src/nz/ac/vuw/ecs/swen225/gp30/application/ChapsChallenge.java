@@ -13,6 +13,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 
+/**
+ * @author jakeh
+ */
 public class ChapsChallenge {
     enum GameState {
         RUNNING,
@@ -28,6 +31,7 @@ public class ChapsChallenge {
     private int timerDelay = 1000;
     private Timer timer;
 
+    /* Game State and Class Components */
     private GameState state = GameState.RUNNING;
     private GameState prevState = GameState.RUNNING;
     private GameVisuals renderer;
@@ -36,10 +40,13 @@ public class ChapsChallenge {
     private Record record;
     private Replay replay;
 
+    /* Record mode and level */
     public Boolean recordMode = false;
     public int gameLevel;
 
-
+    /**
+     * Initialize and Start the Game.
+     */
     public ChapsChallenge() {
         gui = new GUI();
         renderer = new GameVisuals();
@@ -148,7 +155,6 @@ public class ChapsChallenge {
         else{
             System.exit(0);
         }
-
     }
 
     /**
@@ -177,6 +183,7 @@ public class ChapsChallenge {
      * Method will load a level for the game.
      */
     public void loadLevel(int i) {
+        timeLeft = TOTAL_TIME;
         game = Persistence.readLevel(i);
         renderer.setGame(game);
     }
