@@ -24,6 +24,8 @@ public class GameWorld {
     private String levelInfo;
     public MobManager mobMgr;
 
+    private int timeLeft;
+
     /**
      * Constructs a GameWorld object with maze and chap.
      * 
@@ -55,6 +57,18 @@ public class GameWorld {
             chap.setDirection(move);
         }
         return true;
+    }
+
+    public int getTimeLeft() {
+        return timeLeft;
+    }
+
+    public void decrementTimeLeft() {
+        timeLeft--;
+    }
+
+    public void setTimeLeft(int time) {
+        this.timeLeft = time;
     }
 
     /**
