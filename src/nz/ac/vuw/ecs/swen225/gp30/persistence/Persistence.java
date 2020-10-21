@@ -7,18 +7,13 @@ import nz.ac.vuw.ecs.swen225.gp30.maze.item.Item;
 import nz.ac.vuw.ecs.swen225.gp30.maze.tile.*;
 
 import javax.json.Json;
+import javax.json.JsonBuilderFactory;
 import javax.json.JsonObjectBuilder;
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.Reader;
+import java.io.*;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Scanner;
-
+import java.util.*;
 
 
 public class Persistence {
@@ -27,34 +22,85 @@ public class Persistence {
 
     public static void main(String args[]){
         GameWorld g = readLevel(1);
+        saveGame(g, "name");
     }
 
-    public static void saveGame(GameWorld game, String name) {
+    public static String saveGame(GameWorld game, String name) {
 
         String gameSave;
 
         StringBuilder iString = new StringBuilder();
         for (Item i : game.getChap().getInventory()){
-            iString.append(i+",");
+            iString.append(i+"/");
         }
+        List<Mob> mobs = game.getMobManager().getMobs();
+        //Mob bug1 = new Mob();
+        //Mob bug2 = new Mob();
 
+       // for(int i = 0; i < mobs.size(); i++){
+            //if(i == 0) {
+                //bug1.setAt(mobs.get(i).getX(), mobs.get(i).getY());
+              //  mobs.get(i).setAt(mobs.get(i).getX(), mobs.get(i).getY());
+            //}
+           // else if(i == 1) {
+                //bug2.setAt(mobs.get(i).getX(), mobs.get(i).getY());
+
+          // }
+       // }
+        HashMap<String, Integer> config = new HashMap();
+        JsonBuilderFactory factory = Json.createBuilderFactory(config);
         JsonObjectBuilder b = Json.createObjectBuilder()
                 .add("levelInfo", game.getLevelInfo())
-                //.add("maze", game.getMaze())
-                .add("inventory", iString.toString());
-                //.add("boardx", game.getBoardWidth())
-                //.add("boardy", game.getBoardHeight())
-                //.add("time", game.getTime())
+                .add("board", game.getMaze().toString())
+                .add("inventory", iString.toString())
+
+                .add("chap", factory.createObjectBuilder()
+                    .add("x", game.getChap().getX())
+                    .add("y", game.getChap().getY())
+                    )
+                .add("mobs", factory.createObjectBuilder()
+                    .add("bug-1", factory.createObjectBuilder()
+                        //.add("x", game.getMobManager().getMobs().g))
+                        .add("x", mobs.get(0).getX())
+                        .add("y", mobs.get(0).getY())
+                        .add("path", mobs.get(0).getPath().toString())
+                    )
+                        .add("bug-2", factory.createObjectBuilder()
+                                //.add("x", game.getMobManager().getMobs().g))
+                                .add("x", mobs.get(1).getX())
+                                .add("y", mobs.get(1).getY())
+                                .add("path", mobs.get(1).getPath().toString())
+                        )
+                .add("boardWidth", game.getMaze().getCols())
+                .add("boardHeight", game.getMaze().getRows())
+                .add("chapChips", game.getChap().getChipsCollected())
+                .add("time", game.getTimeLeft()));
+
 
         try {
-            BufferedWriter w = new BufferedWriter(new FileWriter(name));
+            Writer w = new StringWriter();
             Json.createWriter(w).write(b.build());
             gameSave = w.toString();
+            int saveLength = gameSave.length();
             w.close();
+
+            Writer writer = new BufferedWriter(new FileWriter(name));
+
+            for (int i = 0; i < saveLength; i++) {
+                char next = gameSave.charAt(i);
+                if (next == ',' || next == '{') writer.write(next + "\n\t");
+                else if (next == '}') writer.write("\n" + next);
+                else writer.write(next);
+            }
+            System.out.println(gameSave);
+
+            //Path path =
+            writer.close();
+
         } catch (IOException e) {
-            System.out.println("Error saving game: " + e);
+            System.out.printf("Error saving game: " + e);
         }
-        //return gameSave;
+        return name;
 
     }
 
