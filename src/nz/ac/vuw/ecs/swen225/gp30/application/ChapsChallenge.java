@@ -67,16 +67,14 @@ public class ChapsChallenge {
     ActionListener gameTimer = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
+            game.decrementTimeLeft();
             if (game.getTimeLeft() == 0) {
                 state = GameState.TIMEOUT;
                 timer.stop();
             }
-            game.decrementTimeLeft();
             gui.setTimeLeft(game.getTimeLeft());
         }
     };
-
-
 
     /**
      * Method is responsible for the starting of the game, keeps the game
@@ -112,7 +110,7 @@ public class ChapsChallenge {
                         break;
                     case WON:
                         saveReplay();
-                        wonGame();
+                        gameWon();
                         System.out.println("Game: WON");
                         break;
                     case DEAD:
@@ -135,6 +133,166 @@ public class ChapsChallenge {
             }
         };
         new Thread(runnableGame).start();
+    }
+
+    /**
+     * Method to move Chap about the maze if in record mode it
+     * won't make a second copy of the move.
+     *
+     * @param move - direction.
+     */
+    public void move(Move move) {
+        if (game.moveChap(move) && !recordMode) {
+            record.storePlayerMove(move, game.getTimeLeft());
+        }
+    }
+
+    /**
+     * Increase the timer Delay.
+     */
+    public void decreaseTimerDelay() {
+        if (timerDelay > 500) {
+            timerDelay = timerDelay / 2;
+        } else {
+            timerDelay = 500;
+        }
+    }
+
+    /**
+     * Decrease the timer Delay.
+     */
+    public void increaseTimerDelay() {
+        if (timerDelay < 4000) {
+            timerDelay = timerDelay * 2;
+        } else {
+            timerDelay = 4000;
+        }
+    }
+
+    /**
+     * Set the timer Delay speed with the menu buttons.
+     */
+    public void setTimerDelay(int setTime) {
+        timerDelay = setTime;
+    }
+
+    /**
+     * Save the replay to a file.
+     */
+    public void saveReplay() {
+        record.storeLevel(gameLevel);
+        record.writeJsonToFile();
+    }
+
+    /**
+     * Method will load a level for the game.
+     */
+    public void loadLevel(int i) {
+        game = Persistence.readLevel(i);
+        renderer.setGame(game);
+        game.setTimeLeft(TOTAL_TIME);
+    }
+
+    /**
+     * Method which will pause the game.
+     */
+    public void pause() {
+        if(game.getTimeLeft() > 0) {
+            prevState = state;
+            state = GameState.PAUSED;
+            //timer.stop();
+            UIManager.put("OptionPane.okButtonText", "Resume");
+            int option = JOptionPane.showOptionDialog(gui, "Game is currently paused!", "Game: Paused", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, null, null);
+            if (option == 0 || option == -1) {
+                state = prevState;
+                timer.start();
+            }
+        }
+    }
+
+    /**
+     * Method which will resume the game.
+     */
+    public void resume() {
+        state = prevState;
+        timer.start();
+    }
+
+    /**
+     * Toggle between paused and replay game states.
+     */
+    public void pausedAndRunning(){
+        if(state == GameState.PAUSED){
+            state = GameState.RUNNING;
+            timer.start();
+        }
+        else{
+            state = GameState.PAUSED;
+            timer.stop();
+        }
+    }
+
+    /**
+     * Put the game in replay mode.
+     */
+    public void playReplay(){
+        recordMode = true;
+        state = GameState.PAUSED;
+        int replayLevel = loadRecordAndReplayFile();
+        game = Persistence.readLevel(replayLevel);
+        renderer.setGame(game);
+        startGame();
+    }
+
+    /**
+     * Method to load and pass a file for Record and Replay to use to show
+     * a previously recorded game.
+     */
+    public Integer loadRecordAndReplayFile(){
+        int level = 0;
+        replay = new Replay();
+        //Open the file chooser directory to get file name for Record and Replay.
+        JFileChooser fileChooser = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
+        int fileReturnValue = fileChooser.showOpenDialog(null);
+        if(fileReturnValue == JFileChooser.APPROVE_OPTION) {
+            File selectedFile = fileChooser.getSelectedFile();
+            level = replay.loadJsonToReplay(selectedFile.getName());
+            System.out.println(selectedFile.getName());
+        }
+        return level;
+    }
+
+    /**
+     * Load the next game level.
+     */
+    public void loadNextLevel(){
+        gameLevel++;
+        loadLevel(gameLevel);
+    }
+
+    /**
+     * If the game has been won.
+     */
+    public void gameWon() {
+        loadNextLevel();
+        game.setTimeLeft(TOTAL_TIME);
+        timer.restart();
+        state = GameState.RUNNING;
+    }
+
+    /**
+     * If Chap has run out of time or collides with a bug.
+     */
+    public void gameLost(){
+        UIManager.put("OptionPane.yesButtonText", "Restart");
+        UIManager.put("OptionPane.noButtonText", "Exit");
+        int option = JOptionPane.showOptionDialog(gui, "You have lost the current game!", "Game: Lost", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE,null, null, null);
+        if(option == 0){
+            game = Persistence.readLevel(gameLevel);
+        }
+        else{
+            System.exit(0);
+        }
     }
 
     /**
