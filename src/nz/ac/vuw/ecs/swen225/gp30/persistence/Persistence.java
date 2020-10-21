@@ -7,6 +7,7 @@ import nz.ac.vuw.ecs.swen225.gp30.maze.item.Item;
 import nz.ac.vuw.ecs.swen225.gp30.maze.tile.*;
 
 import javax.json.Json;
+import javax.json.JsonArray;
 import javax.json.JsonBuilderFactory;
 import javax.json.JsonObjectBuilder;
 import java.io.*;
@@ -21,11 +22,11 @@ public class Persistence {
     public static int NUM_LEVELS = 2;
 
     public static void main(String args[]){
-        GameWorld g = readLevel(1);
-        saveGame(g, "name");
+        GameWorld g = readLevel(2);
+        saveGame(g, "name.json");
     }
 
-    public static String saveGame(GameWorld game, String name) {
+    public static String saveGame(GameWorld game, String fileName) {
 
         String gameSave;
 
@@ -33,48 +34,75 @@ public class Persistence {
         for (Item i : game.getChap().getInventory()){
             iString.append(i+"/");
         }
-        List<Mob> mobs = game.getMobManager().getMobs();
-        //Mob bug1 = new Mob();
-        //Mob bug2 = new Mob();
+        ArrayList<Mob> mobs = (ArrayList<Mob>) game.getMobManager().getMobs();
 
-       // for(int i = 0; i < mobs.size(); i++){
-            //if(i == 0) {
-                //bug1.setAt(mobs.get(i).getX(), mobs.get(i).getY());
-              //  mobs.get(i).setAt(mobs.get(i).getX(), mobs.get(i).getY());
-            //}
-           // else if(i == 1) {
-                //bug2.setAt(mobs.get(i).getX(), mobs.get(i).getY());
+        System.out.println(mobs.size());
 
-          // }
-       // }
         HashMap<String, Integer> config = new HashMap();
         JsonBuilderFactory factory = Json.createBuilderFactory(config);
-        JsonObjectBuilder b = Json.createObjectBuilder()
-                .add("levelInfo", game.getLevelInfo())
-                .add("board", game.getMaze().toString())
-                .add("inventory", iString.toString())
+        JsonObjectBuilder b;
+        if (mobs.size() > 0) {
+            b = Json.createObjectBuilder()
+                    .add("levelInfo", game.getLevelInfo())
+                    .add("board", game.getMaze().toString(false))
+                    .add("inventory", iString.toString())
 
-                .add("chap", factory.createObjectBuilder()
-                    .add("x", game.getChap().getX())
-                    .add("y", game.getChap().getY())
+                    .add("chap", factory.createObjectBuilder()
+                            .add("x", game.getChap().getX())
+                            .add("y", game.getChap().getY())
                     )
-                .add("mobs", factory.createObjectBuilder()
-                    .add("bug-1", factory.createObjectBuilder()
-                        //.add("x", game.getMobManager().getMobs().g))
-                        .add("x", mobs.get(0).getX())
-                        .add("y", mobs.get(0).getY())
-                        .add("path", mobs.get(0).getPath().toString())
+                    .add("mobs", factory.createObjectBuilder()
+                            .add("bug-1", factory.createObjectBuilder()
+                                    .add("x", mobs.get(0).getX())
+                                    .add("y", mobs.get(0).getY())
+                                    .add("path", factory.createArrayBuilder()
+                                        .add(mobs.get(0).getPath()[0])
+                                        .add(mobs.get(0).getPath()[1])
+                                        .add(mobs.get(0).getPath()[2])
+                                        .add(mobs.get(0).getPath()[3]))
+
+                            )
+                            .add("bug-2", factory.createObjectBuilder()
+                                    .add("x", mobs.get(1).getX())
+                                    .add("y", mobs.get(1).getY())
+                                    .add("path", factory.createArrayBuilder()
+                                            .add(mobs.get(1).getPath()[0])
+                                            .add(mobs.get(1).getPath()[1])
+                                            .add(mobs.get(1).getPath()[2])
+                                            .add(mobs.get(1).getPath()[3]))
+                            )
+                            .add("boardWidth", game.getMaze().getCols())
+                            .add("boardHeight", game.getMaze().getRows())
+                            .add("chapChips", game.getChap().getChipsCollected())
+                            .add("time", game.getTimeLeft()));
+        }
+        else {
+            b = Json.createObjectBuilder()
+                    .add("levelInfo", game.getLevelInfo())
+                    .add("board", game.getMaze().toString(false))
+                    .add("inventory", iString.toString())
+
+                    .add("chap", factory.createObjectBuilder()
+                            .add("x", game.getChap().getX())
+                            .add("y", game.getChap().getY())
                     )
-                        .add("bug-2", factory.createObjectBuilder()
-                                //.add("x", game.getMobManager().getMobs().g))
-                                .add("x", mobs.get(1).getX())
-                                .add("y", mobs.get(1).getY())
-                                .add("path", mobs.get(1).getPath().toString())
-                        )
-                .add("boardWidth", game.getMaze().getCols())
-                .add("boardHeight", game.getMaze().getRows())
-                .add("chapChips", game.getChap().getChipsCollected())
-                .add("time", game.getTimeLeft()));
+                    .add("mobs", factory.createObjectBuilder()
+                            .add("bug-1", factory.createObjectBuilder()
+                                    .add("x", "")
+                                    .add("y", "")
+                                    .add("path", "")
+                            )
+                            .add("bug-2", factory.createObjectBuilder()
+                                    .add("x", "")
+                                    .add("y", "")
+                                    .add("path", "")
+                            )
+                            .add("boardWidth", game.getMaze().getCols())
+                            .add("boardHeight", game.getMaze().getRows())
+                            .add("chapChips", game.getChap().getChipsCollected())
+                            .add("time", game.getTimeLeft()));
+        }
+
 
 
         try {
@@ -84,7 +112,7 @@ public class Persistence {
             int saveLength = gameSave.length();
             w.close();
 
-            Writer writer = new BufferedWriter(new FileWriter(name));
+            Writer writer = new BufferedWriter(new FileWriter(fileName));
 
             for (int i = 0; i < saveLength; i++) {
                 char next = gameSave.charAt(i);
@@ -92,15 +120,13 @@ public class Persistence {
                 else if (next == '}') writer.write("\n" + next);
                 else writer.write(next);
             }
-            System.out.println(gameSave);
 
-            //Path path =
             writer.close();
 
         } catch (IOException e) {
             System.out.printf("Error saving game: " + e);
         }
-        return name;
+        return fileName;
 
     }
 
