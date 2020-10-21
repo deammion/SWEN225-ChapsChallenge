@@ -62,6 +62,7 @@ public class ChapsChallenge {
         gameLevel = 1;
         loadLevel(gameLevel);
         startGame();
+
     }
 
     ActionListener gameTimer = new ActionListener() {
