@@ -11,7 +11,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
  * @author campliosca
  */
 public class ExitLockTile extends Tile {
-    private int chipsRequired;
+    public static int CHIPS_REQUIRED;
     private boolean unlocked = false;
 
     /**
@@ -24,12 +24,12 @@ public class ExitLockTile extends Tile {
      */
     public ExitLockTile(int x, int y, int chipsRequired) {
         super(x, y);
-        this.chipsRequired = chipsRequired;
+        this.CHIPS_REQUIRED = chipsRequired;
     }
 
     @Override
     public boolean canMoveTo(Chap chap) {
-        return unlocked || chap.getChipsCollected() == chipsRequired;
+        return unlocked || chap.getChipsCollected() == CHIPS_REQUIRED;
     }
 
     @Override
