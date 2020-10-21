@@ -8,10 +8,6 @@ import java.io.File;
 import java.io.IOException;
 
 public class GUI extends JFrame {
-
-    //Current level Chip is on.
-    int gameLevel = 1;
-    int chipsLeft = 5;
     
     //JComponents.
     JPanel gamePanel, dashPanel, infoPanel, containerPanel;
@@ -47,7 +43,7 @@ public class GUI extends JFrame {
         dashPanel.setPreferredSize(new Dimension(200, 378));
         dashPanel.setLayout(new BoxLayout(dashPanel, BoxLayout.Y_AXIS));
         //Information Panel text Components.
-        levelText = new JLabel("Level: " + gameLevel + " ");
+        levelText = new JLabel();
         levelText.setBorder(BorderFactory.createEmptyBorder(10,30,10,10));
         timeText = new JLabel();
         timeText.setBorder(BorderFactory.createEmptyBorder(10,27,10,10));
@@ -96,7 +92,7 @@ public class GUI extends JFrame {
         this.setVisible(true);
 
         //The main GUI frame.
-        this.setTitle("Chip's Challenge: " + gameLevel);
+        this.setTitle("Chap's Challenge! ");
 
         //Menu setup.
         createMenu();
@@ -181,6 +177,12 @@ public class GUI extends JFrame {
         exit.addActionListener(listener);
     }
 
+
+    /**
+     * Method to get the inventory panel.
+     *
+     * @return - the inventory panel.
+     */
     public InventoryPanel getInventoryPanel() {
         return invPanel;
     }
@@ -207,5 +209,8 @@ public class GUI extends JFrame {
     public void setChipsLeft(int chipsLeft){
         chipsText.setText("Chips Left: " + chipsLeft + " ");
     }
+
+    public void setLevelLeft(int levelLeft) { levelText.setText("Level: " + levelLeft + " "); }
+
 
 }

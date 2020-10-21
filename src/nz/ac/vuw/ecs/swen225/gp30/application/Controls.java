@@ -63,6 +63,8 @@ public class Controls extends KeyAdapter implements ActionListener {
                         //CTRL-R - resume a saved game.
                         break;
                     case 80:
+                        System.out.println("You are in level:" + game.getGameLevel());
+                        game.loadLevel(game.getGameLevel());
                         System.out.println("You have pressed: CTRL-P");
                         //CTRL-P - start a new game at the last unfinished level.
                         break;
