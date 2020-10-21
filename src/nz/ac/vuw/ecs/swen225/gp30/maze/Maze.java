@@ -98,14 +98,17 @@ public class Maze {
         return grid.length;
     }
 
-    @Override
-    public String toString() {
+    public String toString(boolean withChap) {
         StringBuilder gridString = new StringBuilder();
         for(int y=0; y<grid[0].length; y++) {
             for(int x=0; x<grid.length; x++) {
-                if(x == 0) { gridString.append("\n|"); }
+                if(x == 0) {
+                    if(y != 0) { gridString.append("\n"); }
+                    gridString.append("|");
+                }
                 Tile t = getTileAt(x, y);
-                gridString.append(t.getChar());
+                if(t.hasChap() && withChap) { gridString.append("c"); }
+                else { gridString.append(t.getChar()); }
                 gridString.append("|");
             }
         }
