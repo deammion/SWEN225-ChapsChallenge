@@ -84,6 +84,7 @@ public class ChapsChallenge {
         game.setTimeLeft(TOTAL_TIME);
         timer.start();
 
+
         Runnable runnableGame = () -> {
             long elapsed = 0;
             //noinspection InfiniteLoopStatement
