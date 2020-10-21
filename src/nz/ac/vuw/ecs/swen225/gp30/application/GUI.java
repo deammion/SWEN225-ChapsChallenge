@@ -54,15 +54,13 @@ public class GUI extends JFrame {
         timeText.setBorder(BorderFactory.createEmptyBorder(10,27,10,10));
         chipsText = new JLabel("Chips Left: " + chipsLeft + " ");
         chipsText.setBorder(BorderFactory.createEmptyBorder(10,14,10,10));
-        microText = new JLabel("Microchips Left: " + microLeft + " ");
-        microText.setBorder(BorderFactory.createEmptyBorder(10,7,10,10));
+
         // container for text
         infoPanel = new JPanel();
         infoPanel.setLayout(new BoxLayout(infoPanel, BoxLayout.Y_AXIS));
         infoPanel.add(levelText);
         infoPanel.add(timeText);
         infoPanel.add(chipsText);
-        infoPanel.add(microText);
 
         //inv panel
         invPanel = new InventoryPanel();
