@@ -1,18 +1,15 @@
 package nz.ac.vuw.ecs.swen225.gp30.application;
 
 import nz.ac.vuw.ecs.swen225.gp30.Move;
-import nz.ac.vuw.ecs.swen225.gp30.recnplay.Replay;
 
 import java.awt.event.*;
 
 public class Controls extends KeyAdapter implements ActionListener {
 
     private ChapsChallenge game;
-    private Replay replay;
 
     public Controls(ChapsChallenge game) {
         this.game = game;
-        replay = new Replay();
     }
 
     /**
@@ -81,7 +78,7 @@ public class Controls extends KeyAdapter implements ActionListener {
                     System.out.println("You are in record mode, step back.");
                     break;
                 case 39: //RIGHT, '->' step forwards.
-                    game.move(replay.playNextMove());
+                    game.replayNextMove();
                     System.out.println("You are in record mode, step forward.");
                     break;
                 case 38: //Up arrow, increase the speed.
@@ -94,7 +91,7 @@ public class Controls extends KeyAdapter implements ActionListener {
                     break;
                 case 32: //Space Bar, Pause and Resume the auto replay.
                     //Will need a boolean for a toggle. Iterate between step-by-step and auto replay.
-                    replay.toggleAutoPlaying();
+                    game.togglePlay();
                     game.pausedAndRunning();
                     System.out.println("You have paused/resumed");
                     break;

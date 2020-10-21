@@ -82,13 +82,6 @@ public class ChapsChallenge {
     }
 
     /**
-     * Returns the time left.
-     */
-    public int getTimeLeft() {
-        return timeLeft;
-    }
-
-    /**
      * Increase the timer Delay.
      */
     public void decreaseTimerDelay() {
@@ -129,15 +122,33 @@ public class ChapsChallenge {
      * Method which will pause the game.
      */
     public void pause() {
-        prevState = state;
-        state = GameState.PAUSED;
-        //timer.stop();
-        UIManager.put("OptionPane.okButtonText", "Resume");
-        int close = JOptionPane.showOptionDialog(gui, "Game is currently paused!", "Game: Paused", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null,null,null);
-        if(close == 0 || close == -1){
-            state = prevState;
-            timer.start();
+        if(timeLeft > 0) {
+            prevState = state;
+            state = GameState.PAUSED;
+            //timer.stop();
+            UIManager.put("OptionPane.okButtonText", "Resume");
+            int option = JOptionPane.showOptionDialog(gui, "Game is currently paused!", "Game: Paused", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, null, null);
+            if (option == 0 || option == -1) {
+                state = prevState;
+                timer.start();
+            }
         }
+    }
+
+    /**
+     * If Chap has run out of time or collides with a bug.
+     */
+    public void gameLost(){
+        UIManager.put("OptionPane.yesButtonText", "Restart");
+        UIManager.put("OptionPane.noButtonText", "Exit");
+        int option = JOptionPane.showOptionDialog(gui, "You have lost the current game!", "Game: Lost", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE,null, null, null);
+        if(option == 0){
+            loadLevel(gameLevel);
+        }
+        else{
+            System.exit(0);
+        }
+
     }
 
     /**
@@ -154,9 +165,11 @@ public class ChapsChallenge {
     public void pausedAndRunning(){
         if(state == GameState.PAUSED){
             state = GameState.RUNNING;
+            timer.start();
         }
         else{
             state = GameState.PAUSED;
+            timer.stop();
         }
     }
 
@@ -170,6 +183,7 @@ public class ChapsChallenge {
 
     public void playReplay(){
         recordMode = true;
+        state = GameState.PAUSED;
         int replayLevel = loadRecordAndReplayFile();
         game = Persistence.readLevel(replayLevel);
         renderer.setGame(game);
@@ -224,7 +238,10 @@ public class ChapsChallenge {
                             // update
                             checkInfo();
                             if(recordMode){
-                                move(replay.autoPlay(timeLeft));
+                                Move nextMove = replay.autoPlay(timeLeft);
+                                if(nextMove != null){
+                                    move(nextMove);
+                                }
                             }
                             if (elapsed > 1000) {
                                 game.advance();
@@ -244,6 +261,7 @@ public class ChapsChallenge {
                             // show dead prompt?
                             // restart level
                             //game.loadLevel()
+                            gameLost();
                             System.out.println("Game: DEAD");
                             saveReplay();
                             break;
@@ -265,6 +283,9 @@ public class ChapsChallenge {
         new Thread(runnableGame).start();
     }
 
+    /**
+     * If the game has been won.
+     */
     public void wonGame() {
         loadNextLevel();
         timeLeft = TOTAL_TIME;
@@ -272,12 +293,19 @@ public class ChapsChallenge {
         state = GameState.RUNNING;
     }
 
+    /**
+     * Update the dashboard to show the inventory keys.
+     */
     public void updateDashboard() {
         InventoryPanel inv = gui.getInventoryPanel();
         inv.setItemsToDisplay(game.getChap().getInventory());
         inv.repaint();
+        gui.setChipsLeft(game.getChipsLeft());
     }
 
+    /**
+     *  Display the info for Chap when on the information tile.
+     */
     public void checkInfo() {
         if(game.isChapOnInfo()) {
             renderer.setInfoText(game.getLevelInfo());
@@ -285,6 +313,20 @@ public class ChapsChallenge {
         } else {
             renderer.toggleInfo(false);
         }
+    }
+
+    /**
+     * Toggle between auto and step by step replaying.
+     */
+    public void togglePlay(){
+        replay.toggleAutoPlaying();
+    }
+
+    /**
+     * Play the next move.
+     */
+    public void replayNextMove(){
+        move(replay.playNextMove());
     }
 
     /**

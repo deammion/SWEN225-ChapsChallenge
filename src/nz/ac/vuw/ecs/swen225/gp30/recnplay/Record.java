@@ -64,7 +64,8 @@ public class Record {
      * @param levelNum -Integer dictating the level number
      */
     public void storeLevel(Integer levelNum) {
-        JsonObjectBuilder gameStateObj = Json.createObjectBuilder().add("level", levelNum); //converts level to a JsonObject
+        String levelString = Integer.toString(levelNum); //converts int to string for ease of reading file
+        JsonObjectBuilder gameStateObj = Json.createObjectBuilder().add("Level", levelString); //converts level to a JsonObject
         arrayBuilder.add(gameStateObj); //adds JsonObject to JsonArray
     }
 

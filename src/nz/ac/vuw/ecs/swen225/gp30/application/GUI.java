@@ -12,7 +12,6 @@ public class GUI extends JFrame {
     //Current level Chip is on.
     int gameLevel = 1;
     int chipsLeft = 5;
-    int microLeft = 0;
     
     //JComponents.
     JPanel gamePanel, dashPanel, infoPanel, containerPanel;
@@ -23,7 +22,7 @@ public class GUI extends JFrame {
     JMenu game, options, level, replay, help;
 
     //Text Components.
-    JLabel levelText, timeText, chipsText, microText;
+    JLabel levelText, timeText, chipsText;
 
     //Game Menu Items.
     JMenuItem pause, resume, exit;
@@ -52,17 +51,15 @@ public class GUI extends JFrame {
         levelText.setBorder(BorderFactory.createEmptyBorder(10,30,10,10));
         timeText = new JLabel();
         timeText.setBorder(BorderFactory.createEmptyBorder(10,27,10,10));
-        chipsText = new JLabel("Chips Left: " + chipsLeft + " ");
+        chipsText = new JLabel();
         chipsText.setBorder(BorderFactory.createEmptyBorder(10,14,10,10));
-        microText = new JLabel("Microchips Left: " + microLeft + " ");
-        microText.setBorder(BorderFactory.createEmptyBorder(10,7,10,10));
+
         // container for text
         infoPanel = new JPanel();
         infoPanel.setLayout(new BoxLayout(infoPanel, BoxLayout.Y_AXIS));
         infoPanel.add(levelText);
         infoPanel.add(timeText);
         infoPanel.add(chipsText);
-        infoPanel.add(microText);
 
         //inv panel
         invPanel = new InventoryPanel();
@@ -205,6 +202,10 @@ public class GUI extends JFrame {
      */
     public void setTimeLeft(int timeLeft){
         timeText.setText("Time: " + timeLeft);
+    }
+
+    public void setChipsLeft(int chipsLeft){
+        chipsText.setText("Chips Left: " + chipsLeft + " ");
     }
 
 }

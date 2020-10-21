@@ -26,6 +26,7 @@ public class InventoryPanel extends JPanel {
         itemsToDisplay = new ArrayList<>();
         setMaximumSize(((new Dimension(TILE_SIZE*PANEL_TILE_WIDTH, TILE_SIZE*PANEL_TILE_HEIGHT))));
         this.setBorder(BorderFactory.createLineBorder(Color.BLACK, 3));
+
     }
 
     public BufferedImage getImage(Item i) {
