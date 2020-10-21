@@ -31,7 +31,8 @@ public class GameWorld {
     public GameWorld(Maze maze, Chap chap) {
         this.maze = maze;
         this.chap = chap;
-        setChapOnMaze(chap.getX(), chap.getY());
+        Tile t = maze.getTileAt(chap.getX(), chap.getY());
+        t.addChap(chap);
     }
 
     /**
@@ -49,7 +50,7 @@ public class GameWorld {
         if(!newTile.canMoveTo(chap)) { return false; }
         else {
             oldTile.removeChap();
-            setChapOnMaze(newTile.getX(), newTile.getY());
+            newTile.addChap(chap);
             chap.setDirection(move);
         }
         return true;
@@ -85,19 +86,6 @@ public class GameWorld {
      */
     public void advance() {
         mobMgr.advanceMobs();
-    }
-
-    /**
-     * Sets chap on a tile in the maze using x and y position. 
-     * 
-     * @param x the x position to use
-     * @param y the y position to use
-     */
-    public void setChapOnMaze(int x, int y) {
-        Preconditions.checkNotNull(chap);
-        Tile tile = maze.getTileAt(x, y);
-        tile.addChap(chap);
-        assert(tile.getX() == chap.getX() && tile.getY() == chap.getY());
     }
 
     /**

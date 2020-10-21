@@ -33,7 +33,7 @@ public class WallTile extends Tile {
 
     @Override
     public void removeChap() {
-        throw new RuntimeException("solid tile");
+        chap = null;
     }
 
     @Override
