@@ -1,5 +1,7 @@
 package nz.ac.vuw.ecs.swen225.gp30.maze;
 
+import nz.ac.vuw.ecs.swen225.gp30.Move;
+
 /**
  * Actor class abstracts characters in the game that move (e.g. chap or mob).
  * 
@@ -8,6 +10,7 @@ package nz.ac.vuw.ecs.swen225.gp30.maze;
  */
 public abstract class Actor implements GameObject {
 		protected int x, y;
+		protected Move dir;
 
 		/**
 		 * Constructs an Actor with x and y position.
@@ -18,6 +21,7 @@ public abstract class Actor implements GameObject {
 		public Actor(int x, int y) {
 				this.x = x;
 				this.y = y;
+				dir = Move.DOWN;
 		}
 
 		/**
@@ -47,5 +51,14 @@ public abstract class Actor implements GameObject {
 		public void setAt(int x, int y) {
 				this.x = x;
 				this.y = y;
+		}
+
+		/**
+		 * Sets the current direction of chap.
+		 *
+		 * @param dir the direction to set
+		 */
+		public void setDirection(Move dir) {
+				this.dir = dir;
 		}
 }

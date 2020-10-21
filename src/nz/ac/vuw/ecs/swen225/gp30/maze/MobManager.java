@@ -66,7 +66,7 @@ public class MobManager {
 								prevTile.removeMob();
 								newTile.addMob();
 								m.setAt(newTile.getX(), newTile.getY());
-								//m.setDirection(move);
+								m.setDirection(move);
 						}
 				}
 		}

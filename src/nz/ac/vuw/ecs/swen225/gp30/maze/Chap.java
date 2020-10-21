@@ -19,7 +19,6 @@ public class Chap extends Actor {
     private final List<Item> inventory;
     private int chipsCollected;
     private boolean active;
-    private Move dir;
     
     /**
      * Constructs a Chap object with x and y position.
@@ -32,16 +31,6 @@ public class Chap extends Actor {
         inventory = new ArrayList<>();
         chipsCollected = 0;
         active = true;
-        dir = Move.DOWN;
-    }
-
-    /**
-     * Sets the current direction of chap.
-     * 
-     * @param dir the direction to set
-     */
-    public void setDirection(Move dir) {
-        this.dir = dir;
     }
 
     @Override
@@ -138,6 +127,7 @@ public class Chap extends Actor {
             + "\n\ty: " + y
             + "\n\tchips_collected: " + chipsCollected
             + "\n\tinventory: " + inventory.toString()
+            + "\n\timage: " + getImageString()
             + "\n}";
     }
 }

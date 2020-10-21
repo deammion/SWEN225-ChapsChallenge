@@ -21,6 +21,16 @@ public class Bug extends Mob {
 
 		@Override
 		public String getImageString() {
-				return "mob_bug.png";
+				switch(dir) {
+						case UP:
+								return "mob_bug_up.png";
+						case DOWN:
+								return "mob_bug_down.png";
+						case LEFT:
+								return "mob_bug_left.png";
+						case RIGHT:
+								return "mob_bug_right.png";
+				}
+				return null;
 		}
 }
