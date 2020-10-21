@@ -22,7 +22,7 @@ public abstract class Mob extends Actor {
 		 */
 		public Mob(int x, int y, int[] path) {
 				super(x, y);
-				this.path = path;
+				this.path = path.clone();
 		}
 
 		/**
