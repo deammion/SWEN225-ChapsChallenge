@@ -61,4 +61,9 @@ public class TreasureTile extends Tile {
     public String getImageString() {
         return collected? "tile_free.png" : "tile_treasure.png";
     }
+
+    @Override
+    public String getSoundString() {
+        return "get_chip.wav";
+    }
 }

@@ -8,7 +8,6 @@ import nz.ac.vuw.ecs.swen225.gp30.recnplay.Replay;
 import nz.ac.vuw.ecs.swen225.gp30.render.GameVisuals;
 
 import javax.swing.*;
-import java.io.File;
 
 /**
  * @author jakeh
@@ -111,6 +110,10 @@ public class ChapsChallenge {
                                 Move nextMove = replay.autoPlay(ticks);
                                 if (nextMove != null) {
                                     move(nextMove);
+                                    if(replay.endOfReplay()){
+                                        replay.toggleAutoPlaying();
+                                        System.out.println("POP UP BOX HERE!");
+                                    }
                                 }
                             }
 
@@ -201,6 +204,10 @@ public class ChapsChallenge {
     public void replayNextMove(){
         move(replay.playNextMove());
         game.setTimeLeft(replay.updateTimer());
+        renderer.repaint();
+        if(replay.endOfReplay()){
+            System.out.println("POP UP BOX HERE");
+        }
     }
 
     /**

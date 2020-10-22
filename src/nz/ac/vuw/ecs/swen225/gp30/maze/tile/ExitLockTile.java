@@ -65,4 +65,9 @@ public class ExitLockTile extends Tile {
     public String getImageString() {
         return unlocked? "tile_free.png" : "tile_exit_lock.png";
     }
+
+    @Override
+    public String getSoundString() {
+        return "open_exit.wav";
+    }
 }
