@@ -24,7 +24,7 @@ public class Persistence {
     public static int NUM_LEVELS = 2;
 
     public static void main(String args[]) {
-        GameWorld g = loadSave();
+        GameWorld g = readLevel(2);
         saveGame(g, "name.json");
     }
 
@@ -61,7 +61,16 @@ public class Persistence {
                                             .add(mobs.get(0).getPath()[0])
                                             .add(mobs.get(0).getPath()[1])
                                             .add(mobs.get(0).getPath()[2])
-                                            .add(mobs.get(0).getPath()[3]))
+                                            .add(mobs.get(0).getPath()[3])
+                                            .add(mobs.get(0).getPath()[4])
+                                            .add(mobs.get(0).getPath()[5])
+                                            .add(mobs.get(0).getPath()[6])
+                                            .add(mobs.get(0).getPath()[7])
+                                            .add(mobs.get(0).getPath()[8])
+                                            .add(mobs.get(0).getPath()[9])
+                                            .add(mobs.get(0).getPath()[10])
+                                            .add(mobs.get(0).getPath()[11]))
+
 
                             )
                             .add("bug-2", factory.createObjectBuilder()
@@ -71,7 +80,9 @@ public class Persistence {
                                             .add(mobs.get(1).getPath()[0])
                                             .add(mobs.get(1).getPath()[1])
                                             .add(mobs.get(1).getPath()[2])
-                                            .add(mobs.get(1).getPath()[3]))
+                                            .add(mobs.get(1).getPath()[3])
+                                            .add(mobs.get(1).getPath()[4])
+                                            .add(mobs.get(1).getPath()[5]))
                             )
                             .add("boardWidth", game.getMaze().getCols())
                             .add("boardHeight", game.getMaze().getRows())
