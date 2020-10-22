@@ -77,11 +77,14 @@ public class Replay {
      * @return Move - to be passed to application
      */
     public Move playNextMove() {
-        if(playerIndex + 1 <= playerMoves.size() && !autoPlaying) { //checks there is an available move
-            playerIndex++;
+        if(playerIndex < playerMoves.size() && !autoPlaying) { //checks there is an available move
             return convertStringToMove(playerMoves.get(playerIndex).charAt(1));
         }
         return null;
+    }
+
+    public void incrementPlayIndex() {
+        playerIndex++;
     }
 
     /**
