@@ -1,6 +1,8 @@
 /**
  * Rendering package
- *
+ * 
+ * Contains code to draw tiles, characters and mobs
+ * Contains code to play sounds per action
  *
  * @author xxxx
  */
