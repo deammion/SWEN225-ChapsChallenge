@@ -10,7 +10,7 @@ import java.io.IOException;
 /**
  * Record class stores all moves passed from the application class.
  * converts them to JSON objects to be stored in an JSON array which
- * is then saved as a JSON file
+ * is then saved as a JSON file, also adds the level as a JSON object
  *
  * @author tamasedami
  */
@@ -44,10 +44,10 @@ public class Record {
      * done this way to limit file size
      *
      * @param move - Move functions used by application to move actors
-     * @param time - time remaining in level
+     * @param tick - used in place of a time function to dictate when move occurred relative to game loop
      */
-    public void storePlayerMove(Move move,int time) {
-        JsonObjectBuilder playerMoveObject = Json.createObjectBuilder().add("Player" + playerMoveIndex++,convertMoveToString(move) + time);
+    public void storePlayerMove(Move move,int tick) {
+        JsonObjectBuilder playerMoveObject = Json.createObjectBuilder().add("Player" + playerMoveIndex++,convertMoveToString(move) + tick);
         arrayBuilder.add(playerMoveObject);
 
     }

@@ -3,7 +3,6 @@ package nz.ac.vuw.ecs.swen225.gp30.recnplay;
 import nz.ac.vuw.ecs.swen225.gp30.Move;
 
 import javax.swing.*;
-import javax.swing.filechooser.FileSystemView;
 import java.io.File;
 import java.util.ArrayList;
 
@@ -24,26 +23,25 @@ public class Replay {
 
     /**
      * Called by the application module, which allows user to select Json file to load,
-     * feeds file to LoadJson class which will update the local playerMoves arraylist and level int
-     * playerMoves are used but other methods in this class
-     *
-     * @return int to load correct level
+     * feeds file name to LoadJson class which will update the local playerMoves arraylist and level int
+     * playerMoves are used by other methods in this class.
+     * level is passed to application to ensure correct level is loaded
      */
     public void loadJsonToReplay() {
         LoadJSON lj = new LoadJSON();
-        JFileChooser fileChooser = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
+        JFileChooser fileChooser = new JFileChooser(new File("src/nz/ac/vuw/ecs/swen225/gp30/recnplay"));
         int fileReturnValue = fileChooser.showOpenDialog(null);
         if(fileReturnValue == JFileChooser.APPROVE_OPTION) {
             File selectedFile = fileChooser.getSelectedFile();
             String fileSuffix = selectedFile.getName().substring(selectedFile.getName().indexOf("."));
-            if(selectedFile == null){
-                System.out.println("No file selected");
-            } else if (!fileSuffix.equals(".json")){
+            if (!fileSuffix.equals(".json")){
                 System.out.println("Incompatible File Type");
+                loadJsonToReplay();
+            } else {
+                playerMoves = lj.loadPlayerMoves(selectedFile.getName());
+                level = lj.loadLevel(selectedFile.getName());
+                System.out.println(selectedFile.getName());
             }
-            playerMoves = lj.loadPlayerMoves(selectedFile.getName());
-            level = lj.loadLevel(selectedFile.getName());
-            System.out.println(selectedFile.getName());
         }
     }
 
@@ -59,14 +57,14 @@ public class Replay {
      * checks that against the game time, if the move time is greater then the game timer (as the timer counts down)
      * the move is passed to application.
      *
-     * @param time - game timer
+     * @param tick - game timer based on ticks
      * @return Move - to be passed to application
      */
-    public Move autoPlay(int time) {
+    public Move autoPlay(int tick) {
         if (autoPlaying) {
-            if(playerIndex < playerMoves.size()){
+            if(playerIndex <= playerMoves.size()){
                 int playerMoveTime = convertStringToInt(playerMoves.get(playerIndex));
-                if (playerMoveTime == time) {
+                if (playerMoveTime == tick) {
                     char stringMove = playerMoves.get(playerIndex).charAt(1);
                     Move move = convertStringToMove(stringMove);
                     playerIndex++;
@@ -129,5 +127,9 @@ public class Replay {
     public int convertStringToInt(String s){
         String numbers = s.substring(2, s.length()-1); //create new string which only contains ints
         return Integer.parseInt(numbers);
+    }
+
+    public boolean endOfReplay(){
+        return (playerIndex > playerMoves.size());
     }
 }
