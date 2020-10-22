@@ -25,12 +25,12 @@ public class ChapsChallenge {
     }
     // Timing components for the game
     private int TIMER_DELAY = 1000;
-    private final int TOTAL_TIME = 100;
+    private final static int TOTAL_TIME = 100;
     private int ticks = 0;
     private int replayTicks = 0;
     private double UPDATES_PER_SECOND = 30;
     private double FRAMES_PER_SECOND = 40;
-    private final double NANO_TO_SECOND = 1000000000;
+    private final static double NANO_TO_SECOND = 1000000000;
     private long time = 0;
     // Game State and Class Components
     private GameState state = GameState.RUNNING;

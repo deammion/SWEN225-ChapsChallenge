@@ -18,9 +18,9 @@ import java.util.List;
  * @author jakeh.
  */
 public class InventoryPanel extends JPanel {
-    private final int TILE_SIZE = 42;
-    private final int PANEL_TILE_WIDTH = 6;
-    private final int PANEL_TILE_HEIGHT = 2;
+    private final static int TILE_SIZE = 42;
+    private final static int PANEL_TILE_WIDTH = 6;
+    private final static int PANEL_TILE_HEIGHT = 2;
 
     List<Item> itemsToDisplay;
 

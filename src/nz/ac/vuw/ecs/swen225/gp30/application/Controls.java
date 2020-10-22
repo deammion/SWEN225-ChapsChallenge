@@ -34,6 +34,8 @@ public class Controls extends KeyAdapter implements ActionListener {
                     case 27:    //Escape - Resume the Game
                         game.resume();
                         break;
+                    default:
+                        return;
                 }
             } else {
                 switch (e.getKeyCode()) {
@@ -61,6 +63,8 @@ public class Controls extends KeyAdapter implements ActionListener {
                         game.loadLevel(1);
                         game.gameLevel = 1;
                         break;
+                    default:
+                        return;
                 }
             }
         } else {
@@ -78,6 +82,8 @@ public class Controls extends KeyAdapter implements ActionListener {
                     game.togglePlay();
                     game.pausedAndRunning();
                     break;
+                default:
+                    return;
             }
         }
     }
@@ -131,6 +137,8 @@ public class Controls extends KeyAdapter implements ActionListener {
                 //Help Menu Items.
             case "Help":
                 //Invoke help method (dialog box).
+            default:
+                return;
         }
     }
 }
