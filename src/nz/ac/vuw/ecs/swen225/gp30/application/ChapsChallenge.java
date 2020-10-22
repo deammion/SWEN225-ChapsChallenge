@@ -155,6 +155,7 @@ public class ChapsChallenge {
                         break;
                     case COMPLETE:
                         System.out.println("COMPLETED GAME");
+                        gameComplete();
                         break;
                     case DEAD:
                         if(!replayMode) {
@@ -284,13 +285,12 @@ public class ChapsChallenge {
      */
     public void pause() {
         if(game.getTimeLeft() > 0) {
-            prevState = state;
             state = GameState.PAUSED;
             //timer.stop();
             UIManager.put("OptionPane.okButtonText", "Resume");
             int option = JOptionPane.showOptionDialog(gui, "Game is currently paused!", "Game: Paused", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, null, null);
             if (option == 0 || option == -1) {
-                state = prevState;
+                state = GameState.RUNNING;
             }
         }
     }
@@ -348,8 +348,20 @@ public class ChapsChallenge {
      * Load the next game level.
      */
     public void loadNextLevel(){
-        gameLevel++;
-        loadLevel(gameLevel);
+        if(gameLevel == 1 || gameLevel == 2){
+            gameLevel++;
+            loadLevel(gameLevel);
+        }
+        else{
+            state = GameState.COMPLETE;
+        }
+    }
+
+    /**
+     * The prompt for if the game is won.
+     */
+    public void gameComplete(){
+        int option = JOptionPane.showOptionDialog(gui, "Game is currently paused!", "Game: Paused", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, null, null);
     }
 
     /**
@@ -373,6 +385,7 @@ public class ChapsChallenge {
     public void saveReplay() {
         record.storeLevel(gameLevel);
         record.writeJsonToFile();
+        record = new Record();
     }
 
     /**
