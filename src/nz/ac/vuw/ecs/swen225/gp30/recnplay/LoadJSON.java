@@ -12,6 +12,8 @@ import java.util.ArrayList;
  */
 public class LoadJSON {
 
+    private final static String dir = "src/nz/ac/vuw/ecs/swen225/gp30/recnplay/";
+
     /**
      * User selects the chosen replay, this method converts that json file to a Arraylist of Strings
      * which the record class can convert into moves and time. in order to return the correct move
@@ -23,7 +25,6 @@ public class LoadJSON {
     public ArrayList<String> loadPlayerMoves(String fileName){
         ArrayList<String> playerMoves = new ArrayList<>();
         try {
-            String dir = "src/nz/ac/vuw/ecs/swen225/gp30/recnplay/";
             FileReader fr = new FileReader(dir + fileName);
 
             JsonReader jsonReader = Json.createReader(fr);
@@ -53,7 +54,6 @@ public class LoadJSON {
     public Integer loadLevel(String fileName) {
         int level = 0; //initialise as 0
         try {
-            String dir = "src/nz/ac/vuw/ecs/swen225/gp30/recnplay/";
             FileReader fr = new FileReader(new File(dir + fileName));
 
             JsonReader jsonParser = Json.createReader(fr);
