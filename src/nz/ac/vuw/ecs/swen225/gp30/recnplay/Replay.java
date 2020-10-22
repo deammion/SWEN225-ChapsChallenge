@@ -92,14 +92,13 @@ public class Replay {
     }
 
     /**
-     * gets the time from the current move to return to application to
-     * update the game timer
+     * gets the tick when the move occurred which will update the tick count in chaps challenge
+     * changing the time if required
      *
      * @return time - an int representing the game timer
      */
     public int updateTimer() {
-        int tick = convertStringToInt(playerMoves.get(playerIndex));
-        return (100 - (30 % tick));
+        return convertStringToInt(playerMoves.get(playerIndex));
     }
 
     /**
