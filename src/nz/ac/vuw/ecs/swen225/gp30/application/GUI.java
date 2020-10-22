@@ -27,10 +27,8 @@ public class GUI extends JFrame {
     //Level Menu Items.
     JMenuItem one, two;
     //Replay Menu Items.
-    JRadioButtonMenuItem speedSet0, speedSet1, speedSet2, speedSet3;
-    ButtonGroup speedButtonGroup;
     JMenuItem recLoad;
-    JMenu speed;
+
 
     /**
      * Adds the panels to the master panel.
@@ -133,19 +131,8 @@ public class GUI extends JFrame {
         replay = new JMenu("Replay");
         recLoad = new JMenuItem("Load File");
 
-        //The replay speed setting submenu setup.
-        speed = new JMenu("Replay Speed");
-        speedButtonGroup = new ButtonGroup();
-        speedSet0 = new JRadioButtonMenuItem("0.5x speed");
-        speedSet1 = new JRadioButtonMenuItem("1.0x speed", true);
-        speedSet2 = new JRadioButtonMenuItem("1.5x speed");
-        speedSet3 = new JRadioButtonMenuItem("2.0x speed");
-        speed.add(speedSet0); speed.add(speedSet1); speed.add(speedSet2); speed.add(speedSet3);
-        speedButtonGroup.add(speedSet0); speedButtonGroup.add(speedSet1);
-        speedButtonGroup.add(speedSet2); speedButtonGroup.add(speedSet3);
-
         //Add all the sun items to the menu.
-        replay.add(recLoad); replay.add(speed);
+        replay.add(recLoad);
 
         //Help Menu.
         help = new JMenu("Help");
@@ -170,10 +157,6 @@ public class GUI extends JFrame {
         one.addActionListener(listener);
         two.addActionListener(listener);
         recLoad.addActionListener(listener);
-        speedSet0.addActionListener(listener);
-        speedSet1.addActionListener(listener);
-        speedSet2.addActionListener(listener);
-        speedSet3.addActionListener(listener);
         exit.addActionListener(listener);
     }
 
