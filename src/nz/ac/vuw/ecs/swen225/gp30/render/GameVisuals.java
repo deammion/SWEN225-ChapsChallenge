@@ -144,7 +144,7 @@ public class GameVisuals extends JPanel{
 	
 	/**
 	 * Draws the tiles
-	 * @param g
+	 * @param g graphics
 	 */
 	public void renderTiles(Graphics g) {
 		for(Tile t : getTilesToRender()) {
@@ -156,7 +156,7 @@ public class GameVisuals extends JPanel{
 	
 	/**
 	 * Draws chap
-	 * @param g
+	 * @param g graphics
 	 */
 	public void renderChap(Graphics g) {
 		GameObject chap = game.getChap();
@@ -168,7 +168,7 @@ public class GameVisuals extends JPanel{
 	
 	/**
 	 * Draws enemies
-	 * @param g
+	 * @param g graphics
 	 */
 	public void renderMobs(Graphics g) {
 		MobManager m = game.getMobManager();
@@ -181,7 +181,7 @@ public class GameVisuals extends JPanel{
 	
 	/**
 	 * Calls the draw methods
-	 * @param g
+	 * @param g graphics
 	 */
 	@Override
 	public void paintComponent(Graphics g) {
