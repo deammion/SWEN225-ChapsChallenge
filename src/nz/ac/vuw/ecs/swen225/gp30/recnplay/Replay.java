@@ -20,7 +20,7 @@ public class Replay {
     private int playerIndex = 0;
     private int delay = 1;
 
-    public int level; //made public as getter method wasn't working
+    public int level; //made public as getter method wasn't working correctly
 
 
     /**
