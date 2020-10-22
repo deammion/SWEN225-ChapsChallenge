@@ -56,6 +56,7 @@ public class Controls extends KeyAdapter implements ActionListener {
                     case 49:
                         //CTRL-1 - start a new game at level one.
                         game.loadLevel(1);
+                        game.gameLevel = 1;
                         System.out.println("You have pressed: CTRL-1");
                         break;
                 }
