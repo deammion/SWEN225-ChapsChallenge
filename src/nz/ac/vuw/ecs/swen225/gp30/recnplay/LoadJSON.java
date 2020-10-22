@@ -12,6 +12,7 @@ import java.util.ArrayList;
  */
 public class LoadJSON {
 
+    //initialise the directory for files to be loaded
     private final static String dir = "src/nz/ac/vuw/ecs/swen225/gp30/recnplay/";
 
     /**
