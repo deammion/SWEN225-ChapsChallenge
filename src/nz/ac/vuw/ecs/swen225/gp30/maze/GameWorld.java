@@ -37,7 +37,6 @@ public class GameWorld {
      * Logic to move chap on the board. Returns true of the move was successful.
      * 
      * @param move the move to execute
-     * @return true if the move was successful
      */
     public void moveChap(Move move) {
         int oldX = chap.getX();
