@@ -34,7 +34,7 @@ public class Replay {
         if(fileReturnValue == JFileChooser.APPROVE_OPTION) {
             File selectedFile = fileChooser.getSelectedFile();
             String fileSuffix = selectedFile.getName().substring(selectedFile.getName().indexOf("."));
-            if (!fileSuffix.equals(".json")) {
+            if (!fileSuffix.equals(".json")) { //checks for correct file format
                 System.out.println("Incompatible File Type");
                 loadJsonToReplay(); // called recursively to prevent incompatible file being selected
             } else {
@@ -42,17 +42,10 @@ public class Replay {
                 level = lj.loadLevel(selectedFile.getName());
                 System.out.println(selectedFile.getName());
             }
-        } else {
+        } else { //if no file is selected or file selector is closed method is called again to prevent system progressing
             System.out.println("Please select a file");
             loadJsonToReplay();
         }
-    }
-
-    /**
-     * toggles the autoplay boolean
-     */
-    public void toggleAutoPlaying() {
-        autoPlaying = !autoPlaying;
     }
 
     /**
@@ -92,14 +85,39 @@ public class Replay {
     }
 
     /**
-     * gets the time from the current move to return to application to
-     * update the game timer
+     * gets the tick when the move occurred which will update the tick count in chaps challenge
+     * changing the time if required
      *
      * @return time - an int representing the game timer
      */
     public int updateTimer() {
-        int tick = convertStringToInt(playerMoves.get(playerIndex));
-        return (100 - (30 % tick));
+        return convertStringToInt(playerMoves.get(playerIndex));
+    }
+
+    /**
+     * resets the autoPlaying Boolean and playerIndex
+     * called when a replay has finished
+     */
+    public void resetAutoPlay() {
+        autoPlaying = false;
+        playerIndex = 0;
+    }
+
+    /**
+     * toggles the autoplay boolean
+     */
+    public void toggleAutoPlaying() {
+        autoPlaying = !autoPlaying;
+    }
+
+    /**
+     * checks if the playerIndex is equal to playerMoves.size()
+     * if true the replay has finished
+     *
+     * @return Boolean - true if all moves in replay have been played
+     */
+    public boolean endOfReplay(){
+        return (playerIndex == playerMoves.size());
     }
 
     /**
@@ -131,9 +149,5 @@ public class Replay {
     public int convertStringToInt(String s){
         String numbers = s.substring(2, s.length()-1); //create new string which only contains ints
         return Integer.parseInt(numbers);
-    }
-
-    public boolean endOfReplay(){
-        return (playerIndex == playerMoves.size());
     }
 }
