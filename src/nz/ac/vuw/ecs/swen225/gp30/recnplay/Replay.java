@@ -19,7 +19,8 @@ public class Replay {
     private Boolean autoPlaying = false;
     private int playerIndex = 0;
     private int delay = 1;
-    private int level;
+
+    public int level; //made public as getter method wasn't working
 
 
     /**
@@ -125,15 +126,6 @@ public class Replay {
      */
     public boolean endOfReplay(){
         return (playerIndex == playerMoves.size() - 1);
-    }
-
-    /**
-     * return the level int so the correct level is loaded
-     *
-     * @return level as an int
-     */
-    public int getReplayLevel() {
-        return level;
     }
 
     /**
