@@ -17,9 +17,11 @@ public class Replay {
     //all variables initialised when new replay instance is called
     private Boolean autoPlaying = false;
     private int playerIndex = 0;
+    private int delay = 1;
 
     public ArrayList<String> playerMoves = new ArrayList<>();
     public int level;
+
 
     /**
      * Called by the application module, which allows user to select Json file to load,
@@ -60,7 +62,9 @@ public class Replay {
         if (autoPlaying) {
             if(playerIndex < playerMoves.size()){
                 int playerMoveTime = convertStringToInt(playerMoves.get(playerIndex));
-                if (playerMoveTime == tick) {
+                int playerDelay = playerMoveTime * delay;
+                if (playerDelay == tick) {
+                    System.out.println("Player: " +(playerMoveTime * delay));
                     char stringMove = playerMoves.get(playerIndex).charAt(1);
                     Move move = convertStringToMove(stringMove);
                     playerIndex++;
@@ -83,8 +87,20 @@ public class Replay {
         return null;
     }
 
+    /**
+     * increments the playerIndex
+     */
     public void incrementPlayIndex() {
         playerIndex++;
+    }
+
+    /**
+     * returns the tick of the current move used to advance the game clock and actors during step thru replay
+     *
+     * @return tick - int use to determine how far thur the cycle the the move was
+     */
+    public int playerMoveTick() {
+        return convertStringToInt(playerMoves.get(playerIndex));
     }
 
     /**
@@ -120,7 +136,25 @@ public class Replay {
      * @return Boolean - true if all moves in replay have been played
      */
     public boolean endOfReplay(){
-        return (playerIndex == playerMoves.size());
+        return (playerIndex == playerMoves.size() - 1);
+    }
+
+    /**
+     * increases the delay to match the delay with the timer, increases the tick (timing of the move)
+     */
+    public void increaseDelay() {
+        if(delay < 4) {
+            delay = delay * 2;
+        }
+    }
+
+    /**
+     * decreases the delay to match the delay in the chaps challenge class, decreasing the tick (timing of the move)
+     */
+    public void decreaseDelay() {
+        if(delay > 1) {
+            delay = delay/2;
+        }
     }
 
     /**
