@@ -1,6 +1,7 @@
 package nz.ac.vuw.ecs.swen225.gp30.application;
 
 import nz.ac.vuw.ecs.swen225.gp30.Move;
+import nz.ac.vuw.ecs.swen225.gp30.persistence.Persistence;
 
 import java.awt.event.*;
 
@@ -10,6 +11,7 @@ public class Controls extends KeyAdapter implements ActionListener {
 
     public Controls(ChapsChallenge game) {
         this.game = game;
+
     }
 
     /**
@@ -143,6 +145,7 @@ public class Controls extends KeyAdapter implements ActionListener {
             case "Two":
                 //Invoke two method.
                 game.loadLevel(2);
+                game.setGameLevel(2);
                 System.out.println("You are in level Two\n");
                 break;
             //Replay Menu Items.

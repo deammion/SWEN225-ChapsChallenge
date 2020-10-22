@@ -255,7 +255,7 @@ public class ChapsChallenge {
      * wants to reset the game to level 1 or exit.
      */
     public void gameLost(){
-        UIManager.put("OptionPane.yesButtonText", "Restart on Level 1");
+        UIManager.put("OptionPane.yesButtonText", "Restart");
         UIManager.put("OptionPane.noButtonText", "Exit Game");
         int option = JOptionPane.showOptionDialog(gui, "You have lost the current game!", "Game: Lost", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE,null, null, null);
         saveReplay();
@@ -363,6 +363,15 @@ public class ChapsChallenge {
      */
     public int getGameLevel(){
         return gameLevel;
+    }
+
+    /**
+     * Set the level of the game.
+     *
+     * @param setLevel - the level for the game to be set too.
+     */
+    public void setGameLevel(int setLevel){
+        gameLevel = setLevel;
     }
 
     /**
