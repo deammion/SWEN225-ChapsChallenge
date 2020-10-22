@@ -55,4 +55,9 @@ public class WallTile extends Tile {
     public String getImageString() {
         return "tile_wall.png";
     }
+
+    @Override
+    public String getSoundString() {
+        return "move.wav";
+    }
 }

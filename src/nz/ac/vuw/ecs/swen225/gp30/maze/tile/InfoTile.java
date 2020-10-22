@@ -57,4 +57,9 @@ public class InfoTile extends Tile {
     public String getImageString() {
         return "tile_info.png";
     }
+
+    @Override
+    public String getSoundString() {
+        return "move.wav";
+    }
 }
