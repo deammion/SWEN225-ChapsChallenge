@@ -28,7 +28,7 @@ public class GUI extends JFrame {
     JMenuItem one, two;
     //Replay Menu Items.
     JMenuItem recLoad;
-
+    JMenu speed;
 
     /**
      * Adds the panels to the master panel.
@@ -131,8 +131,11 @@ public class GUI extends JFrame {
         replay = new JMenu("Replay");
         recLoad = new JMenuItem("Load File");
 
+        //The replay speed setting submenu setup.
+        speed = new JMenu("Replay Speed");
+
         //Add all the sun items to the menu.
-        replay.add(recLoad);
+        replay.add(recLoad); replay.add(speed);
 
         //Help Menu.
         help = new JMenu("Help");
@@ -159,7 +162,6 @@ public class GUI extends JFrame {
         recLoad.addActionListener(listener);
         exit.addActionListener(listener);
     }
-
 
     /**
      * Method to get the inventory panel.
@@ -193,7 +195,7 @@ public class GUI extends JFrame {
         chipsText.setText("Chips Left: " + chipsLeft + " ");
     }
 
-    public void setLevelLeft(int levelLeft) { levelText.setText("Level: " + levelLeft + " "); }
+    public void setLevel(int levelLeft) { levelText.setText("Level: " + levelLeft + " "); }
 
 
 }
