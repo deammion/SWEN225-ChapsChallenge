@@ -7,7 +7,7 @@ import nz.ac.vuw.ecs.swen225.gp30.maze.IllegalMoveException;
 /**
  * The WallTile class represents a tile which cannot be moved to by chap.
  *
- * @author campliosca
+ * @author campliosca 300489876
  */
 public class WallTile extends Tile {
 

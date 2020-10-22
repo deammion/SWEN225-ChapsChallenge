@@ -5,8 +5,7 @@ import nz.ac.vuw.ecs.swen225.gp30.Move;
 /**
  * Actor class abstracts characters in the game that move (e.g. chap or mob).
  * 
- * @author campliosca
- *
+ * @author campliosca 300489876
  */
 public abstract class Actor implements GameObject {
 		protected int x, y;

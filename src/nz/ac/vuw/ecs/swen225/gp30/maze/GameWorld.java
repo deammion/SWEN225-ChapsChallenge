@@ -10,8 +10,7 @@ import nz.ac.vuw.ecs.swen225.gp30.maze.tile.Tile;
  * The GameWorld is the main class in the maze package that has functionality for changing and checking the state of objects within the game
  * Provides functionality for setting and getting objects within the game.
  * 
- * @author campliosca
- *
+ * @author campliosca 300489876
  */
 public class GameWorld {
     private Maze maze;

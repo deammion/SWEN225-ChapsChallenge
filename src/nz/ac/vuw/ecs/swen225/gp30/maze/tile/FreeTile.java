@@ -7,7 +7,7 @@ import nz.ac.vuw.ecs.swen225.gp30.maze.IllegalMoveException;
 /**
  * The FreeTile class represents a tile that can be moved to freely without any requirements.
  * 
- * @author campliosca
+ * @author campliosca 300489876
  */
 public class FreeTile extends Tile {
 

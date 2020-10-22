@@ -3,8 +3,7 @@ package nz.ac.vuw.ecs.swen225.gp30.maze;
 /**
  * Bug class is a type of mob.
  * 
- * @author campliosca
- *
+ * @author campliosca 300489876
  */
 public class Bug extends Mob {
 	

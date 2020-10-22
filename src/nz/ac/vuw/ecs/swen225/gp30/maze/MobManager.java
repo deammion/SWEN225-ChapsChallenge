@@ -9,8 +9,7 @@ import java.util.List;
 /**
  * MobManager stores all of the mobs in the maze and manages their movement.
  * 
- * @author campliosca
- *
+ * @author campliosca 300489876
  */
 public class MobManager {
 		private List<Mob> mobs;

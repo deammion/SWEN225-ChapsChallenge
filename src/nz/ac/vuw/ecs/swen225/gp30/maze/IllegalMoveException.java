@@ -4,8 +4,7 @@ package nz.ac.vuw.ecs.swen225.gp30.maze;
 /**
  * IllegalMoveException is custom runtime exception used for when moves are not permitted
  * 
- * @author campliosca
- *
+ * @author campliosca 300489876
  */
 public class IllegalMoveException extends RuntimeException {
 	

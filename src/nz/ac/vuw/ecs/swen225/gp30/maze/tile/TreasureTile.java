@@ -7,7 +7,7 @@ import nz.ac.vuw.ecs.swen225.gp30.maze.IllegalMoveException;
 /**
  * The TreasureTile class represents a tile that contains a treasure which can be collected if chap moves onto the tile.
  *
- * @author campliosca
+ * @author campliosca 300489876
  */
 public class TreasureTile extends Tile {
     private boolean collected = false;

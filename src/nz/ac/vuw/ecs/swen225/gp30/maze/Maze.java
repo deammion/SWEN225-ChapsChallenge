@@ -10,11 +10,10 @@ import java.util.stream.Stream;
 /**
  * Maze class stores the grid of tiles in the game. Provides functionality for getting and setting tiles at a position.
  * 
- * @author campliosca
- *
+ * @author campliosca 300489876
  */
 public class Maze {
-    private Tile[][] grid;
+    private final Tile[][] grid;
 
     /**
      * Constructs a Maze object with number of rows and columns.
