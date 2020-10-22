@@ -136,9 +136,11 @@ public class GameVisuals extends JPanel{
 		renderMobs(g);
 		if(toggleInfo) {
 			g.setColor(Color.BLACK);
-			g.drawString(infoText, getScreenX(game.getChap().getX()), getScreenY(game.getChap().getY()));
+			int half = (g.getFontMetrics().stringWidth(infoText))/2;
+			g.drawString(infoText, getScreenX(game.getChap().getX())-half, getScreenY(game.getChap().getY()));
 		}
 		g.translate(transX, transY);
+		
 	}
 }
  
