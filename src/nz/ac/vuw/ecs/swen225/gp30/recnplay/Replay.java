@@ -15,11 +15,10 @@ import java.util.ArrayList;
 public class Replay {
 
     //all variables initialised when new replay instance is called
+    private ArrayList<String> playerMoves = new ArrayList<>();
     private Boolean autoPlaying = false;
     private int playerIndex = 0;
     private int delay = 1;
-
-    private ArrayList<String> playerMoves = new ArrayList<>();
     private int level;
 
 
@@ -62,7 +61,7 @@ public class Replay {
         if (autoPlaying) {
             if(playerIndex < playerMoves.size()){
                 int playerMoveTime = convertStringToInt(playerMoves.get(playerIndex));
-                int playerDelay = playerMoveTime * delay;
+                int playerDelay = playerMoveTime * delay; //can increase the tick when the move occurred to match the increase in chaps challenge
                 if (playerDelay == tick) {
                     char stringMove = playerMoves.get(playerIndex).charAt(1);
                     Move move = convertStringToMove(stringMove);
