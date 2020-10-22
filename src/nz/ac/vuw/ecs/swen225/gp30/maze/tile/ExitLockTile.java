@@ -68,6 +68,6 @@ public class ExitLockTile extends Tile {
 
     @Override
     public String getSoundString() {
-        return "open_exit.wav";
+        return unlocked? "move_chap.wav" : "open_exit.wav";
     }
 }

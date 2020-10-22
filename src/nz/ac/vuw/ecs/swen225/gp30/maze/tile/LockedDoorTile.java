@@ -69,6 +69,6 @@ public class LockedDoorTile extends Tile {
 
     @Override
     public String getSoundString() {
-        return "open_door.wav";
+        return unlocked? "move_chap.wav" : "open_door.wav";
     }
 }
