@@ -40,6 +40,11 @@ public enum Item {
         return consumable;
     }
 
+    /**
+     * Returns the char representation of item.
+     *
+     * @return char representation.
+     */
     public char getChar() {
         return itemChar;
     }

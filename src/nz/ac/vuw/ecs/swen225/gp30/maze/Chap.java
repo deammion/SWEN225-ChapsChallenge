@@ -1,8 +1,6 @@
 package nz.ac.vuw.ecs.swen225.gp30.maze;
 
-import nz.ac.vuw.ecs.swen225.gp30.Move;
 import nz.ac.vuw.ecs.swen225.gp30.maze.item.Item;
-
 import java.util.ArrayList;
 import java.util.List;
 

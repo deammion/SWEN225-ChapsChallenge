@@ -1,6 +1,5 @@
 package nz.ac.vuw.ecs.swen225.gp30.maze;
 
-import com.google.common.base.Preconditions;
 import nz.ac.vuw.ecs.swen225.gp30.Move;
 import nz.ac.vuw.ecs.swen225.gp30.maze.tile.ExitLockTile;
 import nz.ac.vuw.ecs.swen225.gp30.maze.tile.ExitTile;
@@ -18,8 +17,7 @@ public class GameWorld {
     private Maze maze;
     private Chap chap;
     private String levelInfo;
-    public MobManager mobMgr;
-
+    private MobManager mobMgr;
     private int timeLeft;
 
     /**
@@ -39,21 +37,18 @@ public class GameWorld {
      * Logic to move chap on the board. Returns true of the move was successful.
      * 
      * @param move the move to execute
-     * @return true if the move was successful
      */
-    public boolean moveChap(Move move) {
+    public void moveChap(Move move) {
         int oldX = chap.getX();
         int oldY = chap.getY();
         Tile oldTile = maze.getTileAt(oldX, oldY);
         Tile newTile = maze.getNewTileFromMove(move, oldX, oldY);
 
-        if(!newTile.canMoveTo(chap)) { return false; }
-        else {
+        if(!newTile.canMoveTo(chap)) {
             oldTile.removeChap();
             newTile.addChap(chap);
             chap.setDirection(move);
         }
-        return true;
     }
 
     /**
@@ -94,7 +89,7 @@ public class GameWorld {
      * @return chips left for chap to collect
      */
     public int getChipsLeft() {
-        return ExitLockTile.CHIPS_REQUIRED - chap.getChipsCollected();
+        return ExitLockTile.getChipsRequired() - chap.getChipsCollected();
     }
 
     /**
