@@ -339,7 +339,7 @@ public class ChapsChallenge {
         replayMode = true;
         state = GameState.PAUSED;
         replay.loadJsonToReplay();
-        game = Persistence.readLevel(replay.level);
+        game = Persistence.readLevel(replay.getReplayLevel());
         renderer.setGame(game);
         renderer.repaint();
         startGame();
