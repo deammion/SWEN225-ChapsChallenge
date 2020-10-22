@@ -1,6 +1,8 @@
 package nz.ac.vuw.ecs.swen225.gp30.maze;
 import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
 
+import com.google.common.base.Preconditions;
 import nz.ac.vuw.ecs.swen225.gp30.Move;
 import nz.ac.vuw.ecs.swen225.gp30.maze.tile.Tile;
 
@@ -10,11 +12,10 @@ import java.util.stream.Stream;
 /**
  * Maze class stores the grid of tiles in the game. Provides functionality for getting and setting tiles at a position.
  * 
- * @author campliosca
- *
+ * @author campliosca 300489876
  */
 public class Maze {
-    private Tile[][] grid;
+    private final Tile[][] grid;
 
     /**
      * Constructs a Maze object with number of rows and columns.
@@ -23,6 +24,7 @@ public class Maze {
      * @param rows the rows of the maze.
      */
     public Maze(int cols, int rows) {
+        checkArgument(cols > 0 && rows > 0, "invalid maze size");
         grid = new Tile[cols][rows];
     }
 
@@ -62,6 +64,7 @@ public class Maze {
      * @return the tile from move
      */
     public Tile getNewTileFromMove(Move move, int oldX, int oldY) {
+        checkNotNull(move);
         switch(move) {
             case UP: return getTileAt(oldX, oldY-1);
             case DOWN: return getTileAt(oldX, oldY+1);

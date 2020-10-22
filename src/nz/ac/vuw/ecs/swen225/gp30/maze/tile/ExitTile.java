@@ -2,13 +2,12 @@ package nz.ac.vuw.ecs.swen225.gp30.maze.tile;
 
 import nz.ac.vuw.ecs.swen225.gp30.maze.Chap;
 import nz.ac.vuw.ecs.swen225.gp30.maze.IllegalMoveException;
-
 import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * The ExitTile class represents the tile that will complete the level when moved to.
  * 
- * @author campliosca
+ * @author campliosca 300489876
  */
 public class ExitTile extends Tile {
 

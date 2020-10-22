@@ -9,8 +9,7 @@ import java.util.List;
 /**
  * MobManager stores all of the mobs in the maze and manages their movement.
  * 
- * @author campliosca
- *
+ * @author campliosca 300489876
  */
 public class MobManager {
 		private List<Mob> mobs;
@@ -61,8 +60,7 @@ public class MobManager {
 						Move move = m.getNextMove();
 						Tile prevTile = maze.getTileAt(m.getX(), m.getY());
 						Tile newTile = maze.getNewTileFromMove(move, m.getX(), m.getY());
-						if(!newTile.isMobAllowed()) { return; }
-						else {
+						if(newTile.isMobAllowed()) {
 								prevTile.removeMob();
 								newTile.addMob();
 								m.setAt(newTile.getX(), newTile.getY());

@@ -9,9 +9,7 @@ import java.util.List;
  * It is the main character of the game.
  * The class provides moving functionality, inventory storage, activeness, and direction for animation.
  * 
- * 
- * @author campliosca
- *
+ * @author campliosca 300489876
  */
 public class Chap extends Actor {
     private final List<Item> inventory;
