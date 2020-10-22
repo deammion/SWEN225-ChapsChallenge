@@ -44,7 +44,7 @@ public class GameWorld {
         Tile oldTile = maze.getTileAt(oldX, oldY);
         Tile newTile = maze.getNewTileFromMove(move, oldX, oldY);
 
-        if(!newTile.canMoveTo(chap)) {
+        if(newTile.canMoveTo(chap)) {
             oldTile.removeChap();
             newTile.addChap(chap);
             chap.setDirection(move);
