@@ -1,20 +1,17 @@
 package nz.ac.vuw.ecs.swen225.gp30.persistence;
 
 import com.google.gson.Gson;
-import nz.ac.vuw.ecs.swen225.gp30.application.ChapsChallenge;
 import nz.ac.vuw.ecs.swen225.gp30.maze.*;
 import nz.ac.vuw.ecs.swen225.gp30.maze.item.Item;
 import nz.ac.vuw.ecs.swen225.gp30.maze.tile.*;
 
 import javax.json.Json;
-import javax.json.JsonArray;
 import javax.json.JsonBuilderFactory;
 import javax.json.JsonObjectBuilder;
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.io.*;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
 
@@ -28,6 +25,11 @@ public class Persistence {
         saveGame(g, "name.json");
     }
 
+    /**
+     * @param game
+     * @param fileName
+     * @return
+     */
     public static String saveGame(GameWorld game, String fileName) {
 
         String gameSave;
@@ -144,6 +146,9 @@ public class Persistence {
     }
 
 
+    /**
+     * @return
+     */
     public static GameWorld loadSave() {
 
         JFileChooser chooser = new JFileChooser("src/");
@@ -209,6 +214,9 @@ public class Persistence {
         return null;
     }
 
+    /**
+     * @return
+     */
         public static GameWorld readLevel () {
             JFileChooser chooser = new JFileChooser("src/nz/ac/vuw/ecs/swen225/gp30/persistence/levels/");
             FileNameExtensionFilter filter = new FileNameExtensionFilter(
@@ -273,6 +281,10 @@ public class Persistence {
             return null;
         }
 
+    /**
+     * @param mobs
+     * @return
+     */
         public static List<Mob> readMobs (Map mobs){
             List<Mob> mobsList = new ArrayList<>();
             int mobX;
@@ -293,6 +305,13 @@ public class Persistence {
             return mobsList;
         }
 
+    /**
+     * @param chipsRequired
+     * @param width
+     * @param height
+     * @param board
+     * @return
+     */
         public static Maze readBoard ( int chipsRequired, int width, int height, String board){
             Maze m = new Maze(width, height);
 
