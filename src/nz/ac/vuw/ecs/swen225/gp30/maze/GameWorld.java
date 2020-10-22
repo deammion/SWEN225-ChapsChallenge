@@ -90,7 +90,7 @@ public class GameWorld {
      * @return chips left for chap to collect
      */
     public int getChipsLeft() {
-        return ExitLockTile.CHIPS_REQUIRED - chap.getChipsCollected();
+        return ExitLockTile.getChipsRequired() - chap.getChipsCollected();
     }
 
     /**

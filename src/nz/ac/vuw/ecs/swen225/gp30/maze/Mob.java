@@ -3,6 +3,8 @@ package nz.ac.vuw.ecs.swen225.gp30.maze;
 import nz.ac.vuw.ecs.swen225.gp30.Move;
 import nz.ac.vuw.ecs.swen225.gp30.maze.tile.Tile;
 
+import java.util.Arrays;
+
 /**
  * Mob class is a type of actor that moves around the maze on its own from a specified path.
  * 
@@ -40,6 +42,6 @@ public abstract class Mob extends Actor {
 		 * @return the path of the mob
 		 */
 		public int[] getPath() {
-				return path;
+				return Arrays.copyOf(path, path.length);
 		}
 }

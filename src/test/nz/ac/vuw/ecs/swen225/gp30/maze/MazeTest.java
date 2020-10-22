@@ -133,7 +133,7 @@ public class MazeTest {
     public void validMoveTest_07() {
         Chap chap = new Chap(0,0);
         Maze maze = makeTestMaze(new ExitLockTile(1, 0));
-        ExitLockTile.CHIPS_REQUIRED = 1;
+        ExitLockTile.setChipsRequired(1);
         GameWorld game = new GameWorld(maze, chap);
 
         String[] expected = { "|c|l|\n|_|_|", "|_|c|\n|_|_|", "|c|_|\n|_|_|" };
@@ -194,7 +194,7 @@ public class MazeTest {
     @Test void invalidMoveTest_03() {
         Chap chap = new Chap(0,0);
         Maze maze = makeTestMaze(new ExitLockTile(1, 0));
-        ExitLockTile.CHIPS_REQUIRED = 1;
+        ExitLockTile.setChipsRequired(1);
         GameWorld game = new GameWorld(maze, chap);
 
         String expected = "|c|l|\n|_|_|";
