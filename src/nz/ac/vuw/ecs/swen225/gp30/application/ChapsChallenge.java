@@ -5,6 +5,7 @@ import nz.ac.vuw.ecs.swen225.gp30.Move;
 import nz.ac.vuw.ecs.swen225.gp30.recnplay.Record;
 import nz.ac.vuw.ecs.swen225.gp30.persistence.Persistence;
 import nz.ac.vuw.ecs.swen225.gp30.recnplay.Replay;
+import nz.ac.vuw.ecs.swen225.gp30.render.Audio;
 import nz.ac.vuw.ecs.swen225.gp30.render.GameVisuals;
 
 import javax.swing.*;
@@ -38,6 +39,7 @@ public class ChapsChallenge {
     private GameState state = GameState.RUNNING;
     private GameState prevState = GameState.RUNNING;
     private GameVisuals renderer;
+    private Audio audio;
     private GameWorld game;
     private GUI gui;
     private Record record;
@@ -56,6 +58,7 @@ public class ChapsChallenge {
         gameLevel = 1;
         gui = new GUI();
         renderer = new GameVisuals();
+        audio = new Audio();
         gui.setGamePanel(renderer);
         record = new Record();
 
@@ -109,10 +112,11 @@ public class ChapsChallenge {
                             } else {
                                 Move nextMove = replay.autoPlay(ticks);
                                 if (nextMove != null) {
+                                    playerControls.releaseKeys();
                                     move(nextMove);
                                     if(replay.endOfReplay()){
                                         replay.toggleAutoPlaying();
-                                        System.out.println("POP UP BOX HERE!");
+                                        replayFinished();
                                     }
                                 }
                             }
@@ -139,14 +143,18 @@ public class ChapsChallenge {
                         }
                         break;
                     case WON:
-                        saveReplay();
-                        wonGame();
-                        System.out.println("Game: WON");
+                        if(!replayMode) {
+                            saveReplay();
+                            wonGame();
+                            System.out.println("Game: WON");
+                        }
                         break;
                     case DEAD:
-                        gameLost();
-                        System.out.println("Game: DEAD");
-                        saveReplay();
+                        if(!replayMode) {
+                            gameLost();
+                            System.out.println("Game: DEAD");
+                            saveReplay();
+                        }
                         break;
                     case TIMEOUT:
                         renderer.repaint();
@@ -165,7 +173,6 @@ public class ChapsChallenge {
         if(Key.down.pressed) { return Move.DOWN; }
         if(Key.left.pressed) { return Move.LEFT; }
         if(Key.right.pressed) { return Move.RIGHT; }
-        playerControls.releaseKeys();
         return null;
     }
 
@@ -203,10 +210,10 @@ public class ChapsChallenge {
      */
     public void replayNextMove(){
         move(replay.playNextMove());
-        game.setTimeLeft(replay.updateTimer());
+        ticks = replay.updateTimer();
         renderer.repaint();
         if(replay.endOfReplay()){
-            System.out.println("POP UP BOX HERE");
+            replayFinished();
         }
     }
 
@@ -232,6 +239,7 @@ public class ChapsChallenge {
     public void move(Move move) {
         if (game.moveChap(move) && !replayMode) {
             record.storePlayerMove(move, ticks);
+            audio.playSound();
         }
     }
 
@@ -295,6 +303,24 @@ public class ChapsChallenge {
     }
 
     /**
+     * Method to take care of what happens to the game when a replay is finished.
+     */
+    public void replayFinished(){
+        replayMode = false;
+        replay.resetAutoPlay();
+        UIManager.put("OptionPane.yesButtonText", "Select new Replay");
+        UIManager.put("OptionPane.noButtonText", "Exit Game");
+        int option = JOptionPane.showOptionDialog(gui, "The replay is finished!", "Game: Replay", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE,null, null, null);
+        saveReplay();
+        if(option == 0){
+            replay.loadJsonToReplay();
+        }
+        else{
+            System.exit(0);
+        }
+    }
+
+    /**
      * Method which will resume the game.
      */
     public void resume() {
@@ -330,6 +356,7 @@ public class ChapsChallenge {
     public void loadLevel(int level) {
         game = Persistence.readLevel(level);
         renderer.setGame(game);
+        audio.setGame(game);
         gui.setLevelLeft(level);
         game.setTimeLeft(TOTAL_TIME);
     }

@@ -69,6 +69,6 @@ public class KeyTile extends Tile {
 
     @Override
     public String getSoundString() {
-        return "pickup_key.wav";
+        return collected? "move_chap.wav" : "pick_key.wav";
     }
 }
