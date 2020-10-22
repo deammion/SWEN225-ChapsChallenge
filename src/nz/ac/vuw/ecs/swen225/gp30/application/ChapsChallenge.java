@@ -13,7 +13,7 @@ import javax.swing.*;
  * implementation of the game states and what the game should do when the state is
  * entered or exited.
  *
- * @author jakeh
+ * @author jakeh.
  */
 
 public class ChapsChallenge {
@@ -136,7 +136,6 @@ public class ChapsChallenge {
                         break;
                     case WON:
                         if(!replayMode) {
-                            saveReplay();
                             state = GameState.RUNNING;
                             break;
                         }
@@ -202,6 +201,7 @@ public class ChapsChallenge {
      */
     public void checkGameState() {
         if (game.isChapOnExit()) {
+            saveReplay();
             if(gameLevel < Persistence.NUM_LEVELS) {
                 state = GameState.WON;
                 loadNextLevel();

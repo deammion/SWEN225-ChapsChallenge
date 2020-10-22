@@ -8,6 +8,12 @@ import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
 import java.awt.*;
 
+/**
+ * The help menu which containers the game information, control information and
+ * extra information.
+ *
+ * @author jakeh
+ */
 public class HelpMenuListener extends JFrame implements MenuListener {
 
     //Help Menu Components.
