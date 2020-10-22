@@ -223,6 +223,7 @@ public class Persistence {
   /**
    * Reads the level file and returns a GameWorld object.
    *
+   * @param level number
    * @return GameWorld object
    */
   public static GameWorld readLevel(int level) {
