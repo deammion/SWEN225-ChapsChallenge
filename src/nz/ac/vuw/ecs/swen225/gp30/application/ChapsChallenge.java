@@ -20,7 +20,8 @@ public class ChapsChallenge {
         PAUSED,
         WON,
         DEAD,
-        TIMEOUT
+        TIMEOUT,
+        COMPLETE
     }
 
     // Timing components for the game
@@ -105,10 +106,12 @@ public class ChapsChallenge {
                     case RUNNING:
                         if (updateDelta >= 1) {
                             Move m = processInput();
-
                             if (!replayMode) {
                                 playerControls.releaseKeys();
-                                if(m != null) { move(m); }
+                                if(m != null) {
+                                    move(m);
+                                    record.storePlayerMove(m, ticks);
+                                }
                                 checkInfo();
                             } else {
                                 Move nextMove = replay.autoPlay(ticks);
@@ -149,6 +152,9 @@ public class ChapsChallenge {
                             wonGame();
                             System.out.println("Game: WON");
                         }
+                        break;
+                    case COMPLETE:
+                        System.out.println("COMPLETED GAME");
                         break;
                     case DEAD:
                         if(!replayMode) {
@@ -223,6 +229,8 @@ public class ChapsChallenge {
             record.storePlayerMove(move, ticks);
             audio.playSound();
         }
+        game.moveChap(move);
+        audio.playSound();
     }
 
     /**
@@ -330,6 +338,9 @@ public class ChapsChallenge {
      * Method will load a level for the game.
      */
     public void loadLevel(int level) {
+        if(level > Persistence.NUM_LEVELS) {
+            state = GameState.COMPLETE;
+        }
         game = Persistence.readLevel(level);
         renderer.setGame(game);
         audio.setGame(game);
