@@ -177,7 +177,7 @@ public class Persistence {
         int height = (int) Double.parseDouble(map.get("boardHeight").toString());
         int chipsRequired = (int) Double.parseDouble(map.get("chipsRequired").toString());
         String boardString = map.get("board").toString();
-        Maze maze = readBoard(chipsRequired, width, height, boardString);
+        Maze maze = readBoard(width, height, boardString);
 
         int chapX = (int) Double.parseDouble(((Map) map.get("chap")).get("x").toString());
         int chapY = (int) Double.parseDouble(((Map) map.get("chap")).get("y").toString());
@@ -244,7 +244,8 @@ public class Persistence {
       int height = (int) Double.parseDouble(map.get("boardHeight").toString());
       int chipsRequired = (int) Double.parseDouble(map.get("chipsRequired").toString());
       String boardString = map.get("board").toString();
-      Maze maze = readBoard(chipsRequired, width, height, boardString);
+      Maze maze = readBoard(width, height, boardString);
+      ExitLockTile.setChipsRequired(chipsRequired);
 
       int chapX = (int) Double.parseDouble(((Map) map.get("chap")).get("x").toString());
       int chapY = (int) Double.parseDouble(((Map) map.get("chap")).get("y").toString());
@@ -313,15 +314,83 @@ public class Persistence {
   }
 
   /**
+   * Loads the previous level.
+   * @return
+   */
+  public static GameWorld  loadPrevious(){
+
+    String path = "src/nz/ac/vuw/ecs/swen225/gp30/persistence/levels/level/currentLevel.json";
+    try {
+      Gson gson = new Gson();
+      Reader reader = Files.newBufferedReader(Paths.get(path));
+      Map<?, ?> map = gson.fromJson(reader, Map.class);
+      int level = (int) Double.parseDouble((map.get("level").toString()));
+
+      if(level == 1){
+        readLevel(1);
+      }
+      else if(level == 2){
+        readLevel(2);
+      }
+      else return null;
+
+    }
+    catch (IOException E){
+      System.out.println("Error loading previous level");
+    }
+
+
+
+    return null;
+  }
+
+  /**
+   * Saves the previous level number into a new json file.
+   * @param game
+   */
+  public static void saveLevel(GameWorld game) {
+
+    String gameSave;
+
+    ArrayList<Mob> mobs = (ArrayList<Mob>) game.getMobManager().getMobs();
+    JsonObjectBuilder b = Json.createObjectBuilder();
+    if (mobs.size() > 0){
+      b.add("level", 2);
+    } else b.add("level", 1);
+
+    try {
+      Writer w = new StringWriter();
+      Json.createWriter(w).write(b.build());
+      gameSave = w.toString();
+      int saveLength = gameSave.length();
+      w.close();
+
+      Writer writer = new BufferedWriter(new FileWriter("src/nz/ac/vuw/ecs/swen225/gp30/persistence/levels/currentLevel.json"));
+
+      for (int i = 0; i < saveLength; i++) {
+        char next = gameSave.charAt(i);
+        if (next == ',' || next == '{') writer.write(next + "\n\t");
+        else if (next == '}') writer.write("\n" + next);
+        else writer.write(next);
+      }
+
+      writer.close();
+
+    } catch (IOException e) {
+      System.out.printf("Error saving game: " + e);
+    }
+
+  }
+
+  /**
    * Reads the board and sets the tiles from Maze module.
    *
-   * @param chipsRequired
    * @param width
    * @param height
    * @param board
    * @return
    */
-  public static Maze readBoard(int chipsRequired, int width, int height, String board) {
+  public static Maze readBoard(int width, int height, String board) {
     Maze m = new Maze(width, height);
 
     Scanner sc = new Scanner(board).useDelimiter(",");
@@ -371,7 +440,7 @@ public class Persistence {
           m.setTileAt(x, y, new InfoTile(x, y));
           break;
         case "l":
-          m.setTileAt(x, y, new ExitLockTile(x, y, chipsRequired));
+          m.setTileAt(x, y, new ExitLockTile(x, y));
           break;
       }
       x++;

@@ -3,41 +3,53 @@ package nz.ac.vuw.ecs.swen225.gp30.render;
 import nz.ac.vuw.ecs.swen225.gp30.maze.GameWorld;
 import nz.ac.vuw.ecs.swen225.gp30.maze.tile.Tile;
 
-import java.awt.image.BufferedImage;
 import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.imageio.ImageIO;
 import javax.sound.sampled.*;
 
-//template from codejava.net
+/**
+ * Class to play sounds
+ * @author Pranav Gohil
+ *
+ */
 public class Audio{
 
-	private boolean done;
 	private Map<String, File> soundMap;
 	private GameWorld game;
 
-	
+	/**
+	 * Consutructor
+	 */
 	public Audio() {
-			loadSounds();
+		loadSounds();
 	}
 
-		public void setGame(GameWorld game) {
-				this.game = game;
-		}
+	/**
+	 * Sets game field
+	 * @param game
+	 */
+	public void setGame(GameWorld game) {
+		this.game = game;
+	}
 
-		public void loadSounds() {
-				soundMap = new HashMap<>();
-				File fp = new File("sounds/");
-				File[] files = fp.listFiles();
-				for(File f : files) {
-						soundMap.put(f.getName(), f);
-				}
+	/**
+	 * Load sound files to map
+	 */
+	public void loadSounds() {
+		soundMap = new HashMap<>();
+		File fp = new File("sounds/");
+		File[] files = fp.listFiles();
+		for(File f : files) {
+			soundMap.put(f.getName(), f);
 		}
+	}
 
+	/**
+	 * Play sound when moving on current tile
+	 */
 	public void playSound() {
-		//AudioInputStream a = AudioSystem.getAudioInputStream(new File(path).getAbsoluteFile());
 		try {
 			Tile t = game.getMaze().getTileAt(game.getChap().getX(), game.getChap().getY());
 			AudioInputStream st = AudioSystem.getAudioInputStream(soundMap.get(t.getSoundString()));
