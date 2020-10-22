@@ -143,7 +143,7 @@ public class GameVisuals extends JPanel{
 	}
 	
 	/**
-	 * Draws tiles
+	 * Draws the tiles
 	 * @param g
 	 */
 	public void renderTiles(Graphics g) {
