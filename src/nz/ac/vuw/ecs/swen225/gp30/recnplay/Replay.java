@@ -62,7 +62,7 @@ public class Replay {
      */
     public Move autoPlay(int tick) {
         if (autoPlaying) {
-            if(playerIndex <= playerMoves.size()){
+            if(playerIndex < playerMoves.size()){
                 int playerMoveTime = convertStringToInt(playerMoves.get(playerIndex));
                 if (playerMoveTime == tick) {
                     char stringMove = playerMoves.get(playerIndex).charAt(1);
@@ -130,6 +130,6 @@ public class Replay {
     }
 
     public boolean endOfReplay(){
-        return (playerIndex > playerMoves.size());
+        return (playerIndex == playerMoves.size());
     }
 }
