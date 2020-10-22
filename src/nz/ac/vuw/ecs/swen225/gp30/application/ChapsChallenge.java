@@ -120,7 +120,7 @@ public class ChapsChallenge {
                             frames++;
                             frameDelta--;
                         }
-                        if (System.currentTimeMillis() - time > TIMER_DELAY) { //1500 2000
+                        if ((System.currentTimeMillis() - time) > TIMER_DELAY) { //1500 2000
                             //System.out.println(String.format("UPS: %s, FPS: %s", ticks, frames));
                             frames = 0;
                             ticks = 0;
