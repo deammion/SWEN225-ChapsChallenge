@@ -140,6 +140,7 @@ public class Controls extends KeyAdapter implements ActionListener {
                 game.playReplay();
                 System.out.println("You are in load file\n");
                 break;
+                //Help Menu Items.
             case "Help":
                 //Invoke help method (dialog box).
                 System.out.println("You are in the Help");

@@ -88,7 +88,7 @@ public class GameVisuals extends JPanel{
 
 	/**
 	 * Gets tiles to render around chap
-	 * @return
+	 * @return collection of tiles
 	 */
 	public Collection<Tile> getTilesToRender() {
 		GameObject c = game.getChap();
@@ -180,7 +180,7 @@ public class GameVisuals extends JPanel{
 	}
 	
 	/**
-	 * Calls draw methods
+	 * Calls the draw methods
 	 * @param g
 	 */
 	@Override

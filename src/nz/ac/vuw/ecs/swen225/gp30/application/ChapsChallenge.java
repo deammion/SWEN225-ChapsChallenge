@@ -26,7 +26,6 @@ public class ChapsChallenge {
     private int replayTicks = 0;
     private double UPDATES_PER_SECOND = 30;
     private double FRAMES_PER_SECOND = 40;
-
     private final double NANO_TO_SECOND = 1000000000;
     private long time = 0;
     // Game State and Class Components
@@ -57,7 +56,7 @@ public class ChapsChallenge {
         playerControls = new PlayerControls();
         gui.addKeyListener(playerControls);
         gui.addKeyListener(control);
-        gui.setLevelLeft(gameLevel);
+        gui.setLevel(gameLevel);
         gui.setActionListeners(control);
         loadLevel(gameLevel);
         startGame();
@@ -101,14 +100,13 @@ public class ChapsChallenge {
                                 Move nextMove = replay.autoPlay(ticks);
                                 if (nextMove != null) {
                                     move(nextMove);
-                                    System.out.println("Ticks: " + ticks);
                                     if(replay.endOfReplay()){
                                         replay.toggleAutoPlaying();
                                         replayFinished();
                                     }
                                 }
                             }
-                            //System.out.println(ticks);
+
                             ticks++;
                             if (ticks == UPDATES_PER_SECOND) {
                                 game.advance();
@@ -120,12 +118,10 @@ public class ChapsChallenge {
                             frames++;
                             frameDelta--;
                         }
-                        if ((System.currentTimeMillis() - time) > TIMER_DELAY) { //1500 2000
-                            //System.out.println(String.format("UPS: %s, FPS: %s", ticks, frames));
+                        if (System.currentTimeMillis() - time > TIMER_DELAY) {
                             frames = 0;
                             ticks = 0;
                             time += TIMER_DELAY;
-                            //System.out.println(TIMER_DELAY);
                             game.decrementTimeLeft();
                             gui.setTimeLeft(game.getTimeLeft());
                             if(game.getTimeLeft() == 0){ state = GameState.TIMEOUT; }
@@ -134,17 +130,14 @@ public class ChapsChallenge {
                     case WON:
                         if(!replayMode) {
                             saveReplay();
-                            System.out.println("Game: WON");
                             state = GameState.RUNNING;
                             break;
                         }
                     case COMPLETE:
-                        System.out.println("COMPLETED GAME");
                         gameComplete();
                         break;
                     case DEAD:
                         if(!replayMode) {
-                            System.out.println("Game: DEAD");
                             saveReplay();
                             gameLost();
                             break;
@@ -229,7 +222,7 @@ public class ChapsChallenge {
             loadLevel(1);
             renderer.setGame(game);
             state = GameState.RUNNING;
-            gui.setLevelLeft(gameLevel);
+            gui.setLevel(gameLevel);
         }
         else{
             System.exit(0);
@@ -259,7 +252,7 @@ public class ChapsChallenge {
             loadLevel(1);
             renderer.setGame(game);
             state = GameState.RUNNING;
-            gui.setLevelLeft(gameLevel);
+            gui.setLevel(gameLevel);
         }
         if(option == 1){
             System.exit(0);
@@ -277,18 +270,21 @@ public class ChapsChallenge {
     public void resume() {
         state = prevState;
     }
+
     /**
      * Toggle between paused and replay game states.
      */
     public void pausedAndRunning(){
         state = state == GameState.PAUSED ? GameState.RUNNING : GameState.PAUSED;
     }
+
     /**
      * Save a game, game state lost.
      */
     public void loadGameStateless(){
-        //Waiting on method from Josh to call for loading a game level not saving the state.
+        Persistence.saveLevel(game);
     }
+
     /**
      * Save a gam, game state saved.
      */
@@ -299,7 +295,6 @@ public class ChapsChallenge {
      * Load the next game level.
      */
     public void loadNextLevel(){
-        System.out.println("LOADNEXTLEVEL " + gameLevel);
         gameLevel++;
         loadLevel(gameLevel);
     }
@@ -307,11 +302,10 @@ public class ChapsChallenge {
      * Method will load a level for the game.
      */
     public void loadLevel(int level) {
-        System.out.println("LOADLEVEL " + gameLevel);
         game = Persistence.readLevel(level);
         renderer.setGame(game);
         audio.setGame(game);
-        gui.setLevelLeft(level);
+        gui.setLevel(level);
         game.setTimeLeft(TOTAL_TIME);
     }
     /**
@@ -365,6 +359,8 @@ public class ChapsChallenge {
         if(replayTicks >= 29) {
             replayTicks -= 29;
             game.advance();
+            game.decrementTimeLeft();
+            gui.setTimeLeft(game.getTimeLeft());
         }
         replay.incrementPlayIndex();
         renderer.repaint();
@@ -388,12 +384,13 @@ public class ChapsChallenge {
         }
         else if(option == 1){
             loadLevel(1);
-            gui.setLevelLeft(1);
+            gui.setLevel(1);
             state = GameState.RUNNING;
         } else {
             System.exit(0);
         }
     }
+
     /**
      * Increase the timer Delay.
      */
@@ -403,6 +400,7 @@ public class ChapsChallenge {
             replay.increaseDelay();
         }
     }
+
     /**
      * Decrease the timer Delay.
      */
