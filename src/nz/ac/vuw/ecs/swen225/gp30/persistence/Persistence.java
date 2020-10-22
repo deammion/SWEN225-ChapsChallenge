@@ -313,6 +313,10 @@ public class Persistence {
     return mobsList;
   }
 
+  /**
+   * Loads the previous level.
+   * @return
+   */
   public static GameWorld  loadPrevious(){
 
     String path = "src/nz/ac/vuw/ecs/swen225/gp30/persistence/levels/level/currentLevel.json";
@@ -340,6 +344,10 @@ public class Persistence {
     return null;
   }
 
+  /**
+   * Saves the previous level number into a new json file.
+   * @param game
+   */
   public static void saveLevel(GameWorld game) {
 
     String gameSave;
