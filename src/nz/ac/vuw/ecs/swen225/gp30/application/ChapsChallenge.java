@@ -109,10 +109,11 @@ public class ChapsChallenge {
                             } else {
                                 Move nextMove = replay.autoPlay(ticks);
                                 if (nextMove != null) {
+                                    playerControls.releaseKeys();
                                     move(nextMove);
                                     if(replay.endOfReplay()){
                                         replay.toggleAutoPlaying();
-                                        System.out.println("POP UP BOX HERE!");
+                                        replayFinished();
                                     }
                                 }
                             }
@@ -206,7 +207,7 @@ public class ChapsChallenge {
         game.setTimeLeft(replay.updateTimer());
         renderer.repaint();
         if(replay.endOfReplay()){
-            System.out.println("POP UP BOX HERE");
+            replayFinished();
         }
     }
 
@@ -288,6 +289,22 @@ public class ChapsChallenge {
             state = prevState;
             startGame();
             gui.setLevelLeft(gameLevel);
+        }
+        else{
+            System.exit(0);
+        }
+    }
+
+    /**
+     * Method to take care of what happens to the game when a replay is finished.
+     */
+    public void replayFinished(){
+        UIManager.put("OptionPane.yesButtonText", "Select new Replay");
+        UIManager.put("OptionPane.noButtonText", "Exit Game");
+        int option = JOptionPane.showOptionDialog(gui, "The replay is finished!", "Game: Replay", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE,null, null, null);
+        saveReplay();
+        if(option == 0){
+            replay.loadJsonToReplay();
         }
         else{
             System.exit(0);
