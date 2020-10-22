@@ -320,7 +320,7 @@ public class ChapsChallenge {
      * Save a game, game state lost.
      */
     public void loadGameStateless(){
-
+        //Waiting on method from Josh to call for loading a game level not saving the state.
     }
 
     /**
@@ -379,6 +379,8 @@ public class ChapsChallenge {
      * Put the game in replay mode.
      */
     public void playReplay(){
+        ticks = 0;
+
         replay = new Replay();
         replayMode = true;
         state = GameState.PAUSED;
