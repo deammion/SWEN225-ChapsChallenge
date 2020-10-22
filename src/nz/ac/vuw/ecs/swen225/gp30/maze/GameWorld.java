@@ -37,7 +37,6 @@ public class GameWorld {
      * Logic to move chap on the board. Returns true of the move was successful.
      * 
      * @param move the move to execute
-     * @return true if the move was successful
      */
     public void moveChap(Move move) {
         int oldX = chap.getX();
@@ -45,7 +44,7 @@ public class GameWorld {
         Tile oldTile = maze.getTileAt(oldX, oldY);
         Tile newTile = maze.getNewTileFromMove(move, oldX, oldY);
 
-        if(!newTile.canMoveTo(chap)) {
+        if(newTile.canMoveTo(chap)) {
             oldTile.removeChap();
             newTile.addChap(chap);
             chap.setDirection(move);

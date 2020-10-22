@@ -19,11 +19,14 @@ import java.util.Map;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-
+/**
+ * Class to draw tiles, character, items and mobs
+ * Can draw the text from info tiles aswell
+ * @author Pranav Gohil
+ *
+ */
 public class GameVisuals extends JPanel{
-	/**
-	 * 
-	 */
+	
 	private static final long serialVersionUID = 1L;
 	
 	private GameWorld game;
@@ -34,37 +37,59 @@ public class GameVisuals extends JPanel{
 	public boolean toggleInfo = false;
 	public Map<String, BufferedImage> imageMap;
 	
+	/**
+	 * Constructor, setting preffered sizes for tiles
+	 */
 	public GameVisuals() {
 		this.setPreferredSize((new Dimension(TILE_SIZE*CAMERA_VIEW, TILE_SIZE*CAMERA_VIEW)));
 		this.setBorder(BorderFactory.createLineBorder(Color.BLACK, 3));
 		loadImages();
 	}
 
+	/**
+	 * Loads images into a map
+	 */
 	public void loadImages() {
-			imageMap = new HashMap<>();
-			try {
-					File fp = new File("assets/");
-					File[] files = fp.listFiles();
-					for(File f : files) {
-							imageMap.put(f.getName(), ImageIO.read(f));
-					}
-			} catch (IOException e) {
-					e.printStackTrace();
+		imageMap = new HashMap<>();
+		try {
+			File fp = new File("assets/");
+			File[] files = fp.listFiles();
+			for(File f : files) {
+				imageMap.put(f.getName(), ImageIO.read(f));
 			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
+	/**
+	 * Changes game field
+	 * @param game
+	 */
 	public void setGame(GameWorld game) {
 		this.game = game;
 	}
 
+	/**
+	 * Changes info field
+	 * @param text
+	 */
 	public void setInfoText(String text) {
 		this.infoText = text;
 	}
 
+	/**
+	 * Changes info boolean
+	 * @param toggle
+	 */
 	public void toggleInfo(boolean toggle) {
 		toggleInfo = toggle;
 	}
 
+	/**
+	 * Gets tiles to render around chap
+	 * @return collection of tiles
+	 */
 	public Collection<Tile> getTilesToRender() {
 		GameObject c = game.getChap();
 		int cX = c.getX();
@@ -81,24 +106,46 @@ public class GameVisuals extends JPanel{
 		return allTiles.filter(inRange).collect(Collectors.toList());
 	}
 	
+	/**
+	 * 
+	 * @param x
+	 * @return x co-ord
+	 */
 	public int getScreenX(int x) {
 		return x*TILE_SIZE;
 	}
 	
+	/**
+	 * 
+	 * @param y
+	 * @return x co-ord
+	 */
 	public int getScreenY(int y) {
 		return y*TILE_SIZE;
 	}
 	
+	/**
+	 * 
+	 * @return chap's x minus half camera view
+	 */
 	public int getTranslateX() {
 		int cX = game.getChap().getX();
 		return getScreenX(cX - CAMERA_VIEW/2);
 	}
 	
+	/**
+	 * 
+	 * @return chap's y minus half camera view
+	 */
 	public int getTranslateY() {
 		int cY = game.getChap().getY();
 		return getScreenY(cY - CAMERA_VIEW/2);
 	}
 	
+	/**
+	 * Draws tiles
+	 * @param g
+	 */
 	public void renderTiles(Graphics g) {
 		for(Tile t : getTilesToRender()) {
 			int screenX = getScreenX(t.getX());
@@ -107,6 +154,10 @@ public class GameVisuals extends JPanel{
 		}
 	}
 	
+	/**
+	 * Draws chap
+	 * @param g
+	 */
 	public void renderChap(Graphics g) {
 		GameObject chap = game.getChap();
 		int screenX = getScreenX(chap.getX());
@@ -114,7 +165,11 @@ public class GameVisuals extends JPanel{
 		Tile t = game.getMaze().getTileAt(chap.getX(), chap.getY());
 		g.drawImage(imageMap.get(chap.getImageString()), screenX, screenY, null);
 	}
-	//
+	
+	/**
+	 * Draws enemies
+	 * @param g
+	 */
 	public void renderMobs(Graphics g) {
 		MobManager m = game.getMobManager();
 		for(Mob mo: m.getMobs()) {
@@ -124,6 +179,10 @@ public class GameVisuals extends JPanel{
 		}
 	}
 	
+	/**
+	 * Calls the draw methods
+	 * @param g
+	 */
 	@Override
 	public void paintComponent(Graphics g) {
 		g.setColor(BG_COLOR);
