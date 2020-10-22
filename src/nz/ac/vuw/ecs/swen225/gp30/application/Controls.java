@@ -2,6 +2,12 @@ package nz.ac.vuw.ecs.swen225.gp30.application;
 
 import java.awt.event.*;
 
+/**
+ * Controls class, the buttons in the menu and the key press functionality
+ * is all covered in this class.
+ *
+ * @author jakeh.
+ */
 public class Controls extends KeyAdapter implements ActionListener {
 
     private ChapsChallenge game;

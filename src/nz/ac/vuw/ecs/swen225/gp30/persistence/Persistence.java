@@ -31,8 +31,8 @@ public class Persistence {
   /**
    * Saves the current gamestate to a file.
    *
-   * @param game
-   * @param fileName
+   * @param game GameWorld to save
+   * @param fileName File to save
    * @return String fileName
    */
   public static String saveGame(GameWorld game, String fileName) {
@@ -153,7 +153,7 @@ public class Persistence {
   /**
    * Loads the saved game file json and returns the GameWorld.
    *
-   * @return Gameworld object
+   * @return Gameworld object to load
    */
   public static GameWorld loadSave() {
 
@@ -291,7 +291,7 @@ public class Persistence {
   /**
    * Reads the mob info into a List.
    *
-   * @param mobs
+   * @param mobs Map of mobs
    * @return A list of mobs
    */
   public static List<Mob> readMobs(Map mobs) {
@@ -316,7 +316,7 @@ public class Persistence {
 
   /**
    * Loads the previous level.
-   * @return null
+   * @return null calls methods
    */
   public static GameWorld  loadPrevious(){
 
@@ -345,7 +345,7 @@ public class Persistence {
 
   /**
    * Saves the previous level number into a new json file.
-   * @param game
+   * @param game Game to be saved
    */
   public static void saveLevel(GameWorld game) {
 
@@ -384,9 +384,9 @@ public class Persistence {
   /**
    * Reads the board and sets the tiles from Maze module.
    *
-   * @param width
-   * @param height
-   * @param board
+   * @param width of board.
+   * @param height of board.
+   * @param board String.
    * @return Maze object
    */
   public static Maze readBoard(int width, int height, String board) {
