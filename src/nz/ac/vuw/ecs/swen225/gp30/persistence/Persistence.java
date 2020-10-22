@@ -1,20 +1,17 @@
 package nz.ac.vuw.ecs.swen225.gp30.persistence;
 
 import com.google.gson.Gson;
-import nz.ac.vuw.ecs.swen225.gp30.application.ChapsChallenge;
 import nz.ac.vuw.ecs.swen225.gp30.maze.*;
 import nz.ac.vuw.ecs.swen225.gp30.maze.item.Item;
 import nz.ac.vuw.ecs.swen225.gp30.maze.tile.*;
 
 import javax.json.Json;
-import javax.json.JsonArray;
 import javax.json.JsonBuilderFactory;
 import javax.json.JsonObjectBuilder;
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.io.*;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
 
@@ -24,10 +21,15 @@ public class Persistence {
     public static int NUM_LEVELS = 2;
 
     public static void main(String args[]) {
-        GameWorld g = readLevel(2);
+        GameWorld g = readLevel();
         saveGame(g, "name.json");
     }
 
+    /**
+     * @param game
+     * @param fileName
+     * @return
+     */
     public static String saveGame(GameWorld game, String fileName) {
 
         String gameSave;
@@ -144,6 +146,9 @@ public class Persistence {
     }
 
 
+    /**
+     * @return
+     */
     public static GameWorld loadSave() {
 
         JFileChooser chooser = new JFileChooser("src/");
@@ -209,64 +214,77 @@ public class Persistence {
         return null;
     }
 
-        public static GameWorld readLevel ( int level){
-            String path = "src/nz/ac/vuw/ecs/swen225/gp30/persistence/levels/level" + level + ".json";
-            try {
-                // create Gson instance
-                Gson gson = new Gson();
+    /**
+     * @return
+     */
+        public static GameWorld readLevel () {
+            JFileChooser chooser = new JFileChooser("src/nz/ac/vuw/ecs/swen225/gp30/persistence/levels/");
+            FileNameExtensionFilter filter = new FileNameExtensionFilter(
+                    "JSON files", "json");
+            chooser.setFileFilter(filter);
+            int returnVal = chooser.showOpenDialog(null);
+            if (returnVal == JFileChooser.APPROVE_OPTION) {
+                try {
+                    // create Gson instance
+                    Gson gson = new Gson();
 
-                // create a reader
-                Reader reader = Files.newBufferedReader(Paths.get(path));
+                    // create a reader
+                    Reader reader = Files.newBufferedReader(Paths.get(chooser.getSelectedFile().getPath()));
 
-                // convert JSON file to map
-                Map<?, ?> map = gson.fromJson(reader, Map.class);
+                    // convert JSON file to map
+                    Map<?, ?> map = gson.fromJson(reader, Map.class);
 
-                int width = (int) Double.parseDouble(map.get("boardWidth").toString());
-                int height = (int) Double.parseDouble(map.get("boardHeight").toString());
-                int chipsRequired = (int) Double.parseDouble(map.get("chipsRequired").toString());
-                String boardString = map.get("board").toString();
-                Maze maze = readBoard(chipsRequired, width, height, boardString);
+                    int width = (int) Double.parseDouble(map.get("boardWidth").toString());
+                    int height = (int) Double.parseDouble(map.get("boardHeight").toString());
+                    int chipsRequired = (int) Double.parseDouble(map.get("chipsRequired").toString());
+                    String boardString = map.get("board").toString();
+                    Maze maze = readBoard(chipsRequired, width, height, boardString);
 
-                int chapX = (int) Double.parseDouble(((Map) map.get("chap")).get("x").toString());
-                int chapY = (int) Double.parseDouble(((Map) map.get("chap")).get("y").toString());
-                Chap chap = new Chap(chapX, chapY);
+                    int chapX = (int) Double.parseDouble(((Map) map.get("chap")).get("x").toString());
+                    int chapY = (int) Double.parseDouble(((Map) map.get("chap")).get("y").toString());
+                    Chap chap = new Chap(chapX, chapY);
 
 
-                MobManager mobMgr = new MobManager(maze);
-                if (map.containsKey("mobs")) {
-                    List<Mob> mobs = readMobs((Map) map.get("mobs"));
-                    mobMgr.setMobs(mobs);
+                    MobManager mobMgr = new MobManager(maze);
+                    if (map.containsKey("mobs")) {
+                        List<Mob> mobs = readMobs((Map) map.get("mobs"));
+                        mobMgr.setMobs(mobs);
+                    }
+
+                    int time;
+                    if (map.containsKey("time")) {
+                        time = (int) Double.parseDouble((map.get("time")).toString());
+                    }
+
+                    int currentChips;
+                    if (map.containsKey("chapChips")) {
+                        currentChips = (int) Double.parseDouble((map.get("chapChips")).toString());
+                    }
+
+                    String inventory;
+                    if (map.containsKey("inventory")) {
+                        inventory = map.get("inventory").toString();
+                    }
+
+                    GameWorld game = new GameWorld(maze, chap);
+                    String levelInfo = map.get("levelInfo").toString();
+
+                    game.setMobManager(mobMgr);
+                    game.setLevelInfo(levelInfo);
+
+                    reader.close();
+                    return game;
+                } catch (Exception ex) {
+                    ex.printStackTrace();
                 }
-
-                int time;
-                if (map.containsKey("time")) {
-                    time = (int) Double.parseDouble((map.get("time")).toString());
-                }
-
-                int currentChips;
-                if (map.containsKey("chapChips")) {
-                    currentChips = (int) Double.parseDouble((map.get("chapChips")).toString());
-                }
-
-                String inventory;
-                if (map.containsKey("inventory")) {
-                    inventory = map.get("inventory").toString();
-                }
-
-                GameWorld game = new GameWorld(maze, chap);
-                String levelInfo = map.get("levelInfo").toString();
-
-                game.setMobManager(mobMgr);
-                game.setLevelInfo(levelInfo);
-
-                reader.close();
-                return game;
-            } catch (Exception ex) {
-                ex.printStackTrace();
             }
             return null;
         }
 
+    /**
+     * @param mobs
+     * @return
+     */
         public static List<Mob> readMobs (Map mobs){
             List<Mob> mobsList = new ArrayList<>();
             int mobX;
@@ -287,6 +305,13 @@ public class Persistence {
             return mobsList;
         }
 
+    /**
+     * @param chipsRequired
+     * @param width
+     * @param height
+     * @param board
+     * @return
+     */
         public static Maze readBoard ( int chipsRequired, int width, int height, String board){
             Maze m = new Maze(width, height);
 
