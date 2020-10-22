@@ -428,6 +428,7 @@ public class ChapsChallenge {
      */
     public void replayNextMove(){
         move(replay.playNextMove());
+        replay.incrementPlayIndex();
         ticks = replay.updateTimer();
         renderer.repaint();
         if(replay.endOfReplay()){
