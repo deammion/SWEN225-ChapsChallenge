@@ -18,7 +18,6 @@ import nz.ac.vuw.ecs.swen225.gp30.maze.IllegalMoveException;
  */
 public abstract class Tile implements GameObject {
     private final int x, y;
-    //private TileType type;
     protected Chap chap = null;
     private boolean hasMob;
 
