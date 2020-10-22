@@ -20,7 +20,8 @@ public class ChapsChallenge {
         PAUSED,
         WON,
         DEAD,
-        TIMEOUT
+        TIMEOUT,
+        COMPLETE
     }
 
     // Timing components for the game
@@ -105,14 +106,16 @@ public class ChapsChallenge {
                     case RUNNING:
                         if (updateDelta >= 1) {
                             Move m = processInput();
-
                             if (!replayMode) {
-                                if(m != null) { move(m); }
+                                playerControls.releaseKeys();
+                                if(m != null) {
+                                    move(m);
+                                    record.storePlayerMove(m, ticks);
+                                }
                                 checkInfo();
                             } else {
                                 Move nextMove = replay.autoPlay(ticks);
                                 if (nextMove != null) {
-                                    playerControls.releaseKeys();
                                     move(nextMove);
                                     if(replay.endOfReplay()){
                                         replay.toggleAutoPlaying();
@@ -140,6 +143,7 @@ public class ChapsChallenge {
                             time += 1000;
                             game.decrementTimeLeft();
                             gui.setTimeLeft(game.getTimeLeft());
+                            if(game.getTimeLeft() == 0){ state = GameState.TIMEOUT; }
                         }
                         break;
                     case WON:
@@ -148,6 +152,10 @@ public class ChapsChallenge {
                             wonGame();
                             System.out.println("Game: WON");
                         }
+                        break;
+                    case COMPLETE:
+                        System.out.println("COMPLETED GAME");
+                        gameComplete();
                         break;
                     case DEAD:
                         if(!replayMode) {
@@ -199,25 +207,6 @@ public class ChapsChallenge {
     }
 
     /**
-     * Toggle between auto and step by step replaying.
-     */
-    public void togglePlay(){
-        replay.toggleAutoPlaying();
-    }
-
-    /**
-     * Play the next move, update the timer for the replay mode.
-     */
-    public void replayNextMove(){
-        move(replay.playNextMove());
-        ticks = replay.updateTimer();
-        renderer.repaint();
-        if(replay.endOfReplay()){
-            replayFinished();
-        }
-    }
-
-    /**
      * Check which state the game is currently in. This can either
      * be INFO, WON or DEAD.
      */
@@ -237,10 +226,8 @@ public class ChapsChallenge {
      * @param move - direction.
      */
     public void move(Move move) {
-        if (game.moveChap(move) && !replayMode) {
-            record.storePlayerMove(move, ticks);
-            audio.playSound();
-        }
+        game.moveChap(move);
+        audio.playSound();
     }
 
     /**
@@ -265,14 +252,6 @@ public class ChapsChallenge {
     }
 
     /**
-     * Save the replay to a file.
-     */
-    public void saveReplay() {
-        record.storeLevel(gameLevel);
-        record.writeJsonToFile();
-    }
-
-    /**
      * If the game has been won.
      */
     public void wonGame() {
@@ -291,10 +270,9 @@ public class ChapsChallenge {
         int option = JOptionPane.showOptionDialog(gui, "You have lost the current game!", "Game: Lost", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE,null, null, null);
         saveReplay();
         if(option == 0){
-            game = Persistence.readLevel(gameLevel);
+            loadLevel(1);
             renderer.setGame(game);
-            state = prevState;
-            startGame();
+            state = GameState.RUNNING;
             gui.setLevelLeft(gameLevel);
         }
         else{
@@ -303,21 +281,25 @@ public class ChapsChallenge {
     }
 
     /**
-     * Method to take care of what happens to the game when a replay is finished.
+     * Method which will pause the game.
      */
-    public void replayFinished(){
-        replayMode = false;
-        replay.resetAutoPlay();
-        UIManager.put("OptionPane.yesButtonText", "Select new Replay");
-        UIManager.put("OptionPane.noButtonText", "Exit Game");
-        int option = JOptionPane.showOptionDialog(gui, "The replay is finished!", "Game: Replay", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE,null, null, null);
-        saveReplay();
-        if(option == 0){
-            replay.loadJsonToReplay();
+    public void pause() {
+        if(game.getTimeLeft() > 0) {
+            state = GameState.PAUSED;
+            //timer.stop();
+            UIManager.put("OptionPane.okButtonText", "Resume");
+            int option = JOptionPane.showOptionDialog(gui, "Game is currently paused!", "Game: Paused", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, null, null);
+            if (option == 0 || option == -1) {
+                state = GameState.RUNNING;
+            }
         }
-        else{
-            System.exit(0);
-        }
+    }
+
+    /**
+     * Resumes a saved Game.
+     */
+    public void resumeGame(){
+        Persistence.loadSave();
     }
 
     /**
@@ -335,57 +317,10 @@ public class ChapsChallenge {
     }
 
     /**
-     * Method which will pause the game.
-     */
-    public void pause() {
-        if(game.getTimeLeft() > 0) {
-            prevState = state;
-            state = GameState.PAUSED;
-            //timer.stop();
-            UIManager.put("OptionPane.okButtonText", "Resume");
-            int option = JOptionPane.showOptionDialog(gui, "Game is currently paused!", "Game: Paused", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, null, null);
-            if (option == 0 || option == -1) {
-                state = prevState;
-            }
-        }
-    }
-
-    /**
-     * Method will load a level for the game.
-     */
-    public void loadLevel(int level) {
-        game = Persistence.readLevel(level);
-        renderer.setGame(game);
-        audio.setGame(game);
-        gui.setLevelLeft(level);
-        game.setTimeLeft(TOTAL_TIME);
-    }
-
-    /**
-     * Put the game in replay mode.
-     */
-    public void playReplay(){
-        replay = new Replay();
-        replayMode = true;
-        state = GameState.PAUSED;
-        replay.loadJsonToReplay();
-        game = Persistence.readLevel(replay.level);
-        renderer.setGame(game);
-        startGame();
-    }
-
-    /**
-     * Resumes a saved Game.
-     */
-    public void resumeGame(){
-        Persistence.loadSave();
-    }
-
-    /**
      * Save a game, game state lost.
      */
     public void loadGameStateless(){
-
+        //Waiting on method from Josh to call for loading a game level not saving the state.
     }
 
     /**
@@ -396,11 +331,37 @@ public class ChapsChallenge {
     }
 
     /**
+     * Method will load a level for the game.
+     */
+    public void loadLevel(int level) {
+        if(level > Persistence.NUM_LEVELS) {
+            state = GameState.COMPLETE;
+        }
+        game = Persistence.readLevel(level);
+        renderer.setGame(game);
+        audio.setGame(game);
+        gui.setLevelLeft(level);
+        game.setTimeLeft(TOTAL_TIME);
+    }
+
+    /**
      * Load the next game level.
      */
     public void loadNextLevel(){
-        gameLevel++;
-        loadLevel(gameLevel);
+        if(gameLevel == 1 || gameLevel == 2){
+            gameLevel++;
+            loadLevel(gameLevel);
+        }
+        else{
+            state = GameState.COMPLETE;
+        }
+    }
+
+    /**
+     * The prompt for if the game is won.
+     */
+    public void gameComplete(){
+        int option = JOptionPane.showOptionDialog(gui, "Game is currently paused!", "Game: Paused", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, null, null);
     }
 
     /**
@@ -417,6 +378,69 @@ public class ChapsChallenge {
      */
     public void setGameLevel(int setLevel){
         gameLevel = setLevel;
+    }
+    /**
+     * Save the replay to a file.
+     */
+    public void saveReplay() {
+        record.storeLevel(gameLevel);
+        record.writeJsonToFile();
+        record = new Record();
+    }
+
+    /**
+     * Put the game in replay mode.
+     */
+    public void playReplay(){
+        ticks = 0;
+
+        replay = new Replay();
+        replayMode = true;
+        state = GameState.PAUSED;
+        replay.loadJsonToReplay();
+        game = Persistence.readLevel(replay.level);
+        renderer.setGame(game);
+        renderer.repaint();
+        startGame();
+    }
+
+    /**
+     * Toggle between auto and step by step replaying.
+     */
+    public void togglePlay(){
+        replay.toggleAutoPlaying();
+    }
+
+    /**
+     * Play the next move, update the timer for the replay mode.
+     */
+    public void replayNextMove(){
+        move(replay.playNextMove());
+        ticks = replay.updateTimer();
+        renderer.repaint();
+        if(replay.endOfReplay()){
+            replayFinished();
+        }
+    }
+
+    /**
+     * Method to take care of what happens to the game when a replay is finished.
+     */
+    public void replayFinished(){
+        replayMode = false;
+        replay.resetAutoPlay();
+        UIManager.put("OptionPane.yesButtonText", "New Replay");
+        UIManager.put("OptionPane.noButtonText", "New Game");
+        int option = JOptionPane.showOptionDialog(gui, "The replay is finished!", "Game: Replay", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE,null, null, null);
+        saveReplay();
+        if(option == 0){
+            replay.loadJsonToReplay();
+        }
+        else{
+            loadLevel(1);
+            state = GameState.RUNNING;
+            gui.setLevelLeft(gameLevel);
+        }
     }
 
     /**
