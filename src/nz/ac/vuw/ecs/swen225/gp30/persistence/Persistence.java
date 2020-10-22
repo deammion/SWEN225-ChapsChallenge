@@ -45,7 +45,6 @@ public class Persistence {
     }
     ArrayList<Mob> mobs = (ArrayList<Mob>) game.getMobManager().getMobs();
 
-    System.out.println(mobs.size());
 
     HashMap<String, Integer> config = new HashMap();
     JsonBuilderFactory factory = Json.createBuilderFactory(config);
@@ -227,6 +226,9 @@ public class Persistence {
    * @return
    */
   public static GameWorld readLevel(int level) {
+    if (level > 2){
+      return null;
+    }
     String path = "src/nz/ac/vuw/ecs/swen225/gp30/persistence/levels/level" + level + ".json";
     try {
       // create Gson instance
