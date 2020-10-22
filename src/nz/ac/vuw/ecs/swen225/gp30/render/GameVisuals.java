@@ -117,7 +117,7 @@ public class GameVisuals extends JPanel{
 		audio.playSound(t.getSoundString());
 		g.drawImage(imageMap.get(chap.getImageString()), screenX, screenY, null);
 	}
-	
+	//
 	public void renderMobs(Graphics g) {
 		MobManager m = game.getMobManager();
 		for(Mob mo: m.getMobs()) {

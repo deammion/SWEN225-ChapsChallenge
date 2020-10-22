@@ -51,10 +51,10 @@ public class Audio implements LineListener{
 	public void update(LineEvent event) {
 		LineEvent.Type type = event.getType();
         if (type == LineEvent.Type.START) {
-            System.out.println("Started.");
+            System.out.println("Started");
         } else if (type == LineEvent.Type.STOP) {
             done = true;
-            System.out.println("Stopped.");
+            System.out.println("Stopped");
         }
 	}
 }
