@@ -19,8 +19,8 @@ public class Replay {
     private int playerIndex = 0;
     private int delay = 1;
 
-    public ArrayList<String> playerMoves = new ArrayList<>();
-    public int level;
+    private ArrayList<String> playerMoves = new ArrayList<>();
+    private int level;
 
 
     /**
@@ -103,16 +103,6 @@ public class Replay {
     }
 
     /**
-     * gets the tick when the move occurred which will update the tick count in chaps challenge
-     * changing the time if required
-     *
-     * @return time - an int representing the game timer
-     */
-    public int updateTimer() {
-        return convertStringToInt(playerMoves.get(playerIndex));
-    }
-
-    /**
      * resets the autoPlaying Boolean and playerIndex
      * called when a replay has finished
      */
@@ -136,6 +126,15 @@ public class Replay {
      */
     public boolean endOfReplay(){
         return (playerIndex == playerMoves.size() - 1);
+    }
+
+    /**
+     * return the level int so the correct level is loaded
+     *
+     * @return level as an int
+     */
+    public int getReplayLevel() {
+        return level;
     }
 
     /**

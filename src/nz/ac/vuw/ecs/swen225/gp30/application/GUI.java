@@ -28,7 +28,6 @@ public class GUI extends JFrame {
     JMenuItem one, two;
     //Replay Menu Items.
     JMenuItem recLoad;
-    JMenu speed;
 
     /**
      * Adds the panels to the master panel.
@@ -131,11 +130,8 @@ public class GUI extends JFrame {
         replay = new JMenu("Replay");
         recLoad = new JMenuItem("Load File");
 
-        //The replay speed setting submenu setup.
-        speed = new JMenu("Replay Speed");
-
         //Add all the sun items to the menu.
-        replay.add(recLoad); replay.add(speed);
+        replay.add(recLoad);
 
         //Help Menu.
         help = new JMenu("Help");

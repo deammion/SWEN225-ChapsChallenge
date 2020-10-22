@@ -34,57 +34,43 @@ public class Controls extends KeyAdapter implements ActionListener {
                     //Menu Keys
                     case 88:
                         game.loadGameStateless();
-                        System.out.println("You have pressed: CTRL-X");
                         System.exit(0);
                         //CTRL-X - exit the game, current game state will be lost, next time game is started will resume from the last unfinished level.
                         break;
                     case 83:
                         game.loadGameSate();
-                        System.out.println("You have pressed: CTRL-S");
                         System.exit(0);
                         //CTRL-S - exit the game, saves the game state, game will resume next time the application is started
                         break;
                     case 82:
                         game.resumeGame();
-                        System.out.println("You have pressed: CTRL-R");
                         //CTRL-R - resume a saved game.
                         break;
                     case 80:
-                        System.out.println("You are in level:" + game.getGameLevel());
                         game.loadLevel(game.getGameLevel());
-                        System.out.println("You have pressed: CTRL-P");
                         //CTRL-P - start a new game at the last unfinished level.
                         break;
                     case 49:
                         //CTRL-1 - start a new game at level one.
                         game.loadLevel(1);
                         game.gameLevel = 1;
-                        System.out.println("You have pressed: CTRL-1");
                         break;
                 }
             }
         } else {
             switch (e.getKeyCode()) {
-                case 37: //LEFT, '<-'
-                    System.out.println("You are in record mode, step back.");
-                    break;
                 case 39: //RIGHT, '->' step forwards.
                     game.replayNextMove();
-                    System.out.println("You are in record mode, step forward.");
                     break;
                 case 38: //Up arrow, increase the speed.
                     game.decreaseTimerDelay();
-                    System.out.println("You are in record mode, speed up.");
                     break;
                 case 40: //Down arrow, decrease the speed.
                     game.increaseTimerDelay();
-                    System.out.println("You are in record mode, slow down.");
                     break;
                 case 32: //Space Bar, Pause and Resume the auto replay.
-                    //Will need a boolean for a toggle. Iterate between step-by-step and auto replay.
                     game.togglePlay();
                     game.pausedAndRunning();
-                    System.out.println("You have paused/resumed");
                     break;
             }
         }
@@ -103,12 +89,10 @@ public class Controls extends KeyAdapter implements ActionListener {
             case "Pause":
                 //Invoke pause method.
                 game.pause();
-                System.out.println("You are in the Pause\n");
                 break;
             case "Resume":
                 //Invoke resume method.
                 game.resume();
-                System.out.println("You are in the Resume\n");
                 break;
             case "Exit":
                 //Invoke exit method.
@@ -117,34 +101,30 @@ public class Controls extends KeyAdapter implements ActionListener {
             //Options Menu Items.
             case "Save":
                 //Invoke save method.
-                System.out.println("You are in the Save\n");
+                game.loadGameSate();
                 break;
             case "Load":
                 //Invoke load method.
+                game.resumeGame();
                 break;
             //Level Menu Items.
             case "One":
                 //Invoke one method.
                 game.loadLevel(1);
-                System.out.println("You are in the level One\n");
                 break;
             case "Two":
                 //Invoke two method.
                 game.loadLevel(2);
                 game.setGameLevel(2);
-                System.out.println("You are in level Two\n");
                 break;
             //Replay Menu Items.
             case "Load File":
                 //Load a file for Record and Replay.
                 game.playReplay();
-                System.out.println("You are in load file\n");
                 break;
                 //Help Menu Items.
             case "Help":
                 //Invoke help method (dialog box).
-                System.out.println("You are in the Help");
-
         }
     }
 }

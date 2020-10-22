@@ -150,9 +150,8 @@ public class HelpMenuListener extends JFrame implements MenuListener {
                             + "Record and Replay Controls:\n"
                             + "'Up Arrow Key' - Increase Replay Speed\n"
                             + "'Down Arrow Key' - Decrease Replay Speed\n"
-                            + "'Left Arrow Key' - Step backwards\n"
                             + "'Right Arrow Key' - Step forwards\n"
-                            + "Space Bar - Pause/Resume\n";
+                            + "Space Bar - Toggle Auto/Step-Forwards Code\n\n";
 
     String miscInfoTextText = "This version of Chips Challenge has been created as a SWEN225 Group\n"
                             + "Project to bring together and showcase the techniques we have used\n"
