@@ -10,7 +10,7 @@ import java.util.Map;
 import javax.sound.sampled.*;
 
 /**
- * Class to play sound
+ * Class to play sounds
  * @author Pranav Gohil
  *
  */

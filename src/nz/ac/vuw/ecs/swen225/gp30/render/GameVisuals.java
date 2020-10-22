@@ -180,7 +180,7 @@ public class GameVisuals extends JPanel{
 	}
 	
 	/**
-	 * Calls draw methods
+	 * Calls the draw methods
 	 * @param g
 	 */
 	@Override
