@@ -98,6 +98,12 @@ public class Maze {
         return grid.length;
     }
 
+    /**
+     * Returns string representation of maze with or without chap.
+     *
+     * @param withChap whether chap should be printed
+     * @return the string representation of maze
+     */
     public String toString(boolean withChap) {
         StringBuilder gridString = new StringBuilder();
         for(int y=0; y<grid[0].length; y++) {
