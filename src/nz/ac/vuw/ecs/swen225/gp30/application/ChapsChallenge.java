@@ -35,6 +35,7 @@ public class ChapsChallenge {
     private final double MAX_REPLAY_SPEED = 2;
     private final double MIN_REPLAY_SPEED = 0.25;
     private final double NANO_TO_SECOND = 1000000000;
+    private long time = 0;
 
     // Game State and Class Components
     private GameState state = GameState.RUNNING;
@@ -91,7 +92,7 @@ public class ChapsChallenge {
             double updateDelta = 0;
             double frameDelta = 0;
             int frames = 0;
-            long time = System.currentTimeMillis();
+            time = System.currentTimeMillis();
 
             //noinspection InfiniteLoopStatement
             while (true) {
@@ -102,6 +103,7 @@ public class ChapsChallenge {
 
                 switch (state) {
                     case PAUSED:
+                        time = System.currentTimeMillis();
                         break;
                     case RUNNING:
                         if (updateDelta >= 1) {
@@ -255,9 +257,14 @@ public class ChapsChallenge {
      * If the game has been won.
      */
     public void wonGame() {
-        loadNextLevel();
-        game.setTimeLeft(TOTAL_TIME);
-        state = GameState.RUNNING;
+        if(gameLevel == 1 || gameLevel == 2) {
+            loadNextLevel();
+            game.setTimeLeft(TOTAL_TIME);
+            state = GameState.RUNNING;
+        }
+        else{
+            state = GameState.COMPLETE;
+        }
     }
 
     /**
@@ -286,7 +293,6 @@ public class ChapsChallenge {
     public void pause() {
         if(game.getTimeLeft() > 0) {
             state = GameState.PAUSED;
-            //timer.stop();
             UIManager.put("OptionPane.okButtonText", "Resume");
             int option = JOptionPane.showOptionDialog(gui, "Game is currently paused!", "Game: Paused", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, null, null);
             if (option == 0 || option == -1) {
@@ -337,11 +343,13 @@ public class ChapsChallenge {
         if(level > Persistence.NUM_LEVELS) {
             state = GameState.COMPLETE;
         }
-        game = Persistence.readLevel(level);
-        renderer.setGame(game);
-        audio.setGame(game);
-        gui.setLevelLeft(level);
-        game.setTimeLeft(TOTAL_TIME);
+        else {
+            game = Persistence.readLevel(level);
+            renderer.setGame(game);
+            audio.setGame(game);
+            gui.setLevelLeft(level);
+            game.setTimeLeft(TOTAL_TIME);
+        }
     }
 
     /**
@@ -361,7 +369,11 @@ public class ChapsChallenge {
      * The prompt for if the game is won.
      */
     public void gameComplete(){
-        int option = JOptionPane.showOptionDialog(gui, "Game is currently paused!", "Game: Paused", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, null, null);
+        UIManager.put("JOptionPane.okButtonText", "Quit Game");
+        int option = JOptionPane.showOptionDialog(gui, "Congratulations you have completed the game!", "Game: Won", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, null, null);
+        if(option == JOptionPane.OK_OPTION){
+            System.exit(0);
+        }
     }
 
     /**
