@@ -64,6 +64,6 @@ public class TreasureTile extends Tile {
 
     @Override
     public String getSoundString() {
-        return "get_chip.wav";
+        return collected? "move_chap.wav" : "get_chip.wav";
     }
 }
