@@ -225,10 +225,6 @@ public class ChapsChallenge {
      * @param move - direction.
      */
     public void move(Move move) {
-        if (game.moveChap(move) && !replayMode) {
-            record.storePlayerMove(move, ticks);
-            audio.playSound();
-        }
         game.moveChap(move);
         audio.playSound();
     }
