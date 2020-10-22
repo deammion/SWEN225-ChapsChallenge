@@ -60,6 +60,6 @@ public class InfoTile extends Tile {
 
     @Override
     public String getSoundString() {
-        return "move.wav";
+        return "move_chap.wav";
     }
 }
