@@ -33,12 +33,10 @@ public class GameVisuals extends JPanel{
 	private String infoText;
 	public boolean toggleInfo = false;
 	public Map<String, BufferedImage> imageMap;
-	private Audio audio;
 	
 	public GameVisuals() {
 		this.setPreferredSize((new Dimension(TILE_SIZE*CAMERA_VIEW, TILE_SIZE*CAMERA_VIEW)));
 		this.setBorder(BorderFactory.createLineBorder(Color.BLACK, 3));
-		audio = new Audio();
 		loadImages();
 	}
 
@@ -114,7 +112,6 @@ public class GameVisuals extends JPanel{
 		int screenX = getScreenX(chap.getX());
 		int screenY = getScreenY(chap.getY());
 		Tile t = game.getMaze().getTileAt(chap.getX(), chap.getY());
-		audio.playSound(t.getSoundString());
 		g.drawImage(imageMap.get(chap.getImageString()), screenX, screenY, null);
 	}
 	//
