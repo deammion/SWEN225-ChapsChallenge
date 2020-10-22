@@ -23,10 +23,6 @@ public class Persistence {
 
   public static int NUM_LEVELS = 2;
 
-  public static void main(String args[]) {
-    GameWorld g = readLevel(2);
-    saveGame(g, "name.json");
-  }
 
   /**
    * Saves the current gamestate to a file.
