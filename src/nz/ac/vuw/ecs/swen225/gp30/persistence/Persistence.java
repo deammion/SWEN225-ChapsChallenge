@@ -21,7 +21,7 @@ public class Persistence {
     public static int NUM_LEVELS = 2;
 
     public static void main(String args[]) {
-        GameWorld g = readLevel();
+        GameWorld g = readLevel(2);
         saveGame(g, "name.json");
     }
 
@@ -208,7 +208,7 @@ public class Persistence {
                 reader.close();
                 return game;
             } catch (Exception ex) {
-                ex.printStackTrace();
+                System.out.println("This file is invalid");
             }
         }
         return null;
@@ -217,19 +217,14 @@ public class Persistence {
     /**
      * @return
      */
-        public static GameWorld readLevel () {
-            JFileChooser chooser = new JFileChooser("src/nz/ac/vuw/ecs/swen225/gp30/persistence/levels/");
-            FileNameExtensionFilter filter = new FileNameExtensionFilter(
-                    "JSON files", "json");
-            chooser.setFileFilter(filter);
-            int returnVal = chooser.showOpenDialog(null);
-            if (returnVal == JFileChooser.APPROVE_OPTION) {
+        public static GameWorld readLevel (int level) {
+            String path = "src/nz/ac/vuw/ecs/swen225/gp30/persistence/levels/level" + level + ".json";
                 try {
                     // create Gson instance
                     Gson gson = new Gson();
 
                     // create a reader
-                    Reader reader = Files.newBufferedReader(Paths.get(chooser.getSelectedFile().getPath()));
+                    Reader reader = Files.newBufferedReader(Paths.get(path));
 
                     // convert JSON file to map
                     Map<?, ?> map = gson.fromJson(reader, Map.class);
@@ -277,7 +272,6 @@ public class Persistence {
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }
-            }
             return null;
         }
 
