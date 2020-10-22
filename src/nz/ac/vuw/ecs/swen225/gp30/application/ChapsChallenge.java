@@ -7,15 +7,13 @@ import nz.ac.vuw.ecs.swen225.gp30.recnplay.Replay;
 import nz.ac.vuw.ecs.swen225.gp30.render.Audio;
 import nz.ac.vuw.ecs.swen225.gp30.render.GameVisuals;
 import javax.swing.*;
-
 /**
  * The Chaps Challenge class purpose is to control the main game loop, this includes the
  * implementation of the game states and what the game should do when the state is
  * entered or exited.
  *
- * @author jakeh.
+ * @author jakeh
  */
-
 public class ChapsChallenge {
     enum GameState {
         RUNNING,
@@ -47,7 +45,6 @@ public class ChapsChallenge {
     // Record mode and level
     public Boolean replayMode = false;
     public int gameLevel;
-
     /**
      * Method to Initializes the Game.
      */
@@ -68,7 +65,6 @@ public class ChapsChallenge {
         loadLevel(gameLevel);
         startGame();
     }
-
     /**
      * Method is responsible for the starting of the game, keeps the game
      * in states to keep it running.
@@ -113,7 +109,6 @@ public class ChapsChallenge {
                                     }
                                 }
                             }
-
                             ticks++;
                             if (ticks == UPDATES_PER_SECOND) {
                                 game.advance();
@@ -159,7 +154,6 @@ public class ChapsChallenge {
         };
         new Thread(runnableGame).start();
     }
-
     /**
      * The key that is inputted, for the Player Controls class.
      *
@@ -172,7 +166,6 @@ public class ChapsChallenge {
         if(Key.right.pressed) { return Move.RIGHT; }
         return null;
     }
-
     /**
      * Update the dashboard to show the inventory keys.
      */
@@ -182,7 +175,6 @@ public class ChapsChallenge {
         inv.repaint();
         gui.setChipsLeft(game.getChipsLeft());
     }
-
     /**
      *  Display the info for Chap when on the information tile.
      */
@@ -194,7 +186,6 @@ public class ChapsChallenge {
             renderer.toggleInfo(false);
         }
     }
-
     /**
      * Check which state the game is currently in. This can either
      * be INFO, WON or DEAD.
@@ -215,7 +206,6 @@ public class ChapsChallenge {
             state = GameState.DEAD;
         }
     }
-
     /**
      * Method to move Chap about the maze if in record mode it
      * won't make a second copy of the move.
@@ -226,7 +216,6 @@ public class ChapsChallenge {
         game.moveChap(move);
         audio.playSound();
     }
-
     /**
      * If Chap has run out of time or collides with a bug, see if the player
      * wants to reset the game to level 1 or exit.
@@ -235,18 +224,13 @@ public class ChapsChallenge {
         UIManager.put("OptionPane.yesButtonText", "Restart");
         UIManager.put("OptionPane.noButtonText", "Exit Game");
         int option = JOptionPane.showOptionDialog(gui, "You have lost the current game!", "Game: Lost", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE,null, null, null);
-        saveReplay();
         if(option == 0){
-            loadLevel(1);
-            renderer.setGame(game);
-            state = GameState.RUNNING;
-            gui.setLevel(gameLevel);
+            restart();
         }
         else{
             System.exit(0);
         }
     }
-
     /**
      * Method which will pause the game.
      */
@@ -260,7 +244,6 @@ public class ChapsChallenge {
             }
         }
     }
-
     /**
      * The prompt for if the game is won.
      */
@@ -270,51 +253,48 @@ public class ChapsChallenge {
         UIManager.put("OptionPane.noButtonText", "Quit Game");
         int option = JOptionPane.showOptionDialog(gui, "Congratulations you have completed the game!", "Game: Won",JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE, null, null, null);
         if(option == 0){
-            loadLevel(1);
-            renderer.setGame(game);
-            state = GameState.RUNNING;
-            gui.setLevel(gameLevel);
+            restart();
         }
         if(option == 1){
             System.exit(0);
         }
     }
-
+    public void restart() {
+        ticks = 0;
+        loadLevel(gameLevel);
+        renderer.setGame(game);
+        state = GameState.RUNNING;
+    }
     /**
      * Resumes a saved Game.
      */
     public void resumeGame(){
         Persistence.loadSave();
     }
-
     /**
      * Method which will resume the game.
      */
     public void resume() {
         state = prevState;
     }
-
     /**
      * Toggle between paused and replay game states.
      */
     public void pausedAndRunning(){
         state = state == GameState.PAUSED ? GameState.RUNNING : GameState.PAUSED;
     }
-
     /**
      * Save a game, game state lost.
      */
     public void loadGameStateless(){
         Persistence.saveLevel(game);
     }
-
     /**
      * Save a gam, game state saved.
      */
     public void loadGameSate(){
         Persistence.saveGame(game, "gameFile.txt");
     }
-
     /**
      * Load the next game level.
      */
@@ -322,7 +302,6 @@ public class ChapsChallenge {
         gameLevel++;
         loadLevel(gameLevel);
     }
-
     /**
      * Method will load a level for the game.
      */
@@ -333,14 +312,12 @@ public class ChapsChallenge {
         gui.setLevel(level);
         game.setTimeLeft(TOTAL_TIME);
     }
-
     /**
      * Get the game level.
      */
     public int getGameLevel(){
         return gameLevel;
     }
-
     /**
      * Set the level of the game.
      *
@@ -349,7 +326,6 @@ public class ChapsChallenge {
     public void setGameLevel(int setLevel){
         gameLevel = setLevel;
     }
-
     /**
      * Save the replay to a file.
      */
@@ -358,7 +334,6 @@ public class ChapsChallenge {
         record.writeJsonToFile();
         record = new Record();
     }
-
     /**
      * Put the game in replay mode.
      */
@@ -373,14 +348,13 @@ public class ChapsChallenge {
         renderer.repaint();
         startGame();
     }
-
     /**
      * Toggle between auto and step by step replaying.
      */
     public void togglePlay(){
         replay.toggleAutoPlaying();
+        TIMER_DELAY = 1000;
     }
-
     /**
      * Play the next move, update the timer for the replay mode.
      */
@@ -399,7 +373,6 @@ public class ChapsChallenge {
             replayFinished();
         }
     }
-
     /**
      * Method to take care of what happens to the game when a replay is finished.
      */
@@ -410,19 +383,15 @@ public class ChapsChallenge {
         UIManager.put("OptionPane.yesButtonText", "New Replay");
         UIManager.put("OptionPane.noButtonText", "New Game");
         int option = JOptionPane.showOptionDialog(gui, "The replay is finished!", "Game: Replay", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE,null, null, null);
-        saveReplay();
         if(option == 0){
             replay.loadJsonToReplay();
         }
         else if(option == 1){
-            loadLevel(1);
-            gui.setLevel(1);
-            state = GameState.RUNNING;
+            restart();
         } else {
             System.exit(0);
         }
     }
-
     /**
      * Increase the timer Delay.
      */
@@ -432,7 +401,6 @@ public class ChapsChallenge {
             replay.increaseDelay();
         }
     }
-
     /**
      * Decrease the timer Delay.
      */
@@ -442,7 +410,6 @@ public class ChapsChallenge {
             replay.decreaseDelay();
         }
     }
-
     /**
      * Main method, begins the game.
      * @param args - arguments parsed.

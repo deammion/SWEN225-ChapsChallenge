@@ -111,11 +111,21 @@ public class HelpMenuListener extends JFrame implements MenuListener {
 
     }
 
+    /**
+     * Method for when the help menu is deselected.
+     *
+     * @param menuEvent - Menu Event happening.
+     */
     @Override
     public void menuDeselected(MenuEvent menuEvent) {
         System.out.println("You are in the Help Menu - deselected\n");
     }
 
+    /**
+     * Method for when the help menu is exited.
+     *
+     * @param menuEvent - Menu Event happening.
+     */
     @Override
     public void menuCanceled(MenuEvent menuEvent) {
         System.out.println("You are in the Help Menu - cancelled\n");
