@@ -102,7 +102,7 @@ public class Replay {
     }
 
     /**
-     * resets the autoPlaying Boolean and playerIndex
+     * resets the autoPlaying Boolean, playerIndex, and delay
      * called when a replay has finished
      */
     public void resetAutoPlay() {
