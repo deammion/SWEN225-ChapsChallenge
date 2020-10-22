@@ -1,8 +1,5 @@
 package nz.ac.vuw.ecs.swen225.gp30.application;
 
-import nz.ac.vuw.ecs.swen225.gp30.Move;
-import nz.ac.vuw.ecs.swen225.gp30.persistence.Persistence;
-
 import java.awt.event.*;
 
 public class Controls extends KeyAdapter implements ActionListener {
@@ -22,26 +19,9 @@ public class Controls extends KeyAdapter implements ActionListener {
      * @param e - the key the player has pressed.
      */
     public void keyPressed(KeyEvent e) {
-        if (!game.recordMode) {
+        if (!game.replayMode) {
             if (!e.isControlDown()) {
                 switch (e.getKeyCode()) {
-                    //Movement Keys
-                    case 37:
-                    case 65:   //LEFT, 'A' & 'Arrow left'
-                        game.move(Move.LEFT);
-                        break;
-                    case 39:
-                    case 68:   //RIGHT, 'D' & 'Arrow right'
-                        game.move(Move.RIGHT);
-                        break;
-                    case 38:
-                    case 87:   //UP, 'W' & 'Arrow up'
-                        game.move(Move.UP);
-                        break;
-                    case 40:
-                    case 83:   //DOWN, 'S' & 'Arrow down'
-                        game.move(Move.DOWN);
-                        break;
                     case 32:    //Space Bar - Pause Game
                         game.pause();
                         break;
@@ -53,14 +33,17 @@ public class Controls extends KeyAdapter implements ActionListener {
                 switch (e.getKeyCode()) {
                     //Menu Keys
                     case 88:
+                        game.loadGameStateless();
                         System.out.println("You have pressed: CTRL-X");
                         //CTRL-X - exit the game, current game state will be lost, next time game is started will resume from the last unfinished level.
                         break;
                     case 83:
+                        game.loadGameSate();
                         System.out.println("You have pressed: CTRL-S");
                         //CTRL-S - exit the game, saves the game state, game will resume next time the application is started
                         break;
                     case 82:
+                        game.resumeGame();
                         System.out.println("You have pressed: CTRL-R");
                         //CTRL-R - resume a saved game.
                         break;

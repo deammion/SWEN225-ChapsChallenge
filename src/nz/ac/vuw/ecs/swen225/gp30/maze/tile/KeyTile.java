@@ -66,4 +66,9 @@ public class KeyTile extends Tile {
     public String getImageString() {
         return collected? "tile_free.png" : "tile_" + key.toString().toLowerCase() + ".png";
     }
+
+    @Override
+    public String getSoundString() {
+        return "pickup_key.wav";
+    }
 }

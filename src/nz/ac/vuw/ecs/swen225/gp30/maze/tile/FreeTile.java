@@ -57,4 +57,9 @@ public class FreeTile extends Tile {
     public String getImageString() {
         return "tile_free.png";
     }
+
+    @Override
+    public String getSoundString() {
+        return "move.wav";
+    }
 }

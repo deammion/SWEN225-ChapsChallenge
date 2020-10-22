@@ -112,7 +112,15 @@ public abstract class Tile implements GameObject {
 
     /**
      * Returns string of this tiles image asset name.
+     *
      * @return string of the image asset name
      */
     public abstract String getImageString();
+
+    /**
+     * Returns the string of this tiles sound asset name.
+     *
+     * @return string of the sound asset name
+     */
+    public abstract String getSoundString();
 }
