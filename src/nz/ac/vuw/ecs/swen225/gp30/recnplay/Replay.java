@@ -64,7 +64,6 @@ public class Replay {
                 int playerMoveTime = convertStringToInt(playerMoves.get(playerIndex));
                 int playerDelay = playerMoveTime * delay;
                 if (playerDelay == tick) {
-                    System.out.println("Player: " +(playerMoveTime * delay));
                     char stringMove = playerMoves.get(playerIndex).charAt(1);
                     Move move = convertStringToMove(stringMove);
                     playerIndex++;
@@ -140,7 +139,7 @@ public class Replay {
     }
 
     /**
-     * increases the delay to match the delay with the timer, increases the tick (timing of the move)
+     * increases the delay to match the delay in the chaps challenge class, increases the tick (timing of the move)
      */
     public void increaseDelay() {
         if(delay < 4) {
