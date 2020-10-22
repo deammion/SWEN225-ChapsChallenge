@@ -35,6 +35,7 @@ public class ChapsChallenge {
     private final double MAX_REPLAY_SPEED = 2;
     private final double MIN_REPLAY_SPEED = 0.25;
     private final double NANO_TO_SECOND = 1000000000;
+    private long time = 0;
 
     // Game State and Class Components
     private GameState state = GameState.RUNNING;
@@ -91,7 +92,7 @@ public class ChapsChallenge {
             double updateDelta = 0;
             double frameDelta = 0;
             int frames = 0;
-            long time = System.currentTimeMillis();
+            time = System.currentTimeMillis();
 
             //noinspection InfiniteLoopStatement
             while (true) {
@@ -102,6 +103,7 @@ public class ChapsChallenge {
 
                 switch (state) {
                     case PAUSED:
+                        time = System.currentTimeMillis();
                         break;
                     case RUNNING:
                         if (updateDelta >= 1) {
