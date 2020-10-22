@@ -320,7 +320,7 @@ public class Persistence {
       Gson gson = new Gson();
       Reader reader = Files.newBufferedReader(Paths.get(path));
       Map<?, ?> map = gson.fromJson(reader, Map.class);
-      /**int level = map.get("level");
+      int level = (int) Double.parseDouble((map.get("level").toString()));
 
       if(level == 1){
         readLevel(1);
@@ -328,7 +328,7 @@ public class Persistence {
       else if(level == 2){
         readLevel(2);
       }
-      else return null;**/
+      else return null;
 
     }
     catch (IOException E){
@@ -357,7 +357,7 @@ public class Persistence {
       int saveLength = gameSave.length();
       w.close();
 
-      Writer writer = new BufferedWriter(new FileWriter("src/nz/ac/vuw/ecs/swen225/gp30/persistence/levels/level/currentLevel.json"));
+      Writer writer = new BufferedWriter(new FileWriter("src/nz/ac/vuw/ecs/swen225/gp30/persistence/levels/currentLevel.json"));
 
       for (int i = 0; i < saveLength; i++) {
         char next = gameSave.charAt(i);
