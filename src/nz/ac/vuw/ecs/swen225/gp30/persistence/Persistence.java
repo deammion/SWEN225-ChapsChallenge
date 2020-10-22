@@ -33,7 +33,7 @@ public class Persistence {
    *
    * @param game
    * @param fileName
-   * @return
+   * @return String fileName
    */
   public static String saveGame(GameWorld game, String fileName) {
 
@@ -153,7 +153,7 @@ public class Persistence {
   /**
    * Loads the saved game file json and returns the GameWorld.
    *
-   * @return
+   * @return Gameworld object
    */
   public static GameWorld loadSave() {
 
@@ -223,7 +223,7 @@ public class Persistence {
   /**
    * Reads the level file and returns a GameWorld object.
    *
-   * @return
+   * @return GameWorld object
    */
   public static GameWorld readLevel(int level) {
     if (level > 2){
@@ -291,7 +291,7 @@ public class Persistence {
    * Reads the mob info into a List.
    *
    * @param mobs
-   * @return
+   * @return A list of mobs
    */
   public static List<Mob> readMobs(Map mobs) {
     List<Mob> mobsList = new ArrayList<>();
@@ -315,7 +315,7 @@ public class Persistence {
 
   /**
    * Loads the previous level.
-   * @return
+   * @return null
    */
   public static GameWorld  loadPrevious(){
 
@@ -338,8 +338,6 @@ public class Persistence {
     catch (IOException E){
       System.out.println("Error loading previous level");
     }
-
-
 
     return null;
   }
@@ -388,7 +386,7 @@ public class Persistence {
    * @param width
    * @param height
    * @param board
-   * @return
+   * @return Maze object
    */
   public static Maze readBoard(int width, int height, String board) {
     Maze m = new Maze(width, height);
