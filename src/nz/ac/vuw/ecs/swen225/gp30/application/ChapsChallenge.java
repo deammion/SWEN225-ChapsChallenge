@@ -356,8 +356,8 @@ public class ChapsChallenge {
     public void loadLevel(int level) {
         game = Persistence.readLevel(level);
         renderer.setGame(game);
-        gui.setLevelLeft(level);
         audio.setGame(game);
+        gui.setLevelLeft(level);
         game.setTimeLeft(TOTAL_TIME);
     }
 
