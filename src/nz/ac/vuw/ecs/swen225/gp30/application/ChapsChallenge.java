@@ -331,30 +331,13 @@ public class ChapsChallenge {
      * Put the game in replay mode.
      */
     public void playReplay(){
+        replay = new Replay();
         replayMode = true;
         state = GameState.PAUSED;
-        int replayLevel = loadRecordAndReplayFile();
-        game = Persistence.readLevel(replayLevel);
+        replay.loadJsonToReplay();
+        game = Persistence.readLevel(replay.level);
         renderer.setGame(game);
         startGame();
-    }
-
-    /**
-     * Method to load and pass a file for Record and Replay to use to show
-     * a previously recorded game.
-     */
-    public Integer loadRecordAndReplayFile(){
-        int level = 0;
-        replay = new Replay();
-        //Open the file chooser directory to get file name for Record and Replay.
-        JFileChooser fileChooser = new JFileChooser(new File("src/nz/ac/vuw/ecs/swen225/gp30/recnplay"));
-        int fileReturnValue = fileChooser.showOpenDialog(null);
-        if(fileReturnValue == JFileChooser.APPROVE_OPTION) {
-            File selectedFile = fileChooser.getSelectedFile();
-            level = replay.loadJsonToReplay(selectedFile.getName());
-            System.out.println(selectedFile.getName());
-        }
-        return level;
     }
 
     /**
