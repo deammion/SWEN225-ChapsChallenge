@@ -303,7 +303,9 @@ public class ChapsChallenge {
         loadLevel(gameLevel);
     }
     /**
-     * Method will load a level for the game.
+     * Method to load a level of the game.
+     *
+     * @param level - the level to be loaded.
      */
     public void loadLevel(int level) {
         game = Persistence.readLevel(level);
@@ -313,7 +315,9 @@ public class ChapsChallenge {
         game.setTimeLeft(TOTAL_TIME);
     }
     /**
-     * Get the game level.
+     * Method to get the level of the game.
+     *
+     * @return - the game level.
      */
     public int getGameLevel(){
         return gameLevel;
