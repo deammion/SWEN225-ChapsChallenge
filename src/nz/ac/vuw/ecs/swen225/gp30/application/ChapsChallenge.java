@@ -337,11 +337,13 @@ public class ChapsChallenge {
         if(level > Persistence.NUM_LEVELS) {
             state = GameState.COMPLETE;
         }
-        game = Persistence.readLevel(level);
-        renderer.setGame(game);
-        audio.setGame(game);
-        gui.setLevelLeft(level);
-        game.setTimeLeft(TOTAL_TIME);
+        else {
+            game = Persistence.readLevel(level);
+            renderer.setGame(game);
+            audio.setGame(game);
+            gui.setLevelLeft(level);
+            game.setTimeLeft(TOTAL_TIME);
+        }
     }
 
     /**
