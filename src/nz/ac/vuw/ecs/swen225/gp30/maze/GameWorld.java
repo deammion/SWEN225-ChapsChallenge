@@ -1,5 +1,6 @@
 package nz.ac.vuw.ecs.swen225.gp30.maze;
 
+import static com.google.common.base.Preconditions.checkNotNull;
 import nz.ac.vuw.ecs.swen225.gp30.Move;
 import nz.ac.vuw.ecs.swen225.gp30.maze.tile.ExitLockTile;
 import nz.ac.vuw.ecs.swen225.gp30.maze.tile.ExitTile;
@@ -26,6 +27,8 @@ public class GameWorld {
      * @param chap the chap to set
      */
     public GameWorld(Maze maze, Chap chap) {
+        checkNotNull(maze);
+        checkNotNull(chap);
         this.maze = maze;
         this.chap = chap;
         Tile t = maze.getTileAt(chap.getX(), chap.getY());
@@ -38,6 +41,7 @@ public class GameWorld {
      * @param move the move to execute
      */
     public void moveChap(Move move) {
+        checkNotNull(move);
         int oldX = chap.getX();
         int oldY = chap.getY();
         Tile oldTile = maze.getTileAt(oldX, oldY);
@@ -48,6 +52,7 @@ public class GameWorld {
             newTile.addChap(chap);
             chap.setDirection(move);
         }
+        assert(getChipsLeft() == ExitLockTile.getChipsRequired() - chap.getChipsCollected());
     }
 
     /**
