@@ -12,7 +12,7 @@ import javax.imageio.ImageIO;
 import javax.sound.sampled.*;
 
 //template from codejava.net
-public class Audio implements LineListener{
+public class Audio{
 
 	private boolean done;
 	private Map<String, File> soundMap;
@@ -38,20 +38,20 @@ public class Audio implements LineListener{
 
 	public void playSound() {
 		//AudioInputStream a = AudioSystem.getAudioInputStream(new File(path).getAbsoluteFile());
-			try {
-					Tile t = game.getMaze().getTileAt(game.getChap().getX(), game.getChap().getY());
-					AudioInputStream st = AudioSystem.getAudioInputStream(soundMap.get(t.getSoundString()));
-					AudioFormat f = st.getFormat();
-					DataLine.Info info = new DataLine.Info(Clip.class, f);
-					Clip c = (Clip) AudioSystem.getLine(info);
-					c.addLineListener(this);
-					c.open(st);
-					c.start();
-			} catch (LineUnavailableException | IOException | UnsupportedAudioFileException e) {
-					e.getMessage();
-			}
+		try {
+			Tile t = game.getMaze().getTileAt(game.getChap().getX(), game.getChap().getY());
+			AudioInputStream st = AudioSystem.getAudioInputStream(soundMap.get(t.getSoundString()));
+			AudioFormat f = st.getFormat();
+			DataLine.Info info = new DataLine.Info(Clip.class, f);
+			Clip c = (Clip) AudioSystem.getLine(info);
+			c.open(st);
+			c.start();
+		} catch (LineUnavailableException | IOException | UnsupportedAudioFileException e) {
+			e.getMessage();
+		}
 	}
-
+	
+	/*
 	@Override
 	public void update(LineEvent event) {
 		LineEvent.Type type = event.getType();
@@ -62,4 +62,5 @@ public class Audio implements LineListener{
             System.out.println("Stopped");
         }
 	}
+	*/
 }
