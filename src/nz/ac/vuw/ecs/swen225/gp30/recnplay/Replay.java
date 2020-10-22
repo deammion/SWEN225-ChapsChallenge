@@ -34,14 +34,17 @@ public class Replay {
         if(fileReturnValue == JFileChooser.APPROVE_OPTION) {
             File selectedFile = fileChooser.getSelectedFile();
             String fileSuffix = selectedFile.getName().substring(selectedFile.getName().indexOf("."));
-            if (!fileSuffix.equals(".json")){
+            if (!fileSuffix.equals(".json")) {
                 System.out.println("Incompatible File Type");
-                loadJsonToReplay();
+                loadJsonToReplay(); // called recursively to prevent incompatible file being selected
             } else {
                 playerMoves = lj.loadPlayerMoves(selectedFile.getName());
                 level = lj.loadLevel(selectedFile.getName());
                 System.out.println(selectedFile.getName());
             }
+        } else {
+            System.out.println("Please select a file");
+            loadJsonToReplay();
         }
     }
 
@@ -62,7 +65,7 @@ public class Replay {
      */
     public Move autoPlay(int tick) {
         if (autoPlaying) {
-            if(playerIndex <= playerMoves.size()){
+            if(playerIndex < playerMoves.size()){
                 int playerMoveTime = convertStringToInt(playerMoves.get(playerIndex));
                 if (playerMoveTime == tick) {
                     char stringMove = playerMoves.get(playerIndex).charAt(1);
@@ -95,7 +98,8 @@ public class Replay {
      * @return time - an int representing the game timer
      */
     public int updateTimer() {
-        return convertStringToInt(playerMoves.get(playerIndex));
+        int tick = convertStringToInt(playerMoves.get(playerIndex));
+        return (100 - (30 % tick));
     }
 
     /**
@@ -130,6 +134,6 @@ public class Replay {
     }
 
     public boolean endOfReplay(){
-        return (playerIndex > playerMoves.size());
+        return (playerIndex == playerMoves.size());
     }
 }
