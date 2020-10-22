@@ -245,7 +245,7 @@ public class Persistence {
       int chipsRequired = (int) Double.parseDouble(map.get("chipsRequired").toString());
       String boardString = map.get("board").toString();
       Maze maze = readBoard(width, height, boardString);
-      ExitLockTile.CHIPS_REQUIRED = chipsRequired;
+      ExitLockTile.setChipsRequired(chipsRequired);
 
       int chapX = (int) Double.parseDouble(((Map) map.get("chap")).get("x").toString());
       int chapY = (int) Double.parseDouble(((Map) map.get("chap")).get("y").toString());
@@ -313,24 +313,42 @@ public class Persistence {
     return mobsList;
   }
 
-  public static String saveLevel(GameWorld game, String fileName) {
+  public static GameWorld  loadPrevious(){
+
+    String path = "src/nz/ac/vuw/ecs/swen225/gp30/persistence/levels/level/currentLevel.json";
+    try {
+      Gson gson = new Gson();
+      Reader reader = Files.newBufferedReader(Paths.get(path));
+      Map<?, ?> map = gson.fromJson(reader, Map.class);
+      /**int level = map.get("level");
+
+      if(level == 1){
+        readLevel(1);
+      }
+      else if(level == 2){
+        readLevel(2);
+      }
+      else return null;**/
+
+    }
+    catch (IOException E){
+      System.out.println("Error loading previous level");
+    }
+
+
+
+    return null;
+  }
+
+  public static void saveLevel(GameWorld game) {
 
     String gameSave;
 
-    StringBuilder iString = new StringBuilder();
-    for (Item i : game.getChap().getInventory()) {
-      iString.append(i + "/");
-    }
     ArrayList<Mob> mobs = (ArrayList<Mob>) game.getMobManager().getMobs();
-
-
-    HashMap<String, Integer> config = new HashMap();
-    JsonBuilderFactory factory = Json.createBuilderFactory(config);
     JsonObjectBuilder b = Json.createObjectBuilder();
     if (mobs.size() > 0){
       b.add("level", 2);
     } else b.add("level", 1);
-
 
     try {
       Writer w = new StringWriter();
@@ -339,7 +357,7 @@ public class Persistence {
       int saveLength = gameSave.length();
       w.close();
 
-      Writer writer = new BufferedWriter(new FileWriter("src/" + fileName));
+      Writer writer = new BufferedWriter(new FileWriter("src/nz/ac/vuw/ecs/swen225/gp30/persistence/levels/level/currentLevel.json"));
 
       for (int i = 0; i < saveLength; i++) {
         char next = gameSave.charAt(i);
@@ -353,7 +371,6 @@ public class Persistence {
     } catch (IOException e) {
       System.out.printf("Error saving game: " + e);
     }
-    return fileName;
 
   }
 
