@@ -9,10 +9,10 @@ public class PlayerControls implements KeyListener {
 		private Map<Integer, Key> keys = new HashMap<>();
 
 		public PlayerControls() {
-				bindKey(KeyEvent.VK_UP, Key.up);
-				bindKey(KeyEvent.VK_DOWN, Key.down);
-				bindKey(KeyEvent.VK_LEFT, Key.left);
-				bindKey(KeyEvent.VK_RIGHT, Key.right);
+			bindKey(KeyEvent.VK_UP, Key.up);
+			bindKey(KeyEvent.VK_DOWN, Key.down);
+			bindKey(KeyEvent.VK_LEFT, Key.left);
+			bindKey(KeyEvent.VK_RIGHT, Key.right);
 		}
 
 		@Override
@@ -21,23 +21,23 @@ public class PlayerControls implements KeyListener {
 
 		@Override
 		public void keyPressed(KeyEvent e) {
-				releaseKeys();
-				if(keys.containsKey(e.getKeyCode())) {
-						keys.get(e.getKeyCode()).pressed = true;
-				}
+			releaseKeys();
+			if(keys.containsKey(e.getKeyCode())) {
+				keys.get(e.getKeyCode()).pressed = true;
+			}
 		}
 
 		@Override
 		public void keyReleased(KeyEvent e) {
-				if(keys.containsKey(e.getKeyCode())) {
-						keys.get(e.getKeyCode()).pressed = false;
-				}
+			if(keys.containsKey(e.getKeyCode())) {
+				keys.get(e.getKeyCode()).pressed = false;
+			}
 		}
 
 		public void releaseKeys() {
-				for(Key k : keys.values()) {
-						k.pressed = false;
-				}
+			for(Key k : keys.values()) {
+				k.pressed = false;
+			}
 		}
 
 		public void bindKey(Integer code, Key key) {
