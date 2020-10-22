@@ -66,4 +66,9 @@ public class LockedDoorTile extends Tile {
         return unlocked? "tile_free.png" :
         "tile_locked_door_" + keyToUnlock.toString().toLowerCase() + ".png";
     }
+
+    @Override
+    public String getSoundString() {
+        return "open_door.wav";
+    }
 }

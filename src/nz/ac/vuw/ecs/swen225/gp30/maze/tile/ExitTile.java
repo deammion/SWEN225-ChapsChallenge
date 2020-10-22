@@ -57,4 +57,9 @@ public class ExitTile extends Tile {
     public String getImageString() {
         return "tile_exit.png";
     }
+
+    @Override
+    public String getSoundString() {
+        return "finish.wav";
+    }
 }
