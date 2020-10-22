@@ -9,8 +9,6 @@ import nz.ac.vuw.ecs.swen225.gp30.render.GameVisuals;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileSystemView;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.File;
 
 /**
@@ -27,9 +25,16 @@ public class ChapsChallenge {
     }
 
     // Timing components for the game
-    private int timerDelay = 1000;
-    private Timer timer;
+    private final int TIMER_DELAY = 1000;
     private final int TOTAL_TIME = 100;
+    private int ticks = 0;
+    private double UPDATES_PER_SECOND = 30;
+    private double FRAMES_PER_SECOND = 40;
+    private double REPLAY_SPEED = 1;
+    private final double REPLAY_INCREMENT = 0.25;
+    private final double MAX_REPLAY_SPEED = 2;
+    private final double MIN_REPLAY_SPEED = 0.25;
+    private final double NANO_TO_SECOND = 1000000000;
 
     // Game State and Class Components
     private GameState state = GameState.RUNNING;
@@ -39,9 +44,10 @@ public class ChapsChallenge {
     private GUI gui;
     private Record record;
     private Replay replay;
+    PlayerControls playerControls;
 
     // Record mode and level
-    public Boolean recordMode = false;
+    public Boolean replayMode = false;
     public int gameLevel;
 
     /**
@@ -54,10 +60,11 @@ public class ChapsChallenge {
         renderer = new GameVisuals();
         gui.setGamePanel(renderer);
         record = new Record();
-        timer = new Timer(timerDelay, gameTimer);
 
         gui.init();
         Controls control = new Controls(this);
+        playerControls = new PlayerControls();
+        gui.addKeyListener(playerControls);
         gui.addKeyListener(control);
         gui.setLevelLeft(gameLevel);
         gui.setActionListeners(control);
@@ -66,19 +73,6 @@ public class ChapsChallenge {
         startGame();
     }
 
-    ActionListener gameTimer = new ActionListener() {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            if (game.getTimeLeft() == 0) {
-                state = GameState.TIMEOUT;
-                timer.stop();
-            }
-            game.decrementTimeLeft();
-            gui.setTimeLeft(game.getTimeLeft());
-        }
-    };
-
-
 
     /**
      * Method is responsible for the starting of the game, keeps the game
@@ -86,32 +80,60 @@ public class ChapsChallenge {
      */
     public void startGame() {
         game.setTimeLeft(TOTAL_TIME);
-        timer.start();
-
 
         Runnable runnableGame = () -> {
-            long elapsed = 0;
-            //noinspection InfiniteLoopStatement
+            long start = System.nanoTime();
+
+            double updateTime = NANO_TO_SECOND / (UPDATES_PER_SECOND * REPLAY_SPEED);
+            double renderTime = NANO_TO_SECOND / (FRAMES_PER_SECOND * REPLAY_SPEED);
+            double updateDelta = 0;
+            double frameDelta = 0;
+            int frames = 0;
+            long time = System.currentTimeMillis();
+
             while (true) {
-                long start = System.currentTimeMillis();
+                long currentTime = System.nanoTime();
+                updateDelta += (currentTime - start) / updateTime;
+                frameDelta += (currentTime - start) / renderTime;
+                start = currentTime;
+
                 switch (state) {
                     case PAUSED:
-                        timer.stop();
                         break;
                     case RUNNING:
-                        elapsed += (long) 1000 / (long) 30;
-                        checkInfo();
-                        if(recordMode){
-                            Move nextMove = replay.autoPlay(game.getTimeLeft());
-                            if(nextMove != null){
-                                move(nextMove);
+                        if (updateDelta >= 1) {
+                            Move m = processInput();
+
+                            if (!replayMode) {
+                                if(m != null) { move(m); }
+                                checkInfo();
+                            } else {
+                                Move nextMove = replay.autoPlay(ticks);
+                                if (nextMove != null) {
+                                    move(nextMove);
+                                }
                             }
+
+                            ticks++;
+                            if (ticks == UPDATES_PER_SECOND) {
+                                game.advance();
+                            }
+                            updateDelta--;
                         }
-                        if (elapsed > 1000) {
-                            game.advance();
-                            elapsed = 0;
+                        if (frameDelta >= 1) {
+                            renderer.repaint();
+                            frames++;
+                            frameDelta--;
                         }
-                        renderer.repaint();
+
+                        if (System.currentTimeMillis() - time > 1000) {
+                            System.out.println(String.format("UPS: %s, FPS: %s", ticks, frames));
+                            frames = 0;
+                            ticks = 0;
+                            time += 1000;
+                            game.decrementTimeLeft();
+                            gui.setTimeLeft(game.getTimeLeft());
+                        }
                         break;
                     case WON:
                         saveReplay();
@@ -130,15 +152,18 @@ public class ChapsChallenge {
                 }
                 checkGameState();
                 updateDashboard();
-                //Remove?
-                try {
-                    Thread.sleep(start + (long) 1000 / (long) 30 - System.currentTimeMillis());
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
             }
         };
         new Thread(runnableGame).start();
+    }
+
+    public Move processInput() {
+        if(Key.up.pressed) { return Move.UP; }
+        if(Key.down.pressed) { return Move.DOWN; }
+        if(Key.left.pressed) { return Move.LEFT; }
+        if(Key.right.pressed) { return Move.RIGHT; }
+        playerControls.releaseKeys();
+        return null;
     }
 
     /**
@@ -198,8 +223,8 @@ public class ChapsChallenge {
      * @param move - direction.
      */
     public void move(Move move) {
-        if (game.moveChap(move) && !recordMode) {
-            record.storePlayerMove(move, game.getTimeLeft());
+        if (game.moveChap(move) && !replayMode) {
+            record.storePlayerMove(move, ticks);
         }
     }
 
@@ -207,29 +232,21 @@ public class ChapsChallenge {
      * Increase the timer Delay.
      */
     public void decreaseTimerDelay() {
-        if (timerDelay > 500) {
-            timerDelay = timerDelay / 2;
-        } else {
-            timerDelay = 500;
-        }
+
     }
 
     /**
      * Decrease the timer Delay.
      */
     public void increaseTimerDelay() {
-        if (timerDelay < 4000) {
-            timerDelay = timerDelay * 2;
-        } else {
-            timerDelay = 4000;
-        }
+
     }
 
     /**
      * Set the timer Delay speed with the menu buttons.
      */
     public void setTimerDelay(int setTime) {
-        timerDelay = setTime;
+
     }
 
     /**
@@ -246,7 +263,6 @@ public class ChapsChallenge {
     public void wonGame() {
         loadNextLevel();
         game.setTimeLeft(TOTAL_TIME);
-        timer.restart();
         state = GameState.RUNNING;
     }
 
@@ -276,21 +292,13 @@ public class ChapsChallenge {
      */
     public void resume() {
         state = prevState;
-        timer.start();
     }
 
     /**
      * Toggle between paused and replay game states.
      */
     public void pausedAndRunning(){
-        if(state == GameState.PAUSED){
-            state = GameState.RUNNING;
-            timer.start();
-        }
-        else{
-            state = GameState.PAUSED;
-            timer.stop();
-        }
+        state = state == GameState.PAUSED ? GameState.RUNNING : GameState.PAUSED;
     }
 
     /**
@@ -305,7 +313,6 @@ public class ChapsChallenge {
             int option = JOptionPane.showOptionDialog(gui, "Game is currently paused!", "Game: Paused", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, null, null);
             if (option == 0 || option == -1) {
                 state = prevState;
-                timer.start();
             }
         }
     }
@@ -324,7 +331,7 @@ public class ChapsChallenge {
      * Put the game in replay mode.
      */
     public void playReplay(){
-        recordMode = true;
+        replayMode = true;
         state = GameState.PAUSED;
         int replayLevel = loadRecordAndReplayFile();
         game = Persistence.readLevel(replayLevel);
@@ -340,7 +347,7 @@ public class ChapsChallenge {
         int level = 0;
         replay = new Replay();
         //Open the file chooser directory to get file name for Record and Replay.
-        JFileChooser fileChooser = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
+        JFileChooser fileChooser = new JFileChooser(new File("src/nz/ac/vuw/ecs/swen225/gp30/recnplay"));
         int fileReturnValue = fileChooser.showOpenDialog(null);
         if(fileReturnValue == JFileChooser.APPROVE_OPTION) {
             File selectedFile = fileChooser.getSelectedFile();
