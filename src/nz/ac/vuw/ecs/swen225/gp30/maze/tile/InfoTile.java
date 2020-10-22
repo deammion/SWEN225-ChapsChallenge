@@ -7,7 +7,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 /**
  * The InfoTile class represents a tile that if moved to will display level information.
  *
- * @author campliosca
+ * @author campliosca 300489876
  */
 public class InfoTile extends Tile {
 

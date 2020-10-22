@@ -8,7 +8,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 /**
  * The LockedDoorTile class represents a tile that can be unlocked and moved to if the chap has the required key.
  *
- * @author campliosca
+ * @author campliosca 300489876
  */
 public class LockedDoorTile extends Tile {
     private final Item keyToUnlock;

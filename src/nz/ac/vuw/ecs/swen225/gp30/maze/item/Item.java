@@ -3,8 +3,7 @@ package nz.ac.vuw.ecs.swen225.gp30.maze.item;
 /**
  * Item class stores objects that can be picked up by chap such as keys.
  * 
- * @author campliosca
- * 
+ * @author campliosca 300489876
  */
 public enum Item {
     /**

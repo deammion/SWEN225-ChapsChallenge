@@ -8,7 +8,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 /**
  * The KeyTile class represents a tile that holds a key item that can be picked up.
  *
- * @author campliosca
+ * @author campliosca 300489876
  */
 public class KeyTile extends Tile {
     private final Item key;

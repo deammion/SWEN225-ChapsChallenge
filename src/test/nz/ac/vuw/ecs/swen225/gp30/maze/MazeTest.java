@@ -5,9 +5,13 @@ import nz.ac.vuw.ecs.swen225.gp30.maze.*;
 import nz.ac.vuw.ecs.swen225.gp30.maze.item.Item;
 import nz.ac.vuw.ecs.swen225.gp30.maze.tile.*;
 import org.junit.jupiter.api.Test;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+/**
+ * Test suit for testing maze package functionality.
+ *
+ * @author campliosca 300489876
+ */
 public class MazeTest {
 
     /**
@@ -15,7 +19,8 @@ public class MazeTest {
      */
     @Test
     public void validMoveTest_01() {
-        GameWorld game = new GameWorld(makeTestMaze(new FreeTile(1, 0)), new Chap(0,0));
+        GameWorld game = makeTestGame(new FreeTile(1,0));
+
         String[] expected = { "|_|c|\n|_|_|", "|_|_|\n|_|c|", "|_|_|\n|c|_|", "|c|_|\n|_|_|" };
         String expectedString = "Chap: {"
                 + "\n\tx: 0"
@@ -41,7 +46,7 @@ public class MazeTest {
      */
     @Test
     public void validMoveTest_02() {
-        GameWorld game = new GameWorld(makeTestMaze(new InfoTile(1, 0)), new Chap(0,0));
+        GameWorld game = makeTestGame(new InfoTile(1,0));
 
         String[] expected = { "|c|i|\n|_|_|", "|_|c|\n|_|_|", "|c|i|\n|_|_|" };
         assertEquals(expected[0], game.getMaze().toString(true));
@@ -57,7 +62,7 @@ public class MazeTest {
      */
     @Test
     public void validMoveTest_03() {
-        GameWorld game = new GameWorld(makeTestMaze(new ExitTile(1, 0)), new Chap(0,0));
+        GameWorld game = makeTestGame(new ExitTile(1, 0));
 
         String[] expected = { "|_|c|\n|_|_|", "|c|E|\n|_|_|" };
 
@@ -73,7 +78,7 @@ public class MazeTest {
      */
     @Test
     public void validMoveTest_04() {
-        GameWorld game = new GameWorld(makeTestMaze(new LockedDoorTile(1, 0, Item.KEY_BLUE)), new Chap(0,0));
+        GameWorld game = makeTestGame(new LockedDoorTile(1, 0, Item.KEY_BLUE));
         game.getChap().addItemToInventory(Item.KEY_BLUE);
 
         String[] expected = { "|c|B|\n|_|_|", "|_|c|\n|_|_|", "|c|_|\n|_|_|" };
@@ -91,19 +96,17 @@ public class MazeTest {
      */
     @Test
     public void validMoveTest_05() {
-        Chap chap = new Chap(0,0);
-        Maze maze = makeTestMaze(new KeyTile(1, 0, Item.KEY_BLUE));
-        GameWorld game = new GameWorld(maze, chap);
+        GameWorld game = makeTestGame(new KeyTile(1, 0, Item.KEY_BLUE));
 
         String[] expected = { "|c|b|\n|_|_|", "|_|c|\n|_|_|", "|c|_|\n|_|_|" };
-        assertEquals(expected[0], maze.toString(true));
+        assertEquals(expected[0], game.getMaze().toString(true));
 
         game.moveChap(Move.RIGHT);
-        assert(chap.getInventory().size() == 1);
-        assertEquals(expected[1], maze.toString(true));
+        assert(game.getChap().getInventory().size() == 1);
+        assertEquals(expected[1], game.getMaze().toString(true));
 
         game.moveChap(Move.LEFT);
-        assertEquals(expected[2], maze.toString(true));
+        assertEquals(expected[2], game.getMaze().toString(true));
     }
 
     /**
@@ -111,19 +114,17 @@ public class MazeTest {
      */
     @Test
     public void validMoveTest_06() {
-        Chap chap = new Chap(0,0);
-        Maze maze = makeTestMaze(new TreasureTile(1, 0));
-        GameWorld game = new GameWorld(maze, chap);
+        GameWorld game = makeTestGame(new TreasureTile(1, 0));
 
         String[] expected = { "|c|T|\n|_|_|", "|_|c|\n|_|_|", "|c|_|\n|_|_|" };
-        assertEquals(expected[0], maze.toString(true));
+        assertEquals(expected[0], game.getMaze().toString(true));
 
         game.moveChap(Move.RIGHT);
-        assert(chap.getChipsCollected() == 1);
-        assertEquals(expected[1], maze.toString(true));
+        assert(game.getChap().getChipsCollected() == 1);
+        assertEquals(expected[1], game.getMaze().toString(true));
 
         game.moveChap(Move.LEFT);
-        assertEquals(expected[2], maze.toString(true));
+        assertEquals(expected[2], game.getMaze().toString(true));
     }
 
     /**
@@ -131,27 +132,26 @@ public class MazeTest {
      */
     @Test
     public void validMoveTest_07() {
-        Chap chap = new Chap(0,0);
-        Maze maze = makeTestMaze(new ExitLockTile(1, 0));
+        GameWorld game = makeTestGame(new ExitLockTile(1, 0));
         ExitLockTile.setChipsRequired(1);
-        GameWorld game = new GameWorld(maze, chap);
+
 
         String[] expected = { "|c|l|\n|_|_|", "|_|c|\n|_|_|", "|c|_|\n|_|_|" };
 
-        assertEquals(expected[0], maze.toString(true));
+        assertEquals(expected[0], game.getMaze().toString(true));
         assert(game.getChipsLeft() == 1);
 
-        chap.collectChip();
+        game.getChap().collectChip();
         game.moveChap(Move.RIGHT);
-        assertEquals(expected[1], maze.toString(true));
+        assertEquals(expected[1], game.getMaze().toString(true));
 
         game.moveChap(Move.LEFT);
-        assertEquals(expected[2], maze.toString(true));
+        assertEquals(expected[2], game.getMaze().toString(true));
     }
 
     @Test
     public void validMoveTest_08() {
-        GameWorld game = new GameWorld(makeTestMaze(new FreeTile(1,0)), new Chap(0,0));
+        GameWorld game = makeTestGame(new FreeTile(1, 0));
         game.setMobManager(new MobManager(game.getMaze()));
         int[] path = {2};
         game.getMobManager().addMob(new Bug(1,0, path));
@@ -164,49 +164,45 @@ public class MazeTest {
      */
     @Test
     public void invalidMoveTest_01() {
-        Chap chap = new Chap(0,0);
-        Maze maze = makeTestMaze(new WallTile(1, 0));
-        GameWorld game = new GameWorld(maze, chap);
+        GameWorld game = makeTestGame(new WallTile(1, 0));
 
         String expected = "|c|#|\n|_|_|";
 
         game.moveChap(Move.RIGHT);
-        assertEquals(expected, maze.toString(true));
+        assertEquals(expected, game.getMaze().toString(true));
     }
 
     /**
      * Tests trying to move chap to a LockedDoorTile without a key.
      */
-    @Test void invalidMoveTest_02() { // try move chap to locked door tile without key
-        Chap chap = new Chap(0,0);
-        Maze maze = makeTestMaze(new LockedDoorTile(1, 0, Item.KEY_BLUE));
-        GameWorld game = new GameWorld(maze, chap);
-
+    @Test
+    public void invalidMoveTest_02() { // try move chap to locked door tile without key
+        GameWorld game = makeTestGame(new LockedDoorTile(1, 0, Item.KEY_BLUE));
         String expected = "|c|B|\n|_|_|";
 
         game.moveChap(Move.RIGHT);
-        assertEquals(expected, maze.toString(true));
+        assertEquals(expected, game.getMaze().toString(true));
     }
 
     /**
      * Tests trying to move chap to an ExitLockTile with an invalid amount of chips.
      */
-    @Test void invalidMoveTest_03() {
-        Chap chap = new Chap(0,0);
-        Maze maze = makeTestMaze(new ExitLockTile(1, 0));
+    @Test
+    public void invalidMoveTest_03() {
+        GameWorld game = makeTestGame(new ExitLockTile(1, 0));
         ExitLockTile.setChipsRequired(1);
-        GameWorld game = new GameWorld(maze, chap);
 
         String expected = "|c|l|\n|_|_|";
 
         game.moveChap(Move.RIGHT);
-        assertEquals(expected, maze.toString(true));
+        assertEquals(expected, game.getMaze().toString(true));
     }
 
     /**
      * Tests trying to make an invalid move
      */
-    @Test void invalidMoveTest_04() {
+    @Test
+    public void invalidMoveTest_04() {
         Chap chap = new Chap(0,0);
         Tile wt = new WallTile(1,0);
         String expected = "cannot move onto a wall tile";
@@ -218,15 +214,116 @@ public class MazeTest {
         }
     }
 
+    /**
+     * Tests mob movement onto treasure tile.
+     */
+    @Test
+    public void mobMoveTest_01() {
+        GameWorld game = makeTestGame(new TreasureTile(1, 0));
+        game.setMobManager(new MobManager(game.getMaze()));
+        int[] path = {0};
+        game.getMobManager().addMob(new Bug(1,1, path));
+        game.advance();
+        assert(game.getMobManager().getMobs().get(0).getX() == 1 && game.getMobManager().getMobs().get(0).getY() == 1);
+        game.moveChap(Move.RIGHT);
+        game.moveChap(Move.LEFT);
+        game.advance();
+        assert(game.getMobManager().getMobs().get(0).getX() == 1 && game.getMobManager().getMobs().get(0).getY() == 0);
+        assertEquals("mob_bug_up.png", game.getMobManager().getMobs().get(0).getImageString());
+    }
+
+    /**
+     * Tests mob movement onto key tile.
+     */
+    @Test
+    public void mobMoveTest_02() {
+        GameWorld game = makeTestGame(new KeyTile(1, 0, Item.KEY_BLUE));
+        game.setMobManager(new MobManager(game.getMaze()));
+        int[] path = {0};
+        game.getMobManager().addMob(new Bug(1,1, path));
+        game.advance();
+        assert(game.getMobManager().getMobs().get(0).getX() == 1 && game.getMobManager().getMobs().get(0).getY() == 1);
+        game.moveChap(Move.RIGHT);
+        game.moveChap(Move.LEFT);
+        game.advance();
+        assert(game.getMobManager().getMobs().get(0).getX() == 1 && game.getMobManager().getMobs().get(0).getY() == 0);
+        assertEquals("mob_bug_up.png", game.getMobManager().getMobs().get(0).getImageString());
+    }
+
+    /**
+     * Tests mob movement onto locked door tile.
+     */
+    @Test
+    public void mobMoveTest_03() {
+        GameWorld game = makeTestGame(new LockedDoorTile(1, 0, Item.KEY_BLUE));
+        game.getChap().addItemToInventory(Item.KEY_BLUE);
+        game.setMobManager(new MobManager(game.getMaze()));
+        int[] path = {0};
+        game.getMobManager().addMob(new Bug(1,1, path));
+        game.advance();
+        assert(game.getMobManager().getMobs().get(0).getX() == 1 && game.getMobManager().getMobs().get(0).getY() == 1);
+        game.moveChap(Move.RIGHT);
+        game.moveChap(Move.LEFT);
+        game.advance();
+        assert(game.getMobManager().getMobs().get(0).getX() == 1 && game.getMobManager().getMobs().get(0).getY() == 0);
+        assertEquals("mob_bug_up.png", game.getMobManager().getMobs().get(0).getImageString());
+    }
+
+    /**
+     * Tests mob movement onto exit lock tile.
+     */
+    @Test
+    public void mobMoveTest_04() {
+        GameWorld game = makeTestGame(new ExitLockTile(1, 0));
+        ExitLockTile.setChipsRequired(0);
+        game.setMobManager(new MobManager(game.getMaze()));
+        int[] path = {0};
+        game.getMobManager().addMob(new Bug(1,1, path));
+        game.advance();
+        assert(game.getMobManager().getMobs().get(0).getX() == 1 && game.getMobManager().getMobs().get(0).getY() == 1);
+        game.moveChap(Move.RIGHT);
+        game.moveChap(Move.LEFT);
+        game.advance();
+        assert(game.getMobManager().getMobs().get(0).getX() == 1 && game.getMobManager().getMobs().get(0).getY() == 0);
+        assertEquals("mob_bug_up.png", game.getMobManager().getMobs().get(0).getImageString());
+    }
+
+    /**
+     * Tests mob movement onto wall tile
+     */
+    @Test
+    public void mobMoveTest_05() {
+        GameWorld game = makeTestGame(new WallTile(1, 0));
+        game.setMobManager(new MobManager(game.getMaze()));
+        int[] path = {0};
+        game.getMobManager().addMob(new Bug(1,1, path));
+        game.advance();
+        assert(game.getMobManager().getMobs().get(0).getX() == 1 && game.getMobManager().getMobs().get(0).getY() == 1);
+        assertEquals("mob_bug_down.png", game.getMobManager().getMobs().get(0).getImageString());
+    }
+
+    /**
+     * Tests the time left and decrement function.
+     */
+    @Test
+    public void validTimeTest() {
+        GameWorld game = makeTestGame(new FreeTile(1, 0));
+        game.setTimeLeft(100);
+        game.decrementTimeLeft();
+        assert(game.getTimeLeft() == 99);
+    }
+
+
     /* HELPER METHODS */
 
-    public Maze makeTestMaze(Tile testTile) {
+    public GameWorld makeTestGame(Tile testTile) {
+        Chap chap = new Chap(0,0);
         Maze maze = new Maze(2, 2);
         maze.setTileAt(0,0, new FreeTile(0, 0));
         maze.setTileAt(0, 1, new FreeTile(0,1));
         maze.setTileAt(1, 1, new FreeTile(1,1));
         maze.setTileAt(1,0, testTile);
 
-        return maze;
+        return new GameWorld(maze, chap);
     }
 }

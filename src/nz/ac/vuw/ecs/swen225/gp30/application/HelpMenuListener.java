@@ -8,6 +8,12 @@ import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
 import java.awt.*;
 
+/**
+ * The help menu which containers the game information, control information and
+ * extra information.
+ *
+ * @author jakeh
+ */
 public class HelpMenuListener extends JFrame implements MenuListener {
 
     //Help Menu Components.
@@ -148,10 +154,11 @@ public class HelpMenuListener extends JFrame implements MenuListener {
                             + "Ctrl-P - Starts a new game at last unfinished level.\n"
                             + "Ctrl-1 - Starts a new game at level 1.\n\n"
                             + "Record and Replay Controls:\n"
+                            + "Once Menu Button Pressed, use Space to start Replay.\n"
                             + "'Up Arrow Key' - Increase Replay Speed\n"
                             + "'Down Arrow Key' - Decrease Replay Speed\n"
                             + "'Right Arrow Key' - Step forwards\n"
-                            + "Space Bar - Toggle Auto/Step-Forwards Code\n\n";
+                            + "Space Bar - Toggle Auto/Step-Forwards Code\n";
 
     String miscInfoTextText = "This version of Chips Challenge has been created as a SWEN225 Group\n"
                             + "Project to bring together and showcase the techniques we have used\n"

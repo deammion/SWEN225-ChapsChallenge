@@ -14,7 +14,7 @@ import nz.ac.vuw.ecs.swen225.gp30.maze.IllegalMoveException;
  * - game logic for adding and removing an actor.
  * - image name for display.
  *
- * @author campliosca
+ * @author campliosca 300489876
  */
 public abstract class Tile implements GameObject {
     private final int x, y;

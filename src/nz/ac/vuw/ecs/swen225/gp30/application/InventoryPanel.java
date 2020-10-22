@@ -11,6 +11,12 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * The inventory panel which will display the information for the
+ * player to use while playing the game.
+ *
+ * @author jakeh.
+ */
 public class InventoryPanel extends JPanel {
     private final int TILE_SIZE = 42;
     private final int PANEL_TILE_WIDTH = 6;
@@ -18,10 +24,18 @@ public class InventoryPanel extends JPanel {
 
     List<Item> itemsToDisplay;
 
+    /**
+     * The keys in the inventory to be displayed.
+     *
+     * @param items - the keys
+     */
     public void setItemsToDisplay(List<Item> items) {
         this.itemsToDisplay = items;
     }
 
+    /**
+     * Inventory panel constructor.
+     */
     InventoryPanel() {
         itemsToDisplay = new ArrayList<>();
         setMaximumSize(((new Dimension(TILE_SIZE*PANEL_TILE_WIDTH, TILE_SIZE*PANEL_TILE_HEIGHT))));
@@ -29,6 +43,12 @@ public class InventoryPanel extends JPanel {
 
     }
 
+    /**
+     * Method to get the correct image to display
+     *
+     * @param i - the item to get.
+     * @return - the image to display.
+     */
     public BufferedImage getImage(Item i) {
         String path = "assets/" + (i == null? "tile_free" : "tile_" + i.toString()) + ".png";
         try {
@@ -40,6 +60,11 @@ public class InventoryPanel extends JPanel {
         return null;
     }
 
+    /**
+     * Painting the component in the panel.
+     *
+     * @param g - graphics.
+     */
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -54,6 +79,9 @@ public class InventoryPanel extends JPanel {
         }
     }
 
+    /**
+     * Repaint the panel.
+     */
     @Override
     public void repaint() {
         super.repaint();

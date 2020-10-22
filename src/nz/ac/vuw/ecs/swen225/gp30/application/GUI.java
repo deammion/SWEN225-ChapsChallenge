@@ -7,6 +7,13 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
 
+/**
+ * GUI class is all the visualization except for the renderer which takes
+ * care of the game board. GUI displays the menu, containers, borders and
+ * displays.
+ *
+ * @author jakeh.
+ */
 public class GUI extends JFrame {
     
     //JComponents.
@@ -181,17 +188,31 @@ public class GUI extends JFrame {
     /**
      * The amount of time left in a level to be set, complimentary
      * for the pause option.
-     * @param timeLeft - time left to complete a level
+     *
+     * @param timeLeft - time left to complete a level.
      */
     public void setTimeLeft(int timeLeft){
         timeText.setText("Time: " + timeLeft);
     }
 
+    /**
+     * The number of Chips left for Chap to collect, used for the
+     * display.
+     *
+     * @param chipsLeft - Microchips left to collect.
+     */
     public void setChipsLeft(int chipsLeft){
         chipsText.setText("Chips Left: " + chipsLeft + " ");
     }
 
-    public void setLevel(int levelLeft) { levelText.setText("Level: " + levelLeft + " "); }
-
+    /**
+     * The level number for the game, used for the GUI to display
+     * the text in the information panel.
+     *
+     * @param level - the level of the game.
+     */
+    public void setLevel(int level) {
+        levelText.setText("Level: " + level + " ");
+    }
 
 }
