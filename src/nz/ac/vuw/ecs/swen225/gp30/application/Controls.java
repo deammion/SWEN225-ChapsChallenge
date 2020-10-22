@@ -33,14 +33,17 @@ public class Controls extends KeyAdapter implements ActionListener {
                 switch (e.getKeyCode()) {
                     //Menu Keys
                     case 88:
+                        game.loadGameStateless();
                         System.out.println("You have pressed: CTRL-X");
                         //CTRL-X - exit the game, current game state will be lost, next time game is started will resume from the last unfinished level.
                         break;
                     case 83:
+                        game.loadGameSate();
                         System.out.println("You have pressed: CTRL-S");
                         //CTRL-S - exit the game, saves the game state, game will resume next time the application is started
                         break;
                     case 82:
+                        game.resumeGame();
                         System.out.println("You have pressed: CTRL-R");
                         //CTRL-R - resume a saved game.
                         break;

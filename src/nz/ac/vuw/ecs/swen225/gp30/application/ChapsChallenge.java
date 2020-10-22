@@ -8,7 +8,6 @@ import nz.ac.vuw.ecs.swen225.gp30.recnplay.Replay;
 import nz.ac.vuw.ecs.swen225.gp30.render.GameVisuals;
 
 import javax.swing.*;
-import javax.swing.filechooser.FileSystemView;
 import java.io.File;
 
 /**
@@ -91,6 +90,7 @@ public class ChapsChallenge {
             int frames = 0;
             long time = System.currentTimeMillis();
 
+            //noinspection InfiniteLoopStatement
             while (true) {
                 long currentTime = System.nanoTime();
                 updateDelta += (currentTime - start) / updateTime;
@@ -355,6 +355,27 @@ public class ChapsChallenge {
             System.out.println(selectedFile.getName());
         }
         return level;
+    }
+
+    /**
+     * Resumes a saved Game.
+     */
+    public void resumeGame(){
+        Persistence.loadSave();
+    }
+
+    /**
+     * Save a game, game state lost.
+     */
+    public void loadGameStateless(){
+
+    }
+
+    /**
+     * Save a gam, game state saved.
+     */
+    public void loadGameSate(){
+        Persistence.saveGame(game, "gameFile.txt");
     }
 
     /**
