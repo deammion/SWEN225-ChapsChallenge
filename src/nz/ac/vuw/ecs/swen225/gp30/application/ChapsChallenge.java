@@ -210,7 +210,7 @@ public class ChapsChallenge {
      */
     public void replayNextMove(){
         move(replay.playNextMove());
-        game.setTimeLeft(replay.updateTimer());
+        ticks = replay.updateTimer();
         renderer.repaint();
         if(replay.endOfReplay()){
             replayFinished();
@@ -306,6 +306,8 @@ public class ChapsChallenge {
      * Method to take care of what happens to the game when a replay is finished.
      */
     public void replayFinished(){
+        replayMode = false;
+        replay.resetAutoPlay();
         UIManager.put("OptionPane.yesButtonText", "Select new Replay");
         UIManager.put("OptionPane.noButtonText", "Exit Game");
         int option = JOptionPane.showOptionDialog(gui, "The replay is finished!", "Game: Replay", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE,null, null, null);
@@ -354,6 +356,7 @@ public class ChapsChallenge {
     public void loadLevel(int level) {
         game = Persistence.readLevel(level);
         renderer.setGame(game);
+        audio.setGame(game);
         gui.setLevelLeft(level);
         game.setTimeLeft(TOTAL_TIME);
     }
