@@ -2,6 +2,9 @@ package nz.ac.vuw.ecs.swen225.gp30.recnplay;
 
 import nz.ac.vuw.ecs.swen225.gp30.Move;
 
+import javax.swing.*;
+import javax.swing.filechooser.FileSystemView;
+import java.io.File;
 import java.util.ArrayList;
 
 /**
@@ -13,7 +16,7 @@ import java.util.ArrayList;
 public class Replay {
 
     //all variables initialised when new replay instance is called
-    public Boolean autoPlaying = false;
+    private Boolean autoPlaying = false;
     private int playerIndex = 0;
 
     public ArrayList<String> playerMoves = new ArrayList<>();
@@ -24,14 +27,24 @@ public class Replay {
      * feeds file to LoadJson class which will update the local playerMoves arraylist and level int
      * playerMoves are used but other methods in this class
      *
-     * @param fileName - user selected filename, see LoadJSON
      * @return int to load correct level
      */
-    public Integer loadJsonToReplay(String fileName) {
+    public void loadJsonToReplay() {
         LoadJSON lj = new LoadJSON();
-        level = lj.loadLevel(fileName);
-        playerMoves = lj.loadPlayerMoves(fileName);
-        return level;
+        JFileChooser fileChooser = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
+        int fileReturnValue = fileChooser.showOpenDialog(null);
+        if(fileReturnValue == JFileChooser.APPROVE_OPTION) {
+            File selectedFile = fileChooser.getSelectedFile();
+            String fileSuffix = selectedFile.getName().substring(selectedFile.getName().indexOf("."));
+            if(selectedFile == null){
+                System.out.println("No file selected");
+            } else if (!fileSuffix.equals(".json")){
+                System.out.println("Incompatible File Type");
+            }
+            playerMoves = lj.loadPlayerMoves(selectedFile.getName());
+            level = lj.loadLevel(selectedFile.getName());
+            System.out.println(selectedFile.getName());
+        }
     }
 
     /**
@@ -51,12 +64,14 @@ public class Replay {
      */
     public Move autoPlay(int time) {
         if (autoPlaying) {
-            int playerMoveTime = convertStringToInt(playerMoves.get(playerIndex));
-            if (playerMoveTime > time) {
-                char stringMove = playerMoves.get(playerIndex).charAt(1);
-                Move move = convertStringToMove(stringMove);
-                playerIndex++;
-                return move;
+            if(playerIndex < playerMoves.size()){
+                int playerMoveTime = convertStringToInt(playerMoves.get(playerIndex));
+                if (playerMoveTime == time) {
+                    char stringMove = playerMoves.get(playerIndex).charAt(1);
+                    Move move = convertStringToMove(stringMove);
+                    playerIndex++;
+                    return move;
+                }
             }
         }
         return null;
