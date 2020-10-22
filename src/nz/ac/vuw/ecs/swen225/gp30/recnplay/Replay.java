@@ -19,8 +19,7 @@ public class Replay {
     private Boolean autoPlaying = false;
     private int playerIndex = 0;
     private int delay = 1;
-
-    public int level; //made public as getter method wasn't working correctly
+    private int level;
 
 
     /**
@@ -103,12 +102,22 @@ public class Replay {
     }
 
     /**
-     * resets the autoPlaying Boolean and playerIndex
+     * resets the autoPlaying Boolean, playerIndex, and delay
      * called when a replay has finished
      */
     public void resetAutoPlay() {
         autoPlaying = false;
         playerIndex = 0;
+        delay =1;
+    }
+
+    /**
+     * returns the level of the replay as an int for loading purposes
+     *
+     * @return level - int representing level number
+     */
+    public int getReplayLevel() {
+        return level;
     }
 
     /**
