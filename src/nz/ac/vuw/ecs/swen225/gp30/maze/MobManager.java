@@ -61,8 +61,7 @@ public class MobManager {
 						Move move = m.getNextMove();
 						Tile prevTile = maze.getTileAt(m.getX(), m.getY());
 						Tile newTile = maze.getNewTileFromMove(move, m.getX(), m.getY());
-						if(!newTile.isMobAllowed()) { return; }
-						else {
+						if(newTile.isMobAllowed()) {
 								prevTile.removeMob();
 								newTile.addMob();
 								m.setAt(newTile.getX(), newTile.getY());
