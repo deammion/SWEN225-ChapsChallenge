@@ -22,7 +22,7 @@ import java.util.stream.Stream;
 /**
  * Class to draw tiles, character, items and mobs
  * Can draw the text from info tiles aswell
- * @author Pranav Gohil
+ * @author gohilpran
  *
  */
 public class GameVisuals extends JPanel{
@@ -64,7 +64,7 @@ public class GameVisuals extends JPanel{
 
 	/**
 	 * Changes game field
-	 * @param game
+	 * @param game the gameworld
 	 */
 	public void setGame(GameWorld game) {
 		this.game = game;
@@ -72,7 +72,7 @@ public class GameVisuals extends JPanel{
 
 	/**
 	 * Changes info field
-	 * @param text
+	 * @param text the info text
 	 */
 	public void setInfoText(String text) {
 		this.infoText = text;
@@ -80,7 +80,7 @@ public class GameVisuals extends JPanel{
 
 	/**
 	 * Changes info boolean
-	 * @param toggle
+	 * @param toggle the boolean to check if info is needed
 	 */
 	public void toggleInfo(boolean toggle) {
 		toggleInfo = toggle;
@@ -107,8 +107,8 @@ public class GameVisuals extends JPanel{
 	}
 	
 	/**
-	 * 
-	 * @param x
+	 * Gets the x value on the GUI
+	 * @param x 2d array x value
 	 * @return x co-ord
 	 */
 	public int getScreenX(int x) {
@@ -116,8 +116,8 @@ public class GameVisuals extends JPanel{
 	}
 	
 	/**
-	 * 
-	 * @param y
+	 * Gets the y value on the GUI
+	 * @param y 2d array y value
 	 * @return x co-ord
 	 */
 	public int getScreenY(int y) {
@@ -125,7 +125,7 @@ public class GameVisuals extends JPanel{
 	}
 	
 	/**
-	 * 
+	 * Gets the amount to translate in x
 	 * @return chap's x minus half camera view
 	 */
 	public int getTranslateX() {
@@ -134,7 +134,7 @@ public class GameVisuals extends JPanel{
 	}
 	
 	/**
-	 * 
+	 * Gets the amount to translate in y
 	 * @return chap's y minus half camera view
 	 */
 	public int getTranslateY() {

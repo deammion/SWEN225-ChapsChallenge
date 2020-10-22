@@ -11,7 +11,7 @@ import javax.sound.sampled.*;
 
 /**
  * Class to play sounds
- * @author Pranav Gohil
+ * @author gohilpran
  *
  */
 public class Audio{
@@ -20,7 +20,7 @@ public class Audio{
 	private GameWorld game;
 
 	/**
-	 * Consutructor
+	 * Consutructor to call loadSounds()
 	 */
 	public Audio() {
 		loadSounds();
@@ -28,7 +28,7 @@ public class Audio{
 
 	/**
 	 * Sets game field
-	 * @param game
+	 * @param game the game world
 	 */
 	public void setGame(GameWorld game) {
 		this.game = game;
