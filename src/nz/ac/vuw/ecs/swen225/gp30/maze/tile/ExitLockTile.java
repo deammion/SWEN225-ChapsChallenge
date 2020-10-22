@@ -20,11 +20,9 @@ public class ExitLockTile extends Tile {
      *
      * @param x the x position of the tile
      * @param y the y position of the tile
-     * @param chipsRequired the number of chips required to unlock the tile
      */
-    public ExitLockTile(int x, int y, int chipsRequired) {
+    public ExitLockTile(int x, int y) {
         super(x, y);
-        this.CHIPS_REQUIRED = chipsRequired;
     }
 
     @Override
